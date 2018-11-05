@@ -3,6 +3,7 @@ package com.taoyuan.gms.api.sitemanage.account;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -34,7 +35,7 @@ public interface AccountApi {
 	 * @return
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public boolean addAccount(AccountDto accountDto);
+	public boolean addAccount(@RequestBody AccountDto accountDto);
 
 	/**
 	 * 删除管理员的账号信息
@@ -50,5 +51,5 @@ public interface AccountApi {
 	 * @return
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
-	public AccountDto updateAccount(AccountDto accountDto);
+	public AccountDto updateAccount(@RequestBody AccountDto accountDto);
 }
