@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ExchangeCDKeyDto {
+    
     //订单号
     private long id;
 
