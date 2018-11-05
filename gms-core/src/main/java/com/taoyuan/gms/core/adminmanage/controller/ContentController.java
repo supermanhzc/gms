@@ -1,8 +1,8 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
-import com.taoyuan.gms.api.adminmanage.contentmgnt.AnnouncementDto;
-import com.taoyuan.gms.api.adminmanage.contentmgnt.ContentApi;
-import com.taoyuan.gms.api.adminmanage.contentmgnt.CooperateBusinessDto;
+import com.taoyuan.gms.api.adminmanage.content.AnnouncementDto;
+import com.taoyuan.gms.api.adminmanage.content.ContentApi;
+import com.taoyuan.gms.api.adminmanage.content.CooperateBusinessDto;
 import com.taoyuan.gms.core.adminmanage.service.IAnnouncemnetService;
 import com.taoyuan.gms.core.adminmanage.service.ICooperateBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;

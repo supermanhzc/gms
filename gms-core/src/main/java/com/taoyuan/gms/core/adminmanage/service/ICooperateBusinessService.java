@@ -1,7 +1,7 @@
 package com.taoyuan.gms.core.adminmanage.service;
 
 
-import com.taoyuan.gms.api.adminmanage.contentmgnt.CooperateBusinessDto;
+import com.taoyuan.gms.api.adminmanage.content.CooperateBusinessDto;
 
 import java.util.List;
 

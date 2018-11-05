@@ -1,6 +1,6 @@
-package com.taoyuan.gms.api.adminmanage.prizemgnt.prize;
+package com.taoyuan.gms.api.adminmanage.prize.prize;
 
-import com.taoyuan.gms.api.adminmanage.prizemgnt.classify.PrizeClassifyDto;
+import com.taoyuan.gms.api.adminmanage.prize.classify.PrizeClassifyDto;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

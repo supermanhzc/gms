@@ -1,6 +1,6 @@
 package com.taoyuan.gms.api.adminmanage.recordsquery;
 
-public class AdminLogin {
+public class AdminLoginDto {
     private String id;
 
     private String status;

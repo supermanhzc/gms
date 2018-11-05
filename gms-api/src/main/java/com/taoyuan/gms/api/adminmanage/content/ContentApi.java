@@ -1,4 +1,4 @@
-package com.taoyuan.gms.api.adminmanage.contentmgnt;
+package com.taoyuan.gms.api.adminmanage.content;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,7 +1,7 @@
 package com.taoyuan.gms.core.adminmanage.service;
 
 
-import com.taoyuan.gms.api.adminmanage.contentmgnt.AnnouncementDto;
+import com.taoyuan.gms.api.adminmanage.content.AnnouncementDto;
 
 import java.util.List;
 
