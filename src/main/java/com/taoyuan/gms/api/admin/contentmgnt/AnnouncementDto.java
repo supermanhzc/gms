@@ -8,7 +8,7 @@ public class AnnouncementDto {
 
     private String title;
 
-    private int sort;
+    private String sort;
 
     private String content;
 }
