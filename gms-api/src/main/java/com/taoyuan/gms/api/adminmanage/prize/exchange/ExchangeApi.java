@@ -1,4 +1,4 @@
-package com.taoyuan.gms.api.adminmanage.prizemgnt.exchange;
+package com.taoyuan.gms.api.adminmanage.prize.exchange;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;

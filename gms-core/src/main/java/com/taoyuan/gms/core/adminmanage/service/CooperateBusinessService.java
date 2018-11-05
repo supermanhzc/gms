@@ -1,6 +1,6 @@
 package com.taoyuan.gms.core.adminmanage.service;
 
-import com.taoyuan.gms.api.adminmanage.contentmgnt.CooperateBusinessDto;
+import com.taoyuan.gms.api.adminmanage.content.CooperateBusinessDto;
 import com.taoyuan.gms.core.adminmanage.bo.CooperateBusinessBo;
 import com.taoyuan.gms.core.adminmanage.dao.CooperateBusinessMapper;
 import org.springframework.beans.factory.annotation.Autowired;

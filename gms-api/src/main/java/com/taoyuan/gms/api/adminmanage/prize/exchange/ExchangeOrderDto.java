@@ -1,4 +1,4 @@
-package com.taoyuan.gms.api.adminmanage.prizemgnt.exchange;
+package com.taoyuan.gms.api.adminmanage.prize.exchange;
 
 import lombok.Data;
 
