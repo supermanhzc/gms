@@ -1,10 +1,12 @@
 package com.taoyuan.gms.common.util;
 
+import org.springframework.util.CollectionUtils;
+
 import java.util.Collection;
 
 public class CollectionsUtil {
 
 	public static boolean isNotEmpty(Collection<?> col) {
-		return !(null == col || col.isEmpty());
+		return CollectionUtils.isEmpty(col);
 	}
 }
