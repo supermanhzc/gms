@@ -35,4 +35,36 @@ public class AccountServiceImpl implements AccountService {
 		return accountDtos;
 	}
 
+	@Override
+	public boolean addAccount(AccountDto accountDto) {
+		if (null != accountDto) {
+			return accountBoMapper.insertSelective(this.convertToBo(accountDto)) > 0;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteAccount(Long id) {
+		return accountBoMapper.deleteByPrimaryKey(id) > 0;
+	}
+
+	public AccountDto getAccount(Long id) {
+		return this.convertToDto(accountBoMapper.selectByPrimaryKey(id));
+	}
+
+	private AccountDto convertToDto(AccountBo accountBo) {
+		AccountDto accountDto = new AccountDto();
+		accountDto.setUsername(accountBo.getUsername());
+		accountDto.setName(accountDto.getName());
+		accountDto.setPhone(accountBo.getPhone());
+		return accountDto;
+	}
+
+	private AccountBo convertToBo(AccountDto accountDto) {
+		AccountBo accountBo = new AccountBo();
+		accountBo.setName(accountDto.getName());
+		accountBo.setUsername(accountDto.getUsername());
+		accountBo.setPhone(accountDto.getPhone());
+		return accountBo;
+	}
 }

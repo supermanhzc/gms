@@ -6,12 +6,10 @@ import lombok.Data;
 public class AccountDto {
 
 	private String username;
-	
+
 	private String name;
-	
+
 	private String phone;
-	
+
 	private String lasteLoginTime;
-	
-	
 }

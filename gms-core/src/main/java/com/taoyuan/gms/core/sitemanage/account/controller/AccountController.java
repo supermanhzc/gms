@@ -9,33 +9,34 @@ import com.taoyuan.gms.api.sitemanage.account.AccountApi;
 import com.taoyuan.gms.api.sitemanage.account.AccountDto;
 import com.taoyuan.gms.core.sitemanage.account.service.AccountService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 public class AccountController implements AccountApi {
 
 	@Autowired
-	private AccountService accountServiceImpl;
-	
+	private AccountService accountService;
+
 	@Override
 	public List<AccountDto> getAccounts() {
-		return accountServiceImpl.getAccounts();
+		return accountService.getAccounts();
 	}
 
 	@Override
-	public AccountDto getAccount(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public AccountDto getAccount(Long id) {
+		log.info("begin to get account by id: {}", id);
+		return accountService.getAccount(id);
 	}
 
 	@Override
-	public AccountDto addAccount(AccountDto accountDto) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean addAccount(AccountDto accountDto) {
+		return accountService.addAccount(accountDto);
 	}
 
 	@Override
-	public AccountDto deleteAccount(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean deleteAccount(Long id) {
+		return accountService.deleteAccount(id);
 	}
 
 	@Override

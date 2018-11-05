@@ -8,18 +8,18 @@ server:
 #logging:
 #  level:
 #    com.migu.tsg.pms.service: debug
-    
-#spring
+
 spring:
   application:
     name: gms
   
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://39.108.215.89:3306/gms?allowMultiQueries=true&amp
     username: gmsdev
     password: Gms@)18
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis:
   mapper-locations: classpath*:sqlmap/*Mapper.xml
+  
