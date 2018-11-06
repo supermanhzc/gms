@@ -2,6 +2,9 @@ package com.taoyuan.gms.api.adminmanage.recordsquery;
 
 import lombok.Data;
 
+/**
+ * 日统计
+ */
 @Data
 public class DailyStatisticDto {
     private String date;

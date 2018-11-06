@@ -4,11 +4,14 @@ import lombok.Data;
 
 @Data
 public class AnnouncementDto {
-    private long id;
+    private Long id;
 
+    //标题
     private String title;
 
+    //排序
     private String sort;
 
+    //内容
     private String content;
 }
