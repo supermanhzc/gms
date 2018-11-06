@@ -6,18 +6,25 @@ import lombok.Data;
 public class PrizeDto {
     private long id;
 
+    //奖品名称
     private String name;
 
+    //奖品类目
     private String type;
 
+    //自动发货
     private boolean autoDispatch;
 
+    //卡密类型
     private String keyType;
 
+    //基准价格
     private double basicPrice;
 
-    private double stock;
+    //库存
+    private int stock;
 
-    private double converted;
+    //已兑出
+    private String converted;
 
 }
