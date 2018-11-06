@@ -1,6 +1,7 @@
 package com.taoyuan.gms.core.sitemanage.account.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,7 @@ public class AccountServiceImpl implements AccountService {
 		accountBo.setName(accountDto.getName());
 		accountBo.setUsername(accountDto.getUsername());
 		accountBo.setPhone(accountDto.getPhone());
+		accountBo.setCreateTime(new Date(System.currentTimeMillis()));
 		return accountBo;
 	}
 }

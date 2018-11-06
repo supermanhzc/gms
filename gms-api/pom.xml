@@ -8,17 +8,8 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
+  <groupId>com.taoyuan.gms</groupId>
   <artifactId>gms-api</artifactId>
   <name>gms-api</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <dependencies></dependencies>
 </project>
