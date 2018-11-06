@@ -44,3 +44,17 @@ CREATE TABLE `admin_cooperatebusiness` (
   `version` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '版本',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS `admin_verificationcode`;
+CREATE TABLE `admin_verificationcode` (
+  `id` varchar(40) NOT NULL COMMENT 'ID',
+  `infName` varchar(40) NOT NULL COMMENT '接口名称',
+  `type` varchar(10) NOT NULL COMMENT '类型',
+  `vCode` varchar(20) NOT NULL COMMENT '验证码',
+  `time` varchar(20) NOT NULL COMMENT '时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_user` varchar(20) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `version` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '版本',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;

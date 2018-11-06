@@ -71,7 +71,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.taoyuan.gms.core.sitemanage.account.bo.AccountBo" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.taoyuan.gms.core.adminmanage.bo.AnnouncementBo" >
         update admin_cooperatebusiness
         <set >
             <if test="name != null" >

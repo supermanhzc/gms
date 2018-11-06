@@ -7,7 +7,12 @@ import com.taoyuan.gms.core.adminmanage.dao.AnnouncementMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -57,10 +62,16 @@ public class AnnouncementService implements IAnnouncemnetService{
 
     private AnnouncementBo convertDto2Bo(AnnouncementDto dto){
         AnnouncementBo bo = new AnnouncementBo();
-        bo.setId(dto.getId());
         bo.setTitle(dto.getTitle());
         bo.setSort(dto.getSort());
         bo.setContent(dto.getContent());
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String nowTime =localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        bo.setCreateTime(Timestamp.valueOf(nowTime).toString());
+        bo.setCreateUser(Long.valueOf(1));
+        bo.setUpdateTime(Timestamp.valueOf(nowTime).toString());
+        bo.setUpdateUser(Long.valueOf(1));
         return bo;
     }
 }

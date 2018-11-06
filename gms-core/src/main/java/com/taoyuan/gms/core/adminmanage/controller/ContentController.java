@@ -25,30 +25,22 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public AnnouncementDto getAnnouncement(long id) {
+    public AnnouncementDto getAnnouncement(Long id) {
         return announcemnetService.getAnnouncement(id);
     }
 
     @Override
-    public void createAnnouncement(String title, String sort, String content) {
-        AnnouncementDto dto = new AnnouncementDto();
-        dto.setTitle(title);
-        dto.setSort(sort);
-        dto.setContent(content);
-        announcemnetService.updateAnnouncement(dto);
+    public void createAnnouncement(AnnouncementDto announcement) {
+        announcemnetService.insert(announcement);
     }
 
     @Override
-    public void modifyAnnouncement(String id, String title, String sort, String content) {
-        AnnouncementDto dto = new AnnouncementDto();
-        dto.setTitle(title);
-        dto.setSort(sort);
-        dto.setContent(content);
-        announcemnetService.updateAnnouncement(dto);
+    public void modifyAnnouncement(AnnouncementDto announcement) {
+        announcemnetService.updateAnnouncement(announcement);
     }
 
     @Override
-    public void deleteAnnouncement(long id) {
+    public void deleteAnnouncement(Long id) {
         announcemnetService.delete(id);
     }
 
@@ -58,28 +50,22 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public CooperateBusinessDto getCooperateBusiness(long id) {
+    public CooperateBusinessDto getCooperateBusiness(Long id) {
         return cooperateBusinessService.getCooperateBusiness(id);
     }
 
     @Override
-    public void createCooperateBusiness(String name, String qq) {
-        CooperateBusinessDto dto = new CooperateBusinessDto();
-        dto.setName(name);
-        dto.setQq(qq);
-        cooperateBusinessService.insert(dto);
+    public void createCooperateBusiness(CooperateBusinessDto cooperateBusiness) {
+        cooperateBusinessService.insert(cooperateBusiness);
     }
 
     @Override
-    public void modifyCooperateBusiness(String id, String name, String qq) {
-        CooperateBusinessDto dto = new CooperateBusinessDto();
-        dto.setName(name);
-        dto.setQq(qq);
-        cooperateBusinessService.updateCooperateBusiness(dto);
+    public void modifyCooperateBusiness(CooperateBusinessDto cooperateBusiness) {
+        cooperateBusinessService.updateCooperateBusiness(cooperateBusiness);
     }
 
     @Override
-    public void deleteCooperateBusiness(long id) {
+    public void deleteCooperateBusiness(Long id) {
         cooperateBusinessService.delete(id);
     }
 
