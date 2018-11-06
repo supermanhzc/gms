@@ -26,12 +26,10 @@ public interface ContentApi {
 
     /**
      * 创建公告
-     * @param title
-     * @param sort
-     * @param content
+     * @param announcement
      */
-    @RequestMapping(value = "/announcement/", method = RequestMethod.POST)
-    public void createAnnouncement(String title, String sort, String content);
+    @RequestMapping(value = "/announcement", method = RequestMethod.POST)
+    public void createAnnouncement(AnnouncementDto announcement);
 
     /**
      * 修改公告

@@ -4,12 +4,11 @@ import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.City;
-import com.maxmind.geoip2.record.Country;
-import com.maxmind.geoip2.record.Postal;
-import com.maxmind.geoip2.record.Subdivision;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,7 +36,9 @@ public class IpAddrService {
             if (!StringUtils.isEmpty(path)) {
                 dbPath = path;
             }
-            File database = new File(dbPath);
+
+            Resource resource = new ClassPathResource(dbPath);
+            File database = resource.getFile();
             reader = new DatabaseReader.Builder(database).build();
         } catch (Exception e) {
             log.error("IP地址服务初始化异常:", e);

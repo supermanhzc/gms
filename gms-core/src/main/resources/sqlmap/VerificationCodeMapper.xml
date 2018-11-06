@@ -21,7 +21,7 @@
         from admin_verificationcode
         ORDER BY update_time DESC, create_time DESC
     </select>
-    <insert id="insert" parameterType="com.taoyuan.gms.core.admin.bo.AnnouncementBo">
+    <insert id="insert" parameterType="com.taoyuan.gms.core.adminmanage.bo.VerificationCodeBo">
     insert into admin_verificationcode (id, infName, type, vCode, time, create_user, create_time, update_user)
     values (#{id,jdbcType=BIGINT}, #{infName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{vCode,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR},
       #{content,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=VARCHAR},

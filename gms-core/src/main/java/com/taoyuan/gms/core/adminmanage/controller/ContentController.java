@@ -30,12 +30,8 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public void createAnnouncement(String title, String sort, String content) {
-        AnnouncementDto dto = new AnnouncementDto();
-        dto.setTitle(title);
-        dto.setSort(sort);
-        dto.setContent(content);
-        announcemnetService.updateAnnouncement(dto);
+    public void createAnnouncement(AnnouncementDto announcement) {
+        announcemnetService.insert(announcement);
     }
 
     @Override
