@@ -22,7 +22,7 @@ public interface ContentApi {
      * @return
      */
     @RequestMapping(value = "/announcement/{id}", method = RequestMethod.GET)
-    public AnnouncementDto getAnnouncement(long id);
+    public AnnouncementDto getAnnouncement(Long id);
 
     /**
      * 创建公告
@@ -33,20 +33,17 @@ public interface ContentApi {
 
     /**
      * 修改公告
-     * @param id
-     * @param title
-     * @param sort
-     * @param content
+     * @param announcement
      */
     @RequestMapping(value = "/announcement/{id}", method = RequestMethod.PUT)
-    public void modifyAnnouncement(String id, String title, String sort, String content);
+    public void modifyAnnouncement(AnnouncementDto announcement);
 
     /**
      * 删除公告
      * @param id
      */
     @RequestMapping(value = "/announcement/{id}", method = RequestMethod.DELETE)
-    public void deleteAnnouncement(long id);
+    public void deleteAnnouncement(Long id);
 
     /**
      * 查询所有合作商家
@@ -61,29 +58,26 @@ public interface ContentApi {
      * @return
      */
     @RequestMapping(value = "/cooperatbusiness/{id}", method = RequestMethod.GET)
-    public CooperateBusinessDto getCooperateBusiness(long id);
+    public CooperateBusinessDto getCooperateBusiness(Long id);
 
     /**
      * 创建合作商家
-     * @param name
-     * @param qq
+     * @param cooperateBusiness
      */
-    @RequestMapping(value = "/cooperatbusiness/", method = RequestMethod.POST)
-    public void createCooperateBusiness(String name, String qq);
+    @RequestMapping(value = "/cooperatbusiness", method = RequestMethod.POST)
+    public void createCooperateBusiness(CooperateBusinessDto cooperateBusiness);
 
     /**
      * 修改合作商家
-     * @param id
-     * @param name
-     * @param qq
+     * @param cooperateBusiness
      */
     @RequestMapping(value = "/cooperatbusiness/{id}", method = RequestMethod.PUT)
-    public void modifyCooperateBusiness(String id, String name, String qq);
+    public void modifyCooperateBusiness(CooperateBusinessDto cooperateBusiness);
 
     /**
      * 删除合作商家
      * @param id
      */
     @RequestMapping(value = "/cooperatbusiness/{id}", method = RequestMethod.DELETE)
-    public void deleteCooperateBusiness(long id);
+    public void deleteCooperateBusiness(Long id);
 }

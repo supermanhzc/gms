@@ -31,8 +31,8 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
     <insert id="insert" parameterType="com.taoyuan.gms.core.adminmanage.bo.AnnouncementBo" >
-    insert into admin_announcement (id, title, sort, content, create_user, create_time, update_user, update_time)
-    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR},
+    insert into admin_announcement (title, sort, content, create_user, create_time, update_user, update_time)
+    values (#{title,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR},
       #{content,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
       #{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
