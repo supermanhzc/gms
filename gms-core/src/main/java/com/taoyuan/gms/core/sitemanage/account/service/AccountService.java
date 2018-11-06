@@ -1,16 +1,8 @@
 package com.taoyuan.gms.core.sitemanage.account.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.taoyuan.gms.core.sitemanage.account.bo.AccountBo;
 
-import com.taoyuan.gms.api.sitemanage.account.AccountDto;
+public interface AccountService extends IService<AccountBo> {
 
-public interface AccountService {
-
-	public List<AccountDto> getAccounts();
-
-	public AccountDto getAccount(Long id);
-
-	public boolean addAccount(AccountDto accountDto);
-
-	public boolean deleteAccount(Long id);
 }

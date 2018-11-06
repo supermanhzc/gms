@@ -7,13 +7,17 @@
     <artifactId>gms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
+  
+  <groupId>com.taoyuan.gms</groupId>
   <artifactId>gms-common</artifactId>
   <name>gms-common</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  
   <dependencies>
+	  <dependency>
+	  	<groupId>com.taoyuan.framework</groupId>
+	  	<artifactId>framework-tools</artifactId>
+	  	<version>${framework-version}</version>
+	  </dependency>
 	<dependency>
 	    <groupId>org.springframework.boot</groupId>
 	    <artifactId>spring-boot-starter-aop</artifactId>
