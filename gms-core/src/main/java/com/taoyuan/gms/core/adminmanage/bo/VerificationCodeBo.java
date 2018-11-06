@@ -1,11 +1,13 @@
 package com.taoyuan.gms.core.adminmanage.bo;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
  * 验证码
  */
 @Data
+@TableName(value = "admin_verificationcode")
 public class VerificationCodeBo {
 
     //ID
