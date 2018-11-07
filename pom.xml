@@ -25,6 +25,7 @@
 	<dependencies></dependencies>
 
 	<modules>
+        <module>gms-model</module>
 		<module>gms-api</module>
 		<module>gms-core</module>
 		<module>gms-common</module>

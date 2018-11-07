@@ -1,11 +1,11 @@
 package com.taoyuan.gms.core.sitemanage.account.dao;
 
+import com.taoyuan.gms.model.entity.site.account.AccountEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.taoyuan.gms.core.sitemanage.account.bo.AccountBo;
 
 @Mapper
-public interface AccountBoMapper extends BaseMapper<AccountBo> {
+public interface AccountBoMapper extends BaseMapper<AccountEntity> {
 
 }
