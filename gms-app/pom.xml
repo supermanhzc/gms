@@ -27,7 +27,7 @@
 	    <groupId>org.springframework.boot</groupId>
 	    <artifactId>spring-boot-maven-plugin</artifactId>
 	    <configuration>
-	      <mainClass>com.taoyuan.gms.GmsApplication</mainClass>
+	      <mainClass>com.taoyuan.GmsApplication</mainClass>
 	      <outputDirectory>${project.release.directory}</outputDirectory>
 	    </configuration>
 	  </plugin>

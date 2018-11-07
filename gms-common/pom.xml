@@ -15,7 +15,7 @@
   <dependencies>
 	  <dependency>
 	  	<groupId>com.taoyuan.framework</groupId>
-	  	<artifactId>framework-tools</artifactId>
+	  	<artifactId>framework-common</artifactId>
 	  	<version>${framework-version}</version>
 	  </dependency>
 	<dependency>

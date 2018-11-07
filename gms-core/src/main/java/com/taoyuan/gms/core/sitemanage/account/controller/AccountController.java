@@ -20,11 +20,15 @@ public class AccountController implements AccountApi {
 
 	@Override
 	public IPage<Map<String, Object>> getAccounts() {
+
 		return accountService.pageMaps(new Page<AccountBo>(1, 10), null);
 	}
 
 	@Override
-	public Map<String, Object> getAccount(Long id) {
+	public Map<String, Object> getAccount(Long id) throws Exception {
+		if(id < 0){
+			throw new Exception("id must be long.");
+		}
 		return accountService.getMap(new QueryWrapper<AccountBo>().eq("id", id));
 	}
 

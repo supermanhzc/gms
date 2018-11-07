@@ -28,5 +28,5 @@ public interface AccountApi {
 	 * @return
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Map<String, Object> getAccount(@PathVariable("id") Long id);
+	public Map<String, Object> getAccount(@PathVariable("id") Long id) throws Exception;
 }
