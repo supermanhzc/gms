@@ -1,8 +1,10 @@
-package com.taoyuan.gms.core.adminmanage.bo;
+package com.taoyuan.gms.api.adminmanage.bo;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
+@TableName(value = "admin_announcement")
 public class AnnouncementBo {
 
     private long id;

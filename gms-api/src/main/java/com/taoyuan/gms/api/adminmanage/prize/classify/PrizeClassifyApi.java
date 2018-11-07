@@ -1,10 +1,13 @@
 package com.taoyuan.gms.api.adminmanage.prize.classify;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "奖品分类服务")
 @RequestMapping("/peizemgnt/classify")
@@ -14,7 +17,7 @@ public interface PrizeClassifyApi {
      * @return
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public List<PrizeClassifyDto> getPrizeClassifies();
+    public IPage<Map<String, Object>> getPrizeClassifies();
 
     /**
      * 根据id查询奖品分类信息
@@ -22,7 +25,7 @@ public interface PrizeClassifyApi {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public PrizeClassifyDto getPrizeClassify(long id);
+    public Map<String, Object> getPrizeClassify(@PathVariable("id") Long id);
 
     /**
      * 创建奖品分类
@@ -36,13 +39,13 @@ public interface PrizeClassifyApi {
      * @param id
      * @param classifyName
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void modifyPrizeClassfy(String id, String classifyName);
+    @RequestMapping(value = "/{id}&{classifyName}", method = RequestMethod.PUT)
+    public void modifyPrizeClassfy(@PathVariable("id") Long id, @PathVariable("classifyName") String classifyName);
 
     /**
      * 删除奖品分类
      * @param id
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deletePrizeClassfy(long id);
+    public void deletePrizeClassfy(@PathVariable("id") Long id);
 }
