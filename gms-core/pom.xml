@@ -22,5 +22,11 @@
   		<artifactId>gms-api</artifactId>
   		<version>${gms-version}</version>
   	</dependency>
+      <dependency>
+          <groupId>com.taoyuan.framework</groupId>
+          <artifactId>framework-aaa</artifactId>
+          <version>${framework-version}</version>
+      </dependency>
+
   </dependencies>
 </project>

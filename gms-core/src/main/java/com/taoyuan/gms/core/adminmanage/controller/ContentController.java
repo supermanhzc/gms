@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import com.taoyuan.framework.common.constant.TyExceptionUtil;
+//import com.taoyuan.framework.common.constant.TyExceptionUtil;
 import com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo;
 import com.taoyuan.gms.api.adminmanage.bo.CooperateBusinessBo;
 import com.taoyuan.gms.api.adminmanage.content.ContentApi;
@@ -29,8 +29,8 @@ public class ContentController implements ContentApi {
 
     @Override
     public IPage<Map<String, Object>> getAnnouncements(Integer pageIndex, Integer pageSize) {
-        throw TyExceptionUtil.buildException(100, "异常测试");
-//        return announcemnetService.pageMaps(new Page<AnnouncementBo>(pageIndex, pageSize), null);
+//        throw TyExceptionUtil.buildException(100, "异常测试");
+        return announcemnetService.pageMaps(new Page<AnnouncementBo>(pageIndex, pageSize), null);
     }
 
     @Override
