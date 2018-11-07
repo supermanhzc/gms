@@ -2,14 +2,14 @@ package com.taoyuan.gms.core.sitemanage.account.controller;
 
 import java.util.Map;
 
+import com.taoyuan.gms.api.site.account.AccountApi;
+import com.taoyuan.gms.model.entity.site.account.AccountEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.taoyuan.gms.api.sitemanage.account.AccountApi;
-import com.taoyuan.gms.core.sitemanage.account.bo.AccountBo;
 import com.taoyuan.gms.core.sitemanage.account.service.AccountService;
 
 @RestController
@@ -21,7 +21,7 @@ public class AccountController implements AccountApi {
 	@Override
 	public IPage<Map<String, Object>> getAccounts() {
 
-		return accountService.pageMaps(new Page<AccountBo>(1, 10), null);
+		return accountService.pageMaps(new Page<AccountEntity>(1, 10), null);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class AccountController implements AccountApi {
 		if(id < 0){
 			throw new Exception("id must be long.");
 		}
-		return accountService.getMap(new QueryWrapper<AccountBo>().eq("id", id));
+		return accountService.getMap(new QueryWrapper<AccountEntity>().eq("id", id));
 	}
 
 }

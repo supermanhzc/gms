@@ -12,6 +12,11 @@
   <artifactId>gms-core</artifactId>
   <name>gms-core</name>
   <dependencies>
+      <dependency>
+          <groupId>com.taoyuan.gms</groupId>
+          <artifactId>gms-model</artifactId>
+          <version>${gms-version}</version>
+      </dependency>
   	<dependency>
   		<groupId>com.taoyuan.gms</groupId>
   		<artifactId>gms-common</artifactId>

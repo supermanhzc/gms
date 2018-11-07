@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-//import com.taoyuan.framework.common.constant.TyExceptionUtil;
-import com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo;
-import com.taoyuan.gms.api.adminmanage.bo.CooperateBusinessBo;
-import com.taoyuan.gms.api.adminmanage.content.ContentApi;
+import com.taoyuan.gms.api.admin.ContentApi;
 import com.taoyuan.gms.core.adminmanage.service.IAnnouncemnetService;
 import com.taoyuan.gms.core.adminmanage.service.ICooperateBusinessService;
+import com.taoyuan.gms.model.entity.admin.content.AnnouncementEntity;
+import com.taoyuan.gms.model.entity.admin.content.CooperateBusinessEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,51 +29,51 @@ public class ContentController implements ContentApi {
     @Override
     public IPage<Map<String, Object>> getAnnouncements(Integer pageIndex, Integer pageSize) {
 //        throw TyExceptionUtil.buildException(100, "异常测试");
-        return announcemnetService.pageMaps(new Page<AnnouncementBo>(pageIndex, pageSize), null);
+        return announcemnetService.pageMaps(new Page<AnnouncementEntity>(pageIndex, pageSize), null);
     }
 
     @Override
     public Map<String, Object> getAnnouncement(Long id) {
-        return announcemnetService.getMap(new QueryWrapper<AnnouncementBo>().eq("id", id));
+        return announcemnetService.getMap(new QueryWrapper<AnnouncementEntity>().eq("id", id));
     }
 
     @Override
-    public void createAnnouncement(com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo announcement) {
+    public void createAnnouncement(AnnouncementEntity announcement) {
         announcemnetService.save(announcement);
     }
 
     @Override
-    public void modifyAnnouncement(AnnouncementBo announcement) {
+    public void modifyAnnouncement(AnnouncementEntity announcement) {
         announcemnetService.update(announcement, null);
     }
 
     @Override
     public void deleteAnnouncement(Long id) {
-        announcemnetService.remove(new QueryWrapper<AnnouncementBo>().eq("id", id));
+        announcemnetService.remove(new QueryWrapper<AnnouncementEntity>().eq("id", id));
     }
 
     @Override
     public IPage<Map<String, Object>> getCooperateBusinesss() {
-        return cooperateBusinessService.pageMaps(new Page<CooperateBusinessBo>(1, 10), null);
+        return cooperateBusinessService.pageMaps(new Page<CooperateBusinessEntity>(1, 10), null);
     }
 
     @Override
     public Map<String, Object> getCooperateBusiness(Long id) {
-        return cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessBo>().eq("id", id));
+        return cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id", id));
     }
 
     @Override
-    public void createCooperateBusiness(CooperateBusinessBo cooperateBusiness) {
+    public void createCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
         cooperateBusinessService.save(cooperateBusiness);
     }
 
     @Override
-    public void modifyCooperateBusiness(CooperateBusinessBo cooperateBusiness) {
+    public void modifyCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
         cooperateBusinessService.update(cooperateBusiness, null);
     }
 
     @Override
     public void deleteCooperateBusiness(Long id) {
-        cooperateBusinessService.remove(new QueryWrapper<CooperateBusinessBo>().eq("id", id));
+        cooperateBusinessService.remove(new QueryWrapper<CooperateBusinessEntity>().eq("id", id));
     }
 }

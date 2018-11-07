@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.taoyuan.gms.core.adminmanage.dao.CooperateBusinessMapper" >
-    <resultMap id="BaseResultMap" type="com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo" >
+    <resultMap id="BaseResultMap" type="com.taoyuan.gms.model.entity.admin.content.CooperateBusinessEntity" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="name" property="name" jdbcType="VARCHAR" />
         <result column="qq" property="qq" jdbcType="VARCHAR" />
@@ -29,12 +29,12 @@
     delete from admin_cooperatebusiness
     where id = #{id,jdbcType=BIGINT}
   </delete>
-    <insert id="insert" parameterType="com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo" >
+    <insert id="insert" parameterType="com.taoyuan.gms.model.entity.admin.content.CooperateBusinessEntity" >
     insert into admin_cooperatebusiness (name, qq, create_user, create_time, update_user)
     values (#{name,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=VARCHAR},
       #{updateUser,jdbcType=BIGINT})
   </insert>
-    <insert id="insertSelective" parameterType="com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo" >
+    <insert id="insertSelective" parameterType="com.taoyuan.gms.model.entity.admin.content.CooperateBusinessEntity" >
         insert into admin_cooperatebusiness
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="name != null" >
@@ -71,7 +71,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.taoyuan.gms.model.entity.admin.content.CooperateBusinessEntity" >
         update admin_cooperatebusiness
         <set >
             <if test="name != null" >
@@ -92,7 +92,7 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo" >
+    <update id="updateByPrimaryKey" parameterType="com.taoyuan.gms.model.entity.admin.content.CooperateBusinessEntity" >
     update admin_cooperatebusiness
     set name = #{name,jdbcType=VARCHAR},
       qq = #{qq,jdbcType=VARCHAR},
