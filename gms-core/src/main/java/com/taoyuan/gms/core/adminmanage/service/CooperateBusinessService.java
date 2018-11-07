@@ -1,12 +1,9 @@
 package com.taoyuan.gms.core.adminmanage.service;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.taoyuan.gms.api.adminmanage.content.CooperateBusinessDto;
-import com.taoyuan.gms.core.adminmanage.bo.CooperateBusinessBo;
+import com.taoyuan.gms.api.adminmanage.bo.CooperateBusinessBo;
 import com.taoyuan.gms.core.adminmanage.dao.CooperateBusinessMapper;
-import com.taoyuan.gms.core.sitemanage.account.bo.AccountBo;
-import com.taoyuan.gms.core.sitemanage.account.dao.AccountBoMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

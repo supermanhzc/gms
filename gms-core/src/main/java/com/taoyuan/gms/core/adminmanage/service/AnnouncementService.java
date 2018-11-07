@@ -2,12 +2,8 @@ package com.taoyuan.gms.core.adminmanage.service;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.taoyuan.gms.api.adminmanage.content.AnnouncementDto;
-import com.taoyuan.gms.core.adminmanage.bo.AnnouncementBo;
+import com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo;
 import com.taoyuan.gms.core.adminmanage.dao.AnnouncementMapper;
-import com.taoyuan.gms.core.sitemanage.account.bo.AccountBo;
-import com.taoyuan.gms.core.sitemanage.account.dao.AccountBoMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;

@@ -1,8 +1,8 @@
 package com.taoyuan.gms.core.adminmanage.dao;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.taoyuan.gms.core.adminmanage.bo.AnnouncementBo;
-import com.taoyuan.gms.core.sitemanage.account.bo.AccountBo;
+import com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

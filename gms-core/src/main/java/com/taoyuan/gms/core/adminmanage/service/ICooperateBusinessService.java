@@ -2,11 +2,7 @@ package com.taoyuan.gms.core.adminmanage.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.taoyuan.gms.api.adminmanage.content.CooperateBusinessDto;
-import com.taoyuan.gms.core.adminmanage.bo.AnnouncementBo;
-import com.taoyuan.gms.core.adminmanage.bo.CooperateBusinessBo;
-
-import java.util.List;
+import com.taoyuan.gms.api.adminmanage.bo.CooperateBusinessBo;
 
 public interface ICooperateBusinessService extends IService<CooperateBusinessBo> {
 

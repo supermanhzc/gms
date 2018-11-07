@@ -1,4 +1,4 @@
-package com.taoyuan.gms.core.adminmanage.bo;
+package com.taoyuan.gms.api.adminmanage.bo;
 
 import lombok.Data;
 

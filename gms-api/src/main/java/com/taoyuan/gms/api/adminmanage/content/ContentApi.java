@@ -1,6 +1,8 @@
 package com.taoyuan.gms.api.adminmanage.content;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo;
+import com.taoyuan.gms.api.adminmanage.bo.CooperateBusinessBo;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,8 +19,8 @@ public interface ContentApi {
      *
      * @return
      */
-    @RequestMapping(value = "/announcement", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getAnnouncements();
+    @RequestMapping(value = "/announcement/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
+    public IPage<Map<String, Object>> getAnnouncements(@PathVariable("pageIndex") Integer pageIndex,@PathVariable("pageSize") Integer pageSize);
 
     /**
      * 根据id查询公告
@@ -35,7 +37,7 @@ public interface ContentApi {
      * @param announcement
      */
     @RequestMapping(value = "/announcement", method = RequestMethod.POST)
-    public void createAnnouncement(AnnouncementDto announcement);
+    public void createAnnouncement(AnnouncementBo announcement);
 
     /**
      * 修改公告
@@ -43,7 +45,7 @@ public interface ContentApi {
      * @param announcement
      */
     @RequestMapping(value = "/announcement/{id}", method = RequestMethod.PUT)
-    public void modifyAnnouncement(AnnouncementDto announcement);
+    public void modifyAnnouncement(AnnouncementBo announcement);
 
     /**
      * 删除公告
@@ -76,7 +78,7 @@ public interface ContentApi {
      * @param cooperateBusiness
      */
     @RequestMapping(value = "/cooperatbusiness", method = RequestMethod.POST)
-    public void createCooperateBusiness(CooperateBusinessDto cooperateBusiness);
+    public void createCooperateBusiness(CooperateBusinessBo cooperateBusiness);
 
     /**
      * 修改合作商家
@@ -84,7 +86,7 @@ public interface ContentApi {
      * @param cooperateBusiness
      */
     @RequestMapping(value = "/cooperatbusiness/{id}", method = RequestMethod.PUT)
-    public void modifyCooperateBusiness(CooperateBusinessDto cooperateBusiness);
+    public void modifyCooperateBusiness(CooperateBusinessBo cooperateBusiness);
 
     /**
      * 删除合作商家

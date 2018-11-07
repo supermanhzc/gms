@@ -2,14 +2,13 @@ package com.taoyuan.gms.core.adminmanage.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.taoyuan.gms.api.adminmanage.content.AnnouncementDto;
-import com.taoyuan.gms.core.adminmanage.bo.AnnouncementBo;
+import com.taoyuan.gms.api.adminmanage.bo.AnnouncementBo;
 
 import java.util.List;
 
 public interface IAnnouncemnetService extends IService<AnnouncementBo> {
 
-//    List<AnnouncementDto> getAnnouncements();
+//    List<AnnouncementDto> getAnnouncements(Integer pageIndex,Integer pageSize);
 //
 //    int delete(Long id);
 //
