@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import com.taoyuan.framework.common.exception.ValidateException;
+import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.admin.ContentApi;
 import com.taoyuan.gms.core.adminmanage.service.IAnnouncemnetService;
 import com.taoyuan.gms.core.adminmanage.service.ICooperateBusinessService;
@@ -14,6 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.bind.ValidationException;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Map;
 
 @Slf4j
@@ -27,53 +33,66 @@ public class ContentController implements ContentApi {
     private ICooperateBusinessService cooperateBusinessService;
 
     @Override
-    public IPage<Map<String, Object>> getAnnouncements(Integer pageIndex, Integer pageSize) {
-//        throw TyExceptionUtil.buildException(100, "异常测试");
-        return announcemnetService.pageMaps(new Page<AnnouncementEntity>(pageIndex, pageSize), null);
+    public TyResponse getAnnouncements(Integer pageIndex, Integer pageSize) {
+        log.info("input is pageIndex:{} pageSize:{}", pageIndex, pageSize);
+        return new TySuccessResponse(announcemnetService.pageMaps(new Page<AnnouncementEntity>(pageIndex, pageSize), null));
     }
 
     @Override
-    public Map<String, Object> getAnnouncement(Long id) {
-        return announcemnetService.getMap(new QueryWrapper<AnnouncementEntity>().eq("id", id));
+    public TyResponse getAnnouncement(Long id) {
+        return new TySuccessResponse(announcemnetService.getMap(new QueryWrapper<AnnouncementEntity>().eq("id", id)));
     }
 
     @Override
-    public void createAnnouncement(AnnouncementEntity announcement) {
+    public TyResponse createAnnouncement(AnnouncementEntity announcement) {
+        log.info("input:{}", announcement);
+        announcement.setCreateTime(new Date());
         announcemnetService.save(announcement);
+        return new TySuccessResponse(announcement);
     }
 
     @Override
-    public void modifyAnnouncement(AnnouncementEntity announcement) {
-        announcemnetService.update(announcement, null);
+    public TyResponse modifyAnnouncement(AnnouncementEntity announcement) {
+        if (null == announcement.getId()) {
+            throw new ValidateException(1000001, "参数不能为空。", "id");
+        }
+        announcemnetService.saveOrUpdate(announcement);
+        return new TySuccessResponse(announcement);
     }
 
     @Override
-    public void deleteAnnouncement(Long id) {
+    public TyResponse deleteAnnouncement(Long id) {
+        log.info("delete input:{}", id);
         announcemnetService.remove(new QueryWrapper<AnnouncementEntity>().eq("id", id));
+        return new TySuccessResponse(id);
     }
 
     @Override
-    public IPage<Map<String, Object>> getCooperateBusinesss() {
-        return cooperateBusinessService.pageMaps(new Page<CooperateBusinessEntity>(1, 10), null);
+    public TyResponse getCooperateBusinesss() {
+        return new TySuccessResponse(cooperateBusinessService.pageMaps(new Page<CooperateBusinessEntity>(1, 10), null));
     }
 
     @Override
-    public Map<String, Object> getCooperateBusiness(Long id) {
-        return cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id", id));
+    public TyResponse getCooperateBusiness(Long id) {
+        return new TySuccessResponse(cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id", id)));
     }
 
     @Override
-    public void createCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
+    public TyResponse createCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
         cooperateBusinessService.save(cooperateBusiness);
+        log.info("id:{}", cooperateBusiness.getId());
+        return new TySuccessResponse(cooperateBusiness);
     }
 
     @Override
-    public void modifyCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
+    public TyResponse modifyCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
         cooperateBusinessService.update(cooperateBusiness, null);
+        return new TySuccessResponse(cooperateBusiness);
     }
 
     @Override
-    public void deleteCooperateBusiness(Long id) {
+    public TyResponse deleteCooperateBusiness(Long id) {
         cooperateBusinessService.remove(new QueryWrapper<CooperateBusinessEntity>().eq("id", id));
+        return new TySuccessResponse(id);
     }
 }
