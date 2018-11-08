@@ -80,7 +80,7 @@ public class ContentController implements ContentApi {
     @Override
     public TyResponse createCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
         cooperateBusinessService.save(cooperateBusiness);
-        log.info("id:{}", cooperateBusiness.getId());
+        log.info("input:{},id:{}", cooperateBusiness, cooperateBusiness.getId());
         return new TySuccessResponse(cooperateBusiness);
     }
 

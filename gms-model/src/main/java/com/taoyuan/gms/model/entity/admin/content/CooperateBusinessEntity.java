@@ -1,6 +1,7 @@
 package com.taoyuan.gms.model.entity.admin.content;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -20,10 +21,12 @@ public class CooperateBusinessEntity implements Serializable {
 
     private Long createUser;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private Long updateUser;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
 }
