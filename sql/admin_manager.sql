@@ -16,45 +16,51 @@ Date: 2018-11-04 21:16:02
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for site_manager
+-- Table structure for admin_announcement
 -- ----------------------------
 DROP TABLE IF EXISTS `admin_announcement`;
 CREATE TABLE `admin_announcement` (
-  `id` varchar(40) NOT NULL COMMENT 'ID',
-  `title` varchar(40) NOT NULL COMMENT '标题',
-  `sort` varchar(10) NOT NULL COMMENT '排序',
-  `content` varchar(100) DEFAULT NULL COMMENT '内容',
-  `create_user` varchar(20) NOT NULL COMMENT '创建人',
+  `id` bigint(40) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `title` varchar(40) COLLATE utf8_unicode_ci NOT NULL COMMENT '标题',
+  `sort` varchar(10) COLLATE utf8_unicode_ci NOT NULL COMMENT '排序',
+  `content` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '内容',
+  `create_user` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` varchar(20) DEFAULT NULL COMMENT '更新人',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `version` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '版本',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- ----------------------------
+-- Table structure for admin_cooperatebusiness
+-- ----------------------------
 DROP TABLE IF EXISTS `admin_cooperatebusiness`;
 CREATE TABLE `admin_cooperatebusiness` (
-  `id` varchar(40) NOT NULL COMMENT 'ID',
-  `name` varchar(40) NOT NULL COMMENT '名称',
-  `qq` varchar(10) NOT NULL COMMENT 'QQ',
-  `create_user` varchar(20) NOT NULL COMMENT '创建人',
+  `id` bigint(40) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(40) COLLATE utf8_unicode_ci NOT NULL COMMENT '名称',
+  `qq` varchar(10) COLLATE utf8_unicode_ci NOT NULL COMMENT 'QQ',
+  `create_user` bigint(20) NOT NULL COMMENT '创建人',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` varchar(20) DEFAULT NULL COMMENT '更新人',
+  `update_user` bigint(20) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `version` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '版本',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- ----------------------------
+-- Table structure for admin_verificationcode
+-- ----------------------------
 DROP TABLE IF EXISTS `admin_verificationcode`;
 CREATE TABLE `admin_verificationcode` (
-  `id` varchar(40) NOT NULL COMMENT 'ID',
-  `infName` varchar(40) NOT NULL COMMENT '接口名称',
-  `type` varchar(10) NOT NULL COMMENT '类型',
-  `vCode` varchar(20) NOT NULL COMMENT '验证码',
-  `time` varchar(20) NOT NULL COMMENT '时间',
+  `id` varchar(40) COLLATE utf8_unicode_ci NOT NULL COMMENT 'ID',
+  `infName` varchar(40) COLLATE utf8_unicode_ci NOT NULL COMMENT '接口名称',
+  `type` varchar(10) COLLATE utf8_unicode_ci NOT NULL COMMENT '类型',
+  `vCode` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '验证码',
+  `time` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '时间',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_user` varchar(20) DEFAULT NULL COMMENT '更新人',
+  `update_user` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `version` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '版本',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
