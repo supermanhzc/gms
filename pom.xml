@@ -22,7 +22,13 @@
 		<framework-version>${project.parent.version}</framework-version>
 	</properties>
 
-	<dependencies></dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>com.taoyuan.framework</groupId>
+			<artifactId>framework-common</artifactId>
+			<version>${gms-version}</version>
+		</dependency>
+	</dependencies>
 
 	<modules>
         <module>gms-model</module>

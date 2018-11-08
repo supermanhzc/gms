@@ -2,10 +2,15 @@ package com.taoyuan.gms.model.entity.admin.content;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
+@ToString
+@EqualsAndHashCode
 @TableName(value = "admin_announcement")
 public class AnnouncementEntity implements Serializable{
     private Long id;
@@ -21,9 +26,9 @@ public class AnnouncementEntity implements Serializable{
 
     private Long createUser;
 
-    private String createTime;
+    private Date createTime;
 
     private Long updateUser;
 
-    private String updateTime;
+    private Date updateTime;
 }
