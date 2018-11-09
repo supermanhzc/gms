@@ -74,11 +74,13 @@ public class ContentController implements ContentApi {
 
     @Override
     public TyResponse getCooperateBusiness(Long id) {
+        log.info("query value:",cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id", id)));
         return new TySuccessResponse(cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id", id)));
     }
 
     @Override
     public TyResponse createCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
+        cooperateBusiness.setCreateTime(new Date());
         cooperateBusinessService.save(cooperateBusiness);
         log.info("input:{},id:{}", cooperateBusiness, cooperateBusiness.getId());
         return new TySuccessResponse(cooperateBusiness);
@@ -86,7 +88,7 @@ public class ContentController implements ContentApi {
 
     @Override
     public TyResponse modifyCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
-        cooperateBusinessService.update(cooperateBusiness, null);
+        cooperateBusinessService.saveOrUpdate(cooperateBusiness);
         return new TySuccessResponse(cooperateBusiness);
     }
 
