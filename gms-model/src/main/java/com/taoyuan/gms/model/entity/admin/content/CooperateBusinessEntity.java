@@ -2,8 +2,6 @@ package com.taoyuan.gms.model.entity.admin.content;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.taoyuan.framework.common.http.JsonDateSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
