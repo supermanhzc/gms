@@ -1,11 +1,13 @@
 package com.taoyuan.gms.model.entity.admin.web;
 
-import com.taoyuan.framework.common.entity.RecordEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 
 /**
  * 网站配置
  */
-public class WebSettingEntity extends RecordEntity{
+public class WebSettingEntity{
     //名称
     private String name;
 
@@ -71,4 +73,12 @@ public class WebSettingEntity extends RecordEntity{
 
     //虚拟币可得到次数
     private int virtualCornAvailableTimes;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+
+    private Long updateUser;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
 }
