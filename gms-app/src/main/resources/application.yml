@@ -4,10 +4,6 @@ server:
     uri-encoding: UTF-8
   servlet:
     context-path: /gms
-#
-#logging:
-#  level:
-#    com.migu.tsg.pms.service: debug
 
 spring:
   application:
@@ -19,35 +15,6 @@ spring:
     password: Gms@)18
     driverClassName: com.mysql.cj.jdbc.Driver
 
-    initial-size: 5
-    max-active: 50
-    min-idle: 5
-    max-wait: 6000
-    validation-query: SELECT 'x'
-    test-on-borrow: true
-    test-on-return: true
-    test-while-idle: true
-    time-between-eviction-runs-millis: 60000
-    min-evictable-idle-time-millis: 300000
-    remove-abandoned: true
-    remove-abandoned-timeout: 1800
-    log-abandoned: true
-    web-stat-filter:
-      enabled: true
-      url-pattern: /*
-      exclusions: '*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*'
-
-
-global-config:
-    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
-  idType: 0
-    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
-  fieldStrategy: 2
-    #驼峰下划线转换
-  dbColumnUnderline: true
-    #刷新mapper 调试神器
-  refreshMapper: true
-
 mybatis-plus:
   mapper-locations: classpath*:sqlmap/*Mapper.xml
 
@@ -57,3 +24,9 @@ redis:
     port: 6379
     timeout: 0
     password: Gms@)18Gms@)18
+
+taoyuan:
+  unAuthUrls:
+    - /contentmgnt/announcement/**
+  permissions:
+    /sitemanage/account/**=perms["account:*"]
