@@ -14,7 +14,7 @@ spring:
     name: gms
   
   datasource:
-    url: jdbc:mysql://39.108.215.89:3306/gms?characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://www.1016.cc:3306/gms?characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: gmsdev
     password: Gms@)18
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -53,7 +53,7 @@ mybatis-plus:
 
 redis:
   auth:
-    host: 39.108.215.89
+    host: www.1016.cc
     port: 6379
     timeout: 0
     password: Gms@)18Gms@)18
