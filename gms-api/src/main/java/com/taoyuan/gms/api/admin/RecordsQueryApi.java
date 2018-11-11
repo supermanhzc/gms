@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Map;
 
-@Api(value = "公告服务")
+@Api(value = "记录查询")
 @RequestMapping("/records")
 public interface RecordsQueryApi {
     /**
@@ -16,8 +16,8 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/verificationcode/", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getVerificationCodes();
+    @RequestMapping(value = "/verificationcode/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
+    public IPage<Map<String, Object>> getVerificationCodes(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询所有验证码信息
@@ -25,7 +25,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/substitute/", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getSubstitutes();
+    public IPage<Map<String, Object>> getSubstitutes(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询所有代理操作
@@ -33,7 +33,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/proxyopearte/", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getProxyOperates();
+    public IPage<Map<String, Object>> getProxyOperates(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询所有销售统计
@@ -41,7 +41,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/salestatistic/", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getSaleStatistics();
+    public IPage<Map<String, Object>> getSaleStatistics(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询所有销售明细
@@ -49,7 +49,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/saledetail/", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getSaleDetails();
+    public IPage<Map<String, Object>> getSaleDetails(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询所有销售明细
@@ -86,7 +86,7 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/lossrabate/", method = RequestMethod.GET)
+    @RequestMapping(value = "/chartsrewards/", method = RequestMethod.GET)
     public IPage<Map<String, Object>> getChartsRewards();
 
     /**
