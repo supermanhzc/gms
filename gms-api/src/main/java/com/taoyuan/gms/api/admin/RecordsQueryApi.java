@@ -20,11 +20,11 @@ public interface RecordsQueryApi {
     public IPage<Map<String, Object>> getVerificationCodes(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
-     * 查询所有验证码信息
+     * 查询所有代充信息
      *
      * @return
      */
-    @RequestMapping(value = "/substitute/", method = RequestMethod.GET)
+    @RequestMapping(value = "/substitute/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
     public IPage<Map<String, Object>> getSubstitutes(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
@@ -32,7 +32,7 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/proxyopearte/", method = RequestMethod.GET)
+    @RequestMapping(value = "/proxyopearte/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
     public IPage<Map<String, Object>> getProxyOperates(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
@@ -40,7 +40,7 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/salestatistic/", method = RequestMethod.GET)
+    @RequestMapping(value = "/salestatistic/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
     public IPage<Map<String, Object>> getSaleStatistics(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
