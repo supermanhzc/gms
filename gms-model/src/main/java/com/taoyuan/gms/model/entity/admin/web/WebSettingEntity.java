@@ -104,6 +104,34 @@ public class WebSettingEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateTime;
 
+    public void update(WebSettingEntity entity){
+        setCreateUser(null==entity.getCreateUser()?createUser:entity.getCreateUser());
+        setCreateTime(null==entity.getCreateTime()?createTime:entity.getCreateTime());
+        setCathecticWagesPropor(null==entity.getCathecticWagesPropor()?cathecticWagesPropor:entity.getCathecticWagesPropor());
+        setDescription(null==entity.getDescription()?description:entity.getDescription());
+        setEnable24Recharge(entity.isEnable24Recharge());
+        setEntryFee(null==entity.getEntryFee()?entryFee:entity.getEntryFee());
+        setEnableExchange(entity.isEnableExchange());
+        setFirstFillRebatePropor(null==entity.getFirstFillRebatePropor()?firstFillRebatePropor:entity.getFirstFillRebatePropor());
+        setForbidRechargeBeginTime(null==entity.getForbidRechargeBeginTime()?forbidRechargeBeginTime:entity.getForbidRechargeBeginTime());
+        setForbidRechargeEndTime(null==entity.getForbidRechargeEndTime()?forbidRechargeEndTime:entity.getForbidRechargeEndTime());
+        setExchangePropor(null==entity.getExchangePropor()?exchangePropor:entity.getExchangePropor());
+        setFreeExchangeTimes(entity.getFreeExchangeTimes()!=0?entity.getFreeExchangeTimes():freeExchangeTimes);
+        setGainGrowPropor(entity.getGainGrowPropor()!=0d?entity.getGainGrowPropor():gainGrowPropor);
+        setId(null==entity.getId()?id:entity.getId());
+        setKeyWord(null==entity.getKeyWord()?keyWord:entity.getKeyWord());
+        setLossRebatePropor(null==entity.getLossRebatePropor()?lossRebatePropor:entity.getLossRebatePropor());
+        setName(null==entity.getName()?name:entity.getName());
+        setOverrangingFee(null==entity.getOverrangingFee()?overrangingFee:overrangingFee);
+        setProxyRechargeDiscount(entity.getProxyRechargeDiscount());
+        setRechargeExperiencePropor(entity.getRechargeExperiencePropor());
+        setSerialCalDays(0==entity.getSerialCalDays()?serialCalDays:entity.getSerialCalDays());
+        setRegistOfferGold(0==entity.getRegistOfferGold()?registOfferGold:entity.getRegistOfferGold());
+        setSubordinateCathecticWagesPropor(null==entity.getSubordinateCathecticWagesPropor()?subordinateCathecticWagesPropor:entity.getSubordinateCathecticWagesPropor());
+        setVirtualCornAvailableCount(0==entity.getVirtualCornAvailableCount()?virtualCornAvailableCount:entity.getVirtualCornAvailableCount());
+        setVirtualCornAvailableTimes(0==entity.getVirtualCornAvailableTimes()?virtualCornAvailableTimes:entity.getVirtualCornAvailableTimes());
+    }
+
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 //    private Date createTime;
 //
