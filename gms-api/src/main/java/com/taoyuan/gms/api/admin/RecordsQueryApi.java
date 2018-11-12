@@ -101,6 +101,26 @@ public interface RecordsQueryApi {
 
 
     /**
+     * 查询排行榜奖励
+     *
+     * @return
+     */
+    @RequestMapping(value = "/vchartsrewards/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
+    public IPage<Map<String, Object>> getVChartsRewards(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+
+    /**
+     * 查询排行榜奖励
+     *
+     * @param id
+     * @param type
+     * @return
+     */
+    @RequestMapping(value = "/vchartsreward/{id}&{type}", method = RequestMethod.GET)
+    public IPage<Map<String, Object>> getVChartsRewards(@PathVariable("id") String id, @PathVariable("type") String type);
+
+
+
+    /**
      * 查询投注工资
      *
      * @return

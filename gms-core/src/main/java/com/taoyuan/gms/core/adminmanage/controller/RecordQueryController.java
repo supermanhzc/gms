@@ -152,17 +152,46 @@ public class RecordQueryController implements RecordsQueryApi {
             entity.setRewards(5555d);
             entity.setStatus("未领取");
             entity.setTime(new Date());
+            entity.setType(1);
             list.add(entity);
             chartsRewardsService.save(entity);
         }
 
-        return chartsRewardsService.pageMaps(new Page<ChartsRewardsEntity>(pageIndex, pageSize), null);
+        QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
+        wrapper.eq("type",1);
+        return chartsRewardsService.pageMaps(new Page<ChartsRewardsEntity>(pageIndex, pageSize), wrapper);
     }
 
     @Override
     public IPage<Map<String, Object>> getChartsRewards(String id, String type) {
         return null;
     }
+
+    @Override
+    public IPage<Map<String, Object>> getVChartsRewards(Integer pageIndex, Integer pageSize) {
+        List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
+        for (int i = 0; i < 10; i++) {
+            ChartsRewardsEntity entity = new ChartsRewardsEntity();
+            entity.setMemberId(300001l);
+            entity.setMemberNickName("会员1");
+            entity.setRewards(5555d);
+            entity.setStatus("未领取");
+            entity.setTime(new Date());
+            entity.setType(2);
+            list.add(entity);
+            chartsRewardsService.save(entity);
+        }
+
+        QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
+        wrapper.eq("type",2);
+        return chartsRewardsService.pageMaps(new Page<ChartsRewardsEntity>(pageIndex, pageSize), wrapper);
+    }
+
+    @Override
+    public IPage<Map<String, Object>> getVChartsRewards(String id, String type) {
+        return null;
+    }
+
 
     @Override
     public IPage<Map<String, Object>> getChipinWages(Integer pageIndex, Integer pageSize) {
