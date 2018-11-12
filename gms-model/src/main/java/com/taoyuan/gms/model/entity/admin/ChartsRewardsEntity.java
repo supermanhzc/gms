@@ -19,6 +19,9 @@ public class ChartsRewardsEntity implements Serializable {
 
     private Long id;
 
+    //类型 1:排行榜奖励，2:虚拟排行榜奖励
+    private int type;
+
     //玩家ID
     private Long memberId;
 
