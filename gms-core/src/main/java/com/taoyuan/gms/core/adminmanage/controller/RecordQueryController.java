@@ -5,14 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.gms.api.admin.RecordsQueryApi;
-import com.taoyuan.gms.core.adminmanage.service.IChartsRewardsService;
-import com.taoyuan.gms.core.adminmanage.service.ILossRabateService;
-import com.taoyuan.gms.core.adminmanage.service.ISubstituteService;
-import com.taoyuan.gms.core.adminmanage.service.IVerificationCodeService;
-import com.taoyuan.gms.model.entity.admin.ChartsRewardsEntity;
-import com.taoyuan.gms.model.entity.admin.LossRabateEntity;
-import com.taoyuan.gms.model.entity.admin.SubstituteEntity;
-import com.taoyuan.gms.model.entity.admin.VerificationCodeEntity;
+import com.taoyuan.gms.core.adminmanage.service.*;
+import com.taoyuan.gms.model.entity.admin.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +31,9 @@ public class RecordQueryController implements RecordsQueryApi {
 
     @Autowired
     private ILossRabateService lossRabateService;
+
+    @Autowired
+    private IProxyOperService proxyOperService;
 
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
@@ -70,7 +67,17 @@ public class RecordQueryController implements RecordsQueryApi {
 
     @Override
     public IPage<Map<String, Object>> getProxyOperates(Integer pageIndex, Integer pageSize) {
-        return null;
+        validatePageParams(pageIndex, pageSize);
+        for (int i = 0; i < 10; i++) {
+            ProxyOperEntity entity = new ProxyOperEntity();
+            entity.setProxyId(3l);
+            entity.setProxyName("代理1");
+            entity.setMoneyChanged(-100d);
+            entity.setAccount(1000d);
+            proxyOperService.save(entity);
+        }
+
+        return proxyOperService.pageMaps(new Page<ProxyOperEntity>(pageIndex, pageSize), null);
     }
 
     @Override
@@ -107,7 +114,12 @@ public class RecordQueryController implements RecordsQueryApi {
     }
 
     @Override
-    public IPage<Map<String, Object>> getLossRebates(Integer pageIndex, Integer pageSize, Long id, int status) {
+    public IPage<Map<String, Object>> getLossRebates(/*Integer pageIndex, Integer pageSize, Long id, int status*/
+            PageConditionEntity pageConditionEntity) {
+        int pageIndex = pageConditionEntity.getPageIndex();
+        int pageSize = pageConditionEntity.getPageSize();
+        Long id = pageConditionEntity.getId();
+        int status = pageConditionEntity.getStatus();
         log.info("Page index={}, size={}, id={}, status={}", pageIndex, pageSize, id, status);
         validatePageParams(pageIndex, pageSize);
         QueryWrapper<LossRabateEntity> wrapper = new QueryWrapper<LossRabateEntity>();
