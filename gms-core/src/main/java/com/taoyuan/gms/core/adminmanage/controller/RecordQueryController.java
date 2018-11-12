@@ -1,5 +1,6 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.common.exception.ValidateException;
@@ -12,16 +13,16 @@ import com.taoyuan.gms.model.entity.admin.ChartsRewardsEntity;
 import com.taoyuan.gms.model.entity.admin.LossRabateEntity;
 import com.taoyuan.gms.model.entity.admin.SubstituteEntity;
 import com.taoyuan.gms.model.entity.admin.VerificationCodeEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.bind.ValidationException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestController
 public class RecordQueryController implements RecordsQueryApi {
 
@@ -39,11 +40,7 @@ public class RecordQueryController implements RecordsQueryApi {
 
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
-        if (null == pageIndex) {
-            throw new ValidateException(10000001, "分页参数不能为空。", "pageIndex");
-        } else if (null == pageSize) {
-            throw new ValidateException(10000002, "分页参数不能为空。", "pageSize");
-        }
+        validatePageParams(pageIndex, pageSize);
 
 //        VerificationCodeEntity entity= new VerificationCodeEntity();
 //        entity.setInfName("短信");
@@ -55,6 +52,7 @@ public class RecordQueryController implements RecordsQueryApi {
 
     @Override
     public IPage<Map<String, Object>> getSubstitutes(Integer pageIndex, Integer pageSize) {
+        validatePageParams(pageIndex, pageSize);
         List<SubstituteEntity> list = new ArrayList<SubstituteEntity>();
         for (int i = 0; i < 10; i++) {
             SubstituteEntity entity = new SubstituteEntity();
@@ -92,14 +90,16 @@ public class RecordQueryController implements RecordsQueryApi {
 
     @Override
     public IPage<Map<String, Object>> getLossRebates(Integer pageIndex, Integer pageSize) {
+        validatePageParams(pageIndex, pageSize);
         List<LossRabateEntity> list = new ArrayList<LossRabateEntity>();
-        for(int i =0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             LossRabateEntity entity = new LossRabateEntity();
             entity.setMemberId(300001l);
             entity.setMemberNickName("会员1");
             entity.setLoss(50000d);
             entity.setRabate(10000d);
             entity.setTime(new Date());
+            entity.setStatus(1);
             list.add(entity);
             lossRabateService.save(entity);
         }
@@ -107,8 +107,23 @@ public class RecordQueryController implements RecordsQueryApi {
     }
 
     @Override
-    public IPage<Map<String, Object>> getLossRebates(String id, String type) {
-        return null;
+    public IPage<Map<String, Object>> getLossRebates(Integer pageIndex, Integer pageSize, Long id, int status) {
+        log.info("Page index={}, size={}, id={}, status={}", pageIndex, pageSize, id, status);
+        validatePageParams(pageIndex, pageSize);
+        QueryWrapper<LossRabateEntity> wrapper = new QueryWrapper<LossRabateEntity>();
+        if (null == id) {
+            if (-1 == status) {
+                wrapper = null;
+            } else {
+                wrapper.eq("status", status);
+            }
+        } else {
+            wrapper.eq("memberId", id);
+            if (-1 != status) {
+                wrapper.and(wrapperTmp -> wrapperTmp.eq("status", status));
+            }
+        }
+        return lossRabateService.pageMaps(new Page<LossRabateEntity>(pageIndex, pageSize), wrapper);
     }
 
     @Override
@@ -176,5 +191,13 @@ public class RecordQueryController implements RecordsQueryApi {
     @Override
     public IPage<Map<String, Object>> getMemberLogins(String id, String type) {
         return null;
+    }
+
+    private void validatePageParams(Integer pageIndex, Integer pageSize) {
+        if (null == pageIndex) {
+            throw new ValidateException(10000001, "分页参数不能为空。", "pageIndex");
+        } else if (null == pageSize) {
+            throw new ValidateException(10000002, "分页参数不能为空。", "pageSize");
+        }
     }
 }
