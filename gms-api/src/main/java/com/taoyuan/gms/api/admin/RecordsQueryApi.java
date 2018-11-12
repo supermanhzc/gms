@@ -1,8 +1,10 @@
 package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.gms.model.entity.admin.PageConditionEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -72,14 +74,11 @@ public interface RecordsQueryApi {
 
     /**
      * 查询亏损返利
-     * @param pageIndex
-     * @param pageSize
-     * @param id
-     * @param status
+     * @param pageConditionEntity
      * @return
      */
-    @RequestMapping(value = "/lossrabate/condition/index={pageIndex}&size={pageSize}&id={id}&status={status}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getLossRebates(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize, @PathVariable("id") Long id, @PathVariable("status") int status);
+    @RequestMapping(value = "/lossrabate/condition", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> getLossRebates(@RequestBody PageConditionEntity pageConditionEntity);
 
 
     /**
