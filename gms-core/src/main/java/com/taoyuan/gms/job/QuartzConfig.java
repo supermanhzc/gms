@@ -20,7 +20,7 @@ public class QuartzConfig {
     public Trigger dailyLossRabateJobTrigger() {
         return TriggerBuilder.newTrigger().forJob(dailyLossRabateJobTetail())
                 .withIdentity("dailyLossRabateJobTetail")
-                .withSchedule(CronScheduleBuilder.cronSchedule("0/5 * * * * ?"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("* * 0 * * ?"))
                 .build();
     }
 }

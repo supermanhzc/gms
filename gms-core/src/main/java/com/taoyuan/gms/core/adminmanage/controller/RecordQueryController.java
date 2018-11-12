@@ -4,8 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.gms.api.admin.RecordsQueryApi;
+import com.taoyuan.gms.core.adminmanage.service.IChartsRewardsService;
+import com.taoyuan.gms.core.adminmanage.service.ILossRabateService;
 import com.taoyuan.gms.core.adminmanage.service.ISubstituteService;
 import com.taoyuan.gms.core.adminmanage.service.IVerificationCodeService;
+import com.taoyuan.gms.model.entity.admin.ChartsRewardsEntity;
+import com.taoyuan.gms.model.entity.admin.LossRabateEntity;
 import com.taoyuan.gms.model.entity.admin.SubstituteEntity;
 import com.taoyuan.gms.model.entity.admin.VerificationCodeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,12 @@ public class RecordQueryController implements RecordsQueryApi {
     @Autowired
     private ISubstituteService substituteService;
 
+    @Autowired
+    private IChartsRewardsService chartsRewardsService;
+
+    @Autowired
+    private ILossRabateService lossRabateService;
+
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
         if (null == pageIndex) {
@@ -46,7 +56,7 @@ public class RecordQueryController implements RecordsQueryApi {
     @Override
     public IPage<Map<String, Object>> getSubstitutes(Integer pageIndex, Integer pageSize) {
         List<SubstituteEntity> list = new ArrayList<SubstituteEntity>();
-        for(int i =0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             SubstituteEntity entity = new SubstituteEntity();
             entity.setMemberId(300001l);
             entity.setMemberNickName("会员1");
@@ -81,8 +91,19 @@ public class RecordQueryController implements RecordsQueryApi {
     }
 
     @Override
-    public IPage<Map<String, Object>> getLossRebates() {
-        return null;
+    public IPage<Map<String, Object>> getLossRebates(Integer pageIndex, Integer pageSize) {
+        List<LossRabateEntity> list = new ArrayList<LossRabateEntity>();
+        for(int i =0;i<10;i++){
+            LossRabateEntity entity = new LossRabateEntity();
+            entity.setMemberId(300001l);
+            entity.setMemberNickName("会员1");
+            entity.setLoss(50000d);
+            entity.setRabate(10000d);
+            entity.setTime(new Date());
+            list.add(entity);
+            lossRabateService.save(entity);
+        }
+        return lossRabateService.pageMaps(new Page<LossRabateEntity>(pageIndex, pageSize), null);
     }
 
     @Override
@@ -91,8 +112,20 @@ public class RecordQueryController implements RecordsQueryApi {
     }
 
     @Override
-    public IPage<Map<String, Object>> getChartsRewards() {
-        return null;
+    public IPage<Map<String, Object>> getChartsRewards(Integer pageIndex, Integer pageSize) {
+        List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
+        for (int i = 0; i < 10; i++) {
+            ChartsRewardsEntity entity = new ChartsRewardsEntity();
+            entity.setMemberId(300001l);
+            entity.setMemberNickName("会员1");
+            entity.setRewards(5555d);
+            entity.setStatus("未领取");
+            entity.setTime(new Date());
+            list.add(entity);
+            chartsRewardsService.save(entity);
+        }
+
+        return chartsRewardsService.pageMaps(new Page<ChartsRewardsEntity>(pageIndex, pageSize), null);
     }
 
     @Override
@@ -101,7 +134,7 @@ public class RecordQueryController implements RecordsQueryApi {
     }
 
     @Override
-    public IPage<Map<String, Object>> getChipinWages() {
+    public IPage<Map<String, Object>> getChipinWages(Integer pageIndex, Integer pageSize) {
         return null;
     }
 
