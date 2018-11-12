@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.gms.api.admin.RecordsQueryApi;
 import com.taoyuan.gms.core.adminmanage.service.IChartsRewardsService;
+import com.taoyuan.gms.core.adminmanage.service.ILossRabateService;
 import com.taoyuan.gms.core.adminmanage.service.ISubstituteService;
 import com.taoyuan.gms.core.adminmanage.service.IVerificationCodeService;
 import com.taoyuan.gms.model.entity.admin.ChartsRewardsEntity;
+import com.taoyuan.gms.model.entity.admin.LossRabateEntity;
 import com.taoyuan.gms.model.entity.admin.SubstituteEntity;
 import com.taoyuan.gms.model.entity.admin.VerificationCodeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class RecordQueryController implements RecordsQueryApi {
 
     @Autowired
     private IChartsRewardsService chartsRewardsService;
+
+    @Autowired
+    private ILossRabateService lossRabateService;
 
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
@@ -86,8 +91,19 @@ public class RecordQueryController implements RecordsQueryApi {
     }
 
     @Override
-    public IPage<Map<String, Object>> getLossRebates() {
-        return null;
+    public IPage<Map<String, Object>> getLossRebates(Integer pageIndex, Integer pageSize) {
+        List<LossRabateEntity> list = new ArrayList<LossRabateEntity>();
+        for(int i =0;i<10;i++){
+            LossRabateEntity entity = new LossRabateEntity();
+            entity.setMemberId(300001l);
+            entity.setMemberNickName("会员1");
+            entity.setLoss(50000d);
+            entity.setRabate(10000d);
+            entity.setTime(new Date());
+            list.add(entity);
+            lossRabateService.save(entity);
+        }
+        return lossRabateService.pageMaps(new Page<LossRabateEntity>(pageIndex, pageSize), null);
     }
 
     @Override

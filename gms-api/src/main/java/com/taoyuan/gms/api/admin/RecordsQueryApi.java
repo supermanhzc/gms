@@ -67,8 +67,8 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/lossrabate/", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getLossRebates();
+    @RequestMapping(value = "/lossrabate/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
+    public IPage<Map<String, Object>> getLossRebates(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询亏损返利
