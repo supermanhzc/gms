@@ -60,7 +60,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/saledetail/{name}&{start}&{end}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getSaleDetail(@PathVariable("name") String name, @PathVariable("start") String start, @PathVariable("end")String end);
+    public IPage<Map<String, Object>> getSaleDetail(@PathVariable("name") String name, @PathVariable("start") String start, @PathVariable("end") String end);
 
     /**
      * 查询所有亏损返利
@@ -72,13 +72,14 @@ public interface RecordsQueryApi {
 
     /**
      * 查询亏损返利
-     *
+     * @param pageIndex
+     * @param pageSize
      * @param id
-     * @param type
+     * @param status
      * @return
      */
-    @RequestMapping(value = "/lossrabate/{id}&{type}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getLossRebates(@PathVariable("id") String id, @PathVariable("type") String type);
+    @RequestMapping(value = "/lossrabate/condition/index={pageIndex}&size={pageSize}&id={id}&status={status}", method = RequestMethod.GET)
+    public IPage<Map<String, Object>> getLossRebates(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize, @PathVariable("id") Long id, @PathVariable("status") int status);
 
 
     /**
@@ -98,7 +99,6 @@ public interface RecordsQueryApi {
      */
     @RequestMapping(value = "/chartsreward/{id}&{type}", method = RequestMethod.GET)
     public IPage<Map<String, Object>> getChartsRewards(@PathVariable("id") String id, @PathVariable("type") String type);
-
 
 
     /**
@@ -157,6 +157,7 @@ public interface RecordsQueryApi {
 
     /**
      * 查询每日统计
+     *
      * @param date
      * @return
      */
@@ -171,6 +172,7 @@ public interface RecordsQueryApi {
 
     /**
      * 查询会员登录
+     *
      * @param id
      * @param type
      * @return

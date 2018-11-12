@@ -24,4 +24,6 @@ public class LossRabateEntity {
     private Double rabate;
 
     private Date time;
+
+    private int status;
 }
