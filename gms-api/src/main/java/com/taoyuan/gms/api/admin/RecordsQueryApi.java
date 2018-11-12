@@ -166,8 +166,8 @@ public interface RecordsQueryApi {
     /**
      * 查询会员登录
      */
-    @RequestMapping(value = "/memberlogin", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getMemberLogins();
+    @RequestMapping(value = "/memberlogin/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
+    public IPage<Map<String, Object>> getMemberLogins(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询会员登录
