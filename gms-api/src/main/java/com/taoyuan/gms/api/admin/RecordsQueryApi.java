@@ -1,6 +1,7 @@
 package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
 import com.taoyuan.gms.model.entity.admin.PageConditionEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -176,12 +177,10 @@ public interface RecordsQueryApi {
 
     /**
      * 查询每日统计
-     *
-     * @param date
      * @return
      */
-    @RequestMapping(value = "/dailystatistic/{date}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getDailyStatistic(@PathVariable("date") String date);
+    @RequestMapping(value = "/dailystatistic", method = RequestMethod.GET)
+    public DailyStatisticDto getDailyStatistic();
 
     /**
      * 管理员登录

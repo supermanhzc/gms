@@ -10,7 +10,7 @@ public class DailyStatisticDto {
     private String date;
 
     //注册会员：当天的注册数量
-    private String registerMemberNum;
+    private int registerMemberNum;
 
     //会员余额：会员总余额
     private String membersBalance;
