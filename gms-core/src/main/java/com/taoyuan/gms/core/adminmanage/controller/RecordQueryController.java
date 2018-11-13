@@ -20,7 +20,7 @@ import java.util.*;
 
 @Slf4j
 @RestController
-public class RecordQueryController implements RecordsQueryApi {
+public class RecordQueryController extends BaseController implements RecordsQueryApi {
 
     @Autowired
     private IVerificationCodeService verificationCodeService;
@@ -45,20 +45,18 @@ public class RecordQueryController implements RecordsQueryApi {
 
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
-        validatePageParams(pageIndex, pageSize);
-
+        Page page = getPage(pageIndex, pageSize);
 //        VerificationCodeEntity entity= new VerificationCodeEntity();
 //        entity.setInfName("短信");
 //        entity.setType("注册");
 //        entity.setVCode("888888");
 //        verificationCodeService.save(entity);
-        return verificationCodeService.pageMaps(new Page<VerificationCodeEntity>(pageIndex, pageSize), null);
+        return verificationCodeService.pageMaps(page, null);
     }
 
     @Override
     public IPage<Map<String, Object>> getSubstitutes(Integer pageIndex, Integer pageSize) {
-        validatePageParams(pageIndex, pageSize);
-        List<SubstituteEntity> list = new ArrayList<SubstituteEntity>();
+        //TODO 测试数据
         for (int i = 0; i < 10; i++) {
             SubstituteEntity entity = new SubstituteEntity();
             entity.setMemberId(300001l);
@@ -67,15 +65,16 @@ public class RecordQueryController implements RecordsQueryApi {
             entity.setProxyName("代理1");
             entity.setMoney(100d);
             entity.setStatus("提交");
-            list.add(entity);
             substituteService.save(entity);
         }
-        return substituteService.pageMaps(new Page<SubstituteEntity>(pageIndex, pageSize), null);
+
+        Page page = getPage(pageIndex, pageSize);
+        return substituteService.pageMaps(page, null);
     }
 
     @Override
     public IPage<Map<String, Object>> getProxyOperates(Integer pageIndex, Integer pageSize) {
-        validatePageParams(pageIndex, pageSize);
+        //TODO 测试数据
         for (int i = 0; i < 10; i++) {
             ProxyOperEntity entity = new ProxyOperEntity();
             entity.setProxyId(3l);
@@ -85,41 +84,76 @@ public class RecordQueryController implements RecordsQueryApi {
             proxyOperService.save(entity);
         }
 
+        Page page = getPage(pageIndex, pageSize);
         return proxyOperService.pageMaps(new Page<ProxyOperEntity>(pageIndex, pageSize), null);
     }
 
     @Override
-    public IPage<Map<String, Object>> getSaleStatistics(Integer pageIndex, Integer pageSize) {
-        return null;
+    public List<SaleDetailEntity> getSaleStatistics(Map<String,Object> map) {
+        Page page = getPage(map);
+        QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
+        if (map.containsKey("begin")) {
+            String begin = String.valueOf(map.get("begin"));
+            if (map.containsKey("end")) {
+                String end = String.valueOf(map.get("end"));
+                wrapper.between("time", begin, end);
+            } else {
+                throw new ValidateException(10000010, "请选择结束时间。", null);
+            }
+        } else {
+            if (map.containsKey("end")) {
+                throw new ValidateException(10000010, "请选择开始时间。", null);
+            }
+        }
+        List<SaleDetailEntity> entityList = saleDetailService.list(wrapper);
+        Map<String,SaleDetailEntity> rsltMap = new HashMap<String,SaleDetailEntity>();
+        for(SaleDetailEntity entity:entityList){
+            if(rsltMap.containsKey(entity.getProxyName())){
+                SaleDetailEntity saleDetailEntity = rsltMap.get(entity.getProxyName());
+                saleDetailEntity.setCallbackMoney(saleDetailEntity.getCallbackMoney()+entity.getCallbackMoney());
+                saleDetailEntity.setSubstituteMoney(saleDetailEntity.getSubstituteMoney()+entity.getSubstituteMoney());
+                saleDetailEntity.setIncome(saleDetailEntity.getIncome()+ entity.getIncome());
+                continue;
+            }
+            rsltMap.put(entity.getProxyName(),entity);
+        }
+
+        List<SaleDetailEntity> rsltList = new ArrayList<SaleDetailEntity>(rsltMap.values());
+        return rsltList;
     }
 
     @Override
     public IPage<Map<String, Object>> getSaleDetails(Map<String, Object> map) {
         //TODO 测试数据
-        for(int i=0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             SaleDetailEntity entity = new SaleDetailEntity();
-            entity.setId(1000000l+i);
-            entity.setProxyName("代理名称"+i);
+            entity.setId(1000000l + i);
+            entity.setProxyName("代理名称" + i);
             entity.setCallbackMoney(1000);
             entity.setIncome(100000);
             entity.setSubstituteMoney(2000);
-            entity.setTime(new Date());
-            saleDetailService.saveOrUpdate(entity);
+            entity.setTime(new Date("2018-11-12"));
+            saleDetailService.save(entity);
         }
 
-        Page page = TyPageUtil.getPage(map);
+        Page page = getPage(map);
 
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
-        if(map.containsKey("begin")){
+        if(map.containsKey("proxyName")){
+            String name = map.get("proxyName").toString();
+            wrapper.eq("proxyName",name);
+        }
+
+        if (map.containsKey("begin")) {
             String begin = String.valueOf(map.get("begin"));
-            if(map.containsKey("end")){
+            if (map.containsKey("end")) {
                 String end = String.valueOf(map.get("end"));
-                wrapper.between("time",begin,end);
-            }else{
+                wrapper.between("time", begin, end);
+            } else {
                 throw new ValidateException(10000010, "请选择结束时间。", null);
             }
-        }else{
-            if(map.containsKey("end")) {
+        } else {
+            if (map.containsKey("end")) {
                 throw new ValidateException(10000010, "请选择开始时间。", null);
             }
         }
@@ -128,13 +162,8 @@ public class RecordQueryController implements RecordsQueryApi {
     }
 
     @Override
-    public IPage<Map<String, Object>> getSaleDetail(String name, String start, String end) {
-        return null;
-    }
-
-    @Override
     public IPage<Map<String, Object>> getLossRebates(Integer pageIndex, Integer pageSize) {
-        validatePageParams(pageIndex, pageSize);
+        super.validatePageParams(pageIndex, pageSize);
         List<LossRabateEntity> list = new ArrayList<LossRabateEntity>();
         for (int i = 0; i < 10; i++) {
             LossRabateEntity entity = new LossRabateEntity();
@@ -151,7 +180,7 @@ public class RecordQueryController implements RecordsQueryApi {
     }
 
     @Override
-    public IPage<Map<String, Object>> getLossRebates(@RequestBody Map<String,Object> map) {
+    public IPage<Map<String, Object>> getLossRebates(@RequestBody Map<String, Object> map) {
         //TODO 测试代码
         for (int i = 0; i < 10; i++) {
             LossRabateEntity entity = new LossRabateEntity();
@@ -166,14 +195,14 @@ public class RecordQueryController implements RecordsQueryApi {
 
         Page page = TyPageUtil.getPage(map);
         QueryWrapper<LossRabateEntity> wrapper = new QueryWrapper<LossRabateEntity>();
-        if(map.containsKey("id")){
+        if (map.containsKey("id")) {
             wrapper.lambda().eq(LossRabateEntity::getMemberId, Long.valueOf(map.get("id").toString()));
             if (map.containsKey("status")) {
-                wrapper.lambda().eq(LossRabateEntity::getStatus,Integer.valueOf(map.get("status").toString()));
+                wrapper.lambda().eq(LossRabateEntity::getStatus, Integer.valueOf(map.get("status").toString()));
             }
-        }else{
+        } else {
             if (map.containsKey("status")) {
-                wrapper.lambda().eq(LossRabateEntity::getStatus,Integer.valueOf(map.get("status").toString()));
+                wrapper.lambda().eq(LossRabateEntity::getStatus, Integer.valueOf(map.get("status").toString()));
             }
         }
 
@@ -377,13 +406,13 @@ public class RecordQueryController implements RecordsQueryApi {
         return memberLoginService.pageMaps(page, wrapper);
     }
 
-    private void validatePageParams(Integer pageIndex, Integer pageSize) {
-        if (null == pageIndex) {
-            throw new ValidateException(10000001, "分页参数不能为空。", "pageIndex");
-        } else if (null == pageSize) {
-            throw new ValidateException(10000002, "分页参数不能为空。", "pageSize");
-        }
-    }
+//    private void validatePageParams(Integer pageIndex, Integer pageSize) {
+//        if (null == pageIndex) {
+//            throw new ValidateException(10000001, "分页参数不能为空。", "pageIndex");
+//        } else if (null == pageSize) {
+//            throw new ValidateException(10000002, "分页参数不能为空。", "pageSize");
+//        }
+//    }
 
     public static void main(String[] args) {
         System.out.println(new Date().toString());

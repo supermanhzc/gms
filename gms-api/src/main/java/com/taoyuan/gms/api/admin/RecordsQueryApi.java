@@ -2,6 +2,7 @@ package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
+import com.taoyuan.gms.model.entity.admin.SaleDetailEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Api(value = "记录查询")
@@ -43,8 +45,8 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/salestatistic/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getSaleStatistics(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    @RequestMapping(value = "/salestatistic", method = RequestMethod.POST)
+    public List<SaleDetailEntity> getSaleStatistics(@RequestBody Map<String, Object> map);
 
     /**
      * 查询所有销售明细
@@ -53,17 +55,6 @@ public interface RecordsQueryApi {
      */
     @RequestMapping(value = "/saledetail", method = RequestMethod.POST)
     public IPage<Map<String, Object>> getSaleDetails(@RequestBody Map<String,Object> map);
-
-    /**
-     * 查询所有销售明细
-     *
-     * @param name  代理名称
-     * @param start 起始日期
-     * @param end   结束日期
-     * @return
-     */
-    @RequestMapping(value = "/saledetail/{name}&{start}&{end}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getSaleDetail(@PathVariable("name") String name, @PathVariable("start") String start, @PathVariable("end") String end);
 
     /**
      * 查询所有亏损返利
