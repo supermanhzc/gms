@@ -117,36 +117,16 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/chipinwage/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getChipinWages(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
-
-    /**
-     * 查询投注工资
-     *
-     * @param id
-     * @param type
-     * @return
-     */
-    @RequestMapping(value = "/chipinwage/{id}&{type}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getChipinWages(@PathVariable("id") String id, @PathVariable("type") String type);
+    @RequestMapping(value = "/chipinwage", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> getChipinWages(@RequestBody Map<String,Object> map);
 
     /**
      * 查询下线提成
      *
      * @return
      */
-    @RequestMapping(value = "/juniorcommission/", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getJuniorCommissions();
-
-    /**
-     * 查询下线提成
-     *
-     * @param id
-     * @param type
-     * @return
-     */
-    @RequestMapping(value = "/juniorcommission/{id}&{type}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getJuniorCommissions(@PathVariable("id") String id, @PathVariable("type") String type);
+    @RequestMapping(value = "/juniorcommission", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> getJuniorCommissions(@RequestBody Map<String,Object> map);
 
     /**
      * 查询首冲返利

@@ -43,6 +43,12 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Autowired
     private ISaleDetailService saleDetailService;
 
+    @Autowired
+    private IChipinWageService chipinWageService;
+
+    @Autowired
+    private IJuniorCommissionService juniorCommissionService;
+
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
@@ -132,7 +138,7 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             entity.setCallbackMoney(1000);
             entity.setIncome(100000);
             entity.setSubstituteMoney(2000);
-            entity.setTime(new Date("2018-11-12"));
+            entity.setTime(new Date());
             saleDetailService.save(entity);
         }
 
@@ -249,9 +255,10 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             chartsRewardsService.save(entity);
         }
 
+        Page page = getPage(pageIndex,pageSize);
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 2);
-        return chartsRewardsService.pageMaps(new Page<ChartsRewardsEntity>(pageIndex, pageSize), wrapper);
+        return chartsRewardsService.pageMaps(page, wrapper);
     }
 
     @Override
@@ -261,23 +268,65 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
 
     @Override
-    public IPage<Map<String, Object>> getChipinWages(Integer pageIndex, Integer pageSize) {
-        return null;
+    public IPage<Map<String, Object>> getChipinWages(Map<String,Object> map) {
+        //TODO 测试数据
+        for(int i =0;i<10;i++){
+            ChipinWageEntity entity = new ChipinWageEntity();
+            entity.setMemberId(300001l);
+            entity.setMemberNickName("会员1");
+            entity.setWage(1000);
+            entity.setEffectiveFlow(10000);
+            entity.setDate(new Date());
+            entity.setStatus(1);
+            chipinWageService.save(entity);
+        }
+
+        Page page = getPage(map);
+        QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper();
+        long id = 0l;
+        if (map.containsKey("id")) {
+            id = Long.valueOf(map.get("id").toString());
+            wrapper.lambda().eq(ChipinWageEntity::getMemberId, id);
+        }
+
+        int status = 0;
+        if (map.containsKey("status")) {
+            status = Integer.valueOf(map.get("status").toString());
+            wrapper.lambda().eq(ChipinWageEntity::getStatus, status);
+        }
+
+        return chipinWageService.pageMaps(page, wrapper);
     }
 
     @Override
-    public IPage<Map<String, Object>> getChipinWages(String id, String type) {
-        return null;
-    }
+    public IPage<Map<String, Object>> getJuniorCommissions(Map<String,Object> map) {
+        //TODO 测试数据
+        for(int i =0;i<10;i++){
+            JuniorCommissionEntity entity = new JuniorCommissionEntity();
+            entity.setMemberId(300001l);
+            entity.setMemberNickName("会员1");
+            entity.setWage(1000);
+            entity.setYtdJuniorCommissionFlow(10000);
+            entity.setDate(new Date());
+            entity.setStatus(1);
+            juniorCommissionService.save(entity);
+        }
 
-    @Override
-    public IPage<Map<String, Object>> getJuniorCommissions() {
-        return null;
-    }
+        Page page = getPage(map);
+        QueryWrapper<JuniorCommissionEntity> wrapper = new QueryWrapper();
+        long id = 0l;
+        if (map.containsKey("id")) {
+            id = Long.valueOf(map.get("id").toString());
+            wrapper.lambda().eq(JuniorCommissionEntity::getMemberId, id);
+        }
 
-    @Override
-    public IPage<Map<String, Object>> getJuniorCommissions(String id, String type) {
-        return null;
+        int status = 0;
+        if (map.containsKey("status")) {
+            status = Integer.valueOf(map.get("status").toString());
+            wrapper.lambda().eq(JuniorCommissionEntity::getStatus, status);
+        }
+
+        return juniorCommissionService.pageMaps(page, wrapper);
     }
 
     @Override
