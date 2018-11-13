@@ -2,13 +2,13 @@ package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
-import com.taoyuan.gms.model.entity.admin.PageConditionEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Api(value = "记录查询")
@@ -51,8 +51,8 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/saledetail/", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getSaleDetails(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    @RequestMapping(value = "/saledetail", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> getSaleDetails(@RequestBody Map<String,Object> map);
 
     /**
      * 查询所有销售明细
@@ -75,11 +75,11 @@ public interface RecordsQueryApi {
 
     /**
      * 查询亏损返利
-     * @param pageConditionEntity
+     * @param map
      * @return
      */
-    @RequestMapping(value = "/lossrabate/condition", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getLossRebates(@RequestBody PageConditionEntity pageConditionEntity);
+    @RequestMapping(value = "/lossrabate", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> getLossRebates(@RequestBody Map<String,Object> map);
 
 
     /**
@@ -185,23 +185,23 @@ public interface RecordsQueryApi {
     /**
      * 管理员登录
      */
-    @RequestMapping(value = "/adminlogin/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getAdminLogins(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    @RequestMapping(value = "/adminlogin", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> getAdminLogins(@RequestBody HashMap<String,Object> map);
 
+//    /**
+//     * 查询会员登录
+//     */
+//    @RequestMapping(value = "/memberlogin/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
+//    public IPage<Map<String, Object>> getMemberLogins(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+//
+//    /**@RequestBody HashMap<String,ActivitiBpm>
+//     * 查询会员登录
+//     * @param contiditon
+//     * @return
+//     */
+//    @RequestMapping(value = "/memberlogin", method = RequestMethod.POST)
+//    public IPage<Map<String, Object>> getMemberLogins(@RequestBody PageConditionEntity entity);
 
-    /**
-     * 查询会员登录
-     */
-    @RequestMapping(value = "/memberlogin/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getMemberLogins(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
-
-    /**
-     * 查询会员登录
-     *
-     * @param id
-     * @param type
-     * @return
-     */
-    @RequestMapping(value = "/memberlogin/{id}&{type}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getMemberLogins(@PathVariable("id") String id, @PathVariable("type") String type);
+    @RequestMapping(value = "/memberlogin", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> getMemberLogins(@RequestBody HashMap<String,Object> map);
 }
