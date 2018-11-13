@@ -14,9 +14,12 @@ import java.sql.Timestamp;
 @Data
 @ToString
 @EqualsAndHashCode
-@TableName(value = "admin_memberlogin")
-public class MemberLoginEntity {
+@TableName(value = "admin_userlogin")
+public class UserLoginEntity {
     private Long id;
+
+    //类型 1会员，2代理，3管理员
+    private int type;
 
     //ID
     private Long memberId;

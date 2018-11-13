@@ -184,6 +184,13 @@ public interface RecordsQueryApi {
     public IPage<Map<String, Object>> getDailyStatistic(@PathVariable("date") String date);
 
     /**
+     * 管理员登录
+     */
+    @RequestMapping(value = "/adminlogin/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
+    public IPage<Map<String, Object>> getAdminLogins(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+
+
+    /**
      * 查询会员登录
      */
     @RequestMapping(value = "/memberlogin/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)

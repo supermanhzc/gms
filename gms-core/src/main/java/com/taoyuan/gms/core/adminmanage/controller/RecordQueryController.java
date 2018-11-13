@@ -9,7 +9,6 @@ import com.taoyuan.gms.core.adminmanage.service.*;
 import com.taoyuan.gms.model.entity.admin.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -229,19 +228,48 @@ public class RecordQueryController implements RecordsQueryApi {
     }
 
     @Override
-    public IPage<Map<String, Object>> getMemberLogins(Integer pageIndex, Integer pageSize) {
+    public IPage<Map<String, Object>> getAdminLogins(Integer pageIndex, Integer pageSize) {
+        log.info("getAdminLogins pageIndex={}, pageSize={}",pageIndex,pageSize);
         validatePageParams(pageIndex, pageSize);
         for (int i = 0; i < 10; i++) {
-            MemberLoginEntity entity = new MemberLoginEntity();
+            UserLoginEntity entity = new UserLoginEntity();
+            entity.setMemberId(300002l);
+            entity.setMemberNickName("admin");
+            entity.setIp("181.1.1.200");
+            entity.setAddr("江苏省南京市");
+            entity.setStatus(1);
+            entity.setType(3);
+            memberLoginService.save(entity);
+        }
+        Page page = new Page<UserLoginEntity>(pageIndex, pageSize);
+        if(-1==pageIndex){
+            page = null;
+        }
+
+        QueryWrapper<UserLoginEntity> wrapper = new QueryWrapper<UserLoginEntity>();
+        wrapper.eq("type",3);
+        return memberLoginService.pageMaps(page, wrapper);
+
+    }
+
+    @Override
+    public IPage<Map<String, Object>> getMemberLogins(Integer pageIndex, Integer pageSize) {
+        log.info("getMemberLogins pageIndex={}, pageSize={}",pageIndex,pageSize);
+        validatePageParams(pageIndex, pageSize);
+        for (int i = 0; i < 10; i++) {
+            UserLoginEntity entity = new UserLoginEntity();
             entity.setMemberId(300002l);
             entity.setMemberNickName("会员1");
             entity.setIp("181.1.1.200");
             entity.setAddr("江苏省南京市");
             entity.setStatus(1);
+            entity.setType(1);
             memberLoginService.save(entity);
         }
 
-        return memberLoginService.pageMaps(new Page<MemberLoginEntity>(pageIndex, pageSize), null);
+        QueryWrapper<UserLoginEntity> wrapper = new QueryWrapper<UserLoginEntity>();
+        wrapper.eq("type",1);
+        return memberLoginService.pageMaps(new Page<UserLoginEntity>(pageIndex, pageSize), wrapper);
     }
 
     @Override
