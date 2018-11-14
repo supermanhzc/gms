@@ -27,7 +27,7 @@ public class GoldenRechargeEntity {
     //时间
     private Date time;
 
-    //状态
+    //状态1:可撤销，2：不可撤销
     private int status;
 
     private int withDraw;
