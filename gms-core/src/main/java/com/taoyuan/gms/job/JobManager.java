@@ -11,30 +11,33 @@ import org.quartz.impl.StdSchedulerFactory;
  * 任务管理
  */
 public class JobManager {
+
     private static SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
+
     private static String JOB_GROUP_NAME = "GMS_JOBGROUP";
+
     private static String TRIGGER_GROUP_NAME = "GMS_TRIGGERGROUP";
 
     /**
      * 添加一个定时任务，使用默认的任务组名，触发器名，触发器组名
      *
      * @param jobName
-     * @param cls
+     * @param clazz
      * @param time
-     * @param scheduleJob
+     * @param jobData
      */
     @SuppressWarnings("unchecked")
-    public static void addJob(String jobName, Class cls, String time, Object scheduleJob) {
+    public static void addJob(String jobName, Class clazz, String time, Object jobData) {
         try {
             Scheduler sched = gSchedulerFactory.getScheduler();
-            JobDetail job = JobBuilder.newJob(cls).withIdentity(jobName, JOB_GROUP_NAME).build();
+            JobDetail job = JobBuilder.newJob(clazz).withIdentity(jobName, JOB_GROUP_NAME).build();
             // 添加具体任务方法
-            job.getJobDataMap().put("scheduleJob", scheduleJob);
+            job.getJobDataMap().put(jobName, jobData);
             // 表达式调度构建器
             CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(time);
             // 按新的cronExpression表达式构建一个新的trigger
-            Trigger trigger =TriggerBuilder.newTrigger().withIdentity(jobName, TRIGGER_GROUP_NAME)
-                            .withSchedule(scheduleBuilder).build();
+            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(jobName, TRIGGER_GROUP_NAME)
+                    .withSchedule(scheduleBuilder).build();
 
             //交给scheduler去调度
             sched.scheduleJob(job, trigger);
@@ -92,8 +95,7 @@ public class JobManager {
      */
     @SuppressWarnings("unchecked")
     public static void modifyJobTime(String jobName, String time) {
-        TriggerKey triggerKey = TriggerKey.triggerKey(
-                jobName, TRIGGER_GROUP_NAME);
+        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, TRIGGER_GROUP_NAME);
 
         try {
             Scheduler sched = gSchedulerFactory.getScheduler();
@@ -124,8 +126,7 @@ public class JobManager {
      */
     public static void modifyJobTime(String triggerName,
                                      String triggerGroupName, String time) {
-        TriggerKey triggerKey = TriggerKey.triggerKey(
-                triggerName, triggerGroupName);
+        TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
         try {
             Scheduler sched = gSchedulerFactory.getScheduler();
             CronTrigger trigger = (CronTrigger) sched.getTrigger(triggerKey);

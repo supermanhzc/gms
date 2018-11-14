@@ -14,12 +14,12 @@ import java.util.Map;
 @RequestMapping("/proxy/goldenrecharge")
 public interface GoldenRechargeApi {
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public TyResponse createGoldenRecharge(@RequestBody GoldenRechargeEntity entity);
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/get5", method = RequestMethod.GET)
     public TyResponse get5GoldenRecharge(@RequestBody Map<String,Object> map);
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
     public TyResponse withdraw(@RequestBody GoldenRechargeEntity entity);
 }
