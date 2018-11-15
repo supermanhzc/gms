@@ -8,6 +8,7 @@ import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
 import com.taoyuan.gms.job.JobManager;
 import com.taoyuan.gms.job.proxymanage.GoldenRechargeJob;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+@Slf4j
 @RestController
 public class GoldenRechargeController implements GoldenRechargeApi {
 
@@ -27,9 +29,10 @@ public class GoldenRechargeController implements GoldenRechargeApi {
     public TyResponse createGoldenRecharge(GoldenRechargeEntity entity) {
         entity.setTime(new Date());
         entity.setStatus(1);
+        log.info("创建时间：{}",new Date());
         goldenRechargeService.save(entity);
-
-        JobManager.addJob("GoldRecharge", GoldenRechargeJob.class, TyDateUtils.getCronAfterSeconds(5), entity);
+        log.info("GoldenRechargeEntity id：{}",entity.getId());
+        JobManager.addJob("GoldRecharge", GoldenRechargeJob.class, TyDateUtils.getCronAfterMinutes(5), entity.getId());
         return new TySuccessResponse(entity);
     }
 
