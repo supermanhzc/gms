@@ -11,9 +11,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 /**
  * Unit test for simple App.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@WebAppConfiguration
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@WebAppConfiguration
 public class AppTest extends TestCase
 {
     /**
