@@ -3,6 +3,8 @@ package com.taoyuan.gms.core.adminmanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.aaa.service.TyUserLoginService;
+import com.taoyuan.framework.common.entity.TyUserLoginEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.util.TyBigNumUtil;
 import com.taoyuan.framework.common.util.TyPageUtil;
@@ -38,7 +40,7 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     private IProxyOperService proxyOperService;
 
     @Autowired
-    private IMemberLoginService memberLoginService;
+    private TyUserLoginService userLoginService;
 
     @Autowired
     private ISaleDetailService saleDetailService;
@@ -364,22 +366,22 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     public IPage<Map<String, Object>> getAdminLogins(HashMap<String, Object> map) {
         //TODO 插入测试数据
         for (int i = 0; i < 10; i++) {
-            UserLoginEntity entity = new UserLoginEntity();
+            TyUserLoginEntity entity = new TyUserLoginEntity();
             entity.setMemberId(300002l);
             entity.setMemberNickName("admin");
             entity.setIp("181.1.1.200");
             entity.setAddr("江苏省南京市");
             entity.setStatus(1);
             entity.setType(3);
-            memberLoginService.save(entity);
+            userLoginService.save(entity);
         }
 
         log.info("getAdminLogins map={}", map);
         Page page = TyPageUtil.getPage(map);
 
-        QueryWrapper<UserLoginEntity> wrapper = new QueryWrapper<UserLoginEntity>();
+        QueryWrapper<TyUserLoginEntity> wrapper = new QueryWrapper<TyUserLoginEntity>();
         wrapper.eq("type", 3);
-        return memberLoginService.pageMaps(page, wrapper);
+        return userLoginService.pageMaps(page, wrapper);
 
     }
 
@@ -420,39 +422,39 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     public IPage<Map<String, Object>> getMemberLogins(HashMap<String, Object> map) {
         //TODO 插入测试数据
         for (int i = 0; i < 10; i++) {
-            UserLoginEntity entity = new UserLoginEntity();
+            TyUserLoginEntity entity = new TyUserLoginEntity();
             entity.setMemberId(300002l);
             entity.setMemberNickName("会员1");
             entity.setIp("181.1.1.200");
             entity.setAddr("江苏省南京市");
             entity.setStatus(1);
             entity.setType(1);
-            memberLoginService.save(entity);
+            userLoginService.save(entity);
         }
 
         log.info("map value is {}", map);
         Page page = TyPageUtil.getPage(map);
 
-        QueryWrapper<UserLoginEntity> wrapper = new QueryWrapper();
+        QueryWrapper<TyUserLoginEntity> wrapper = new QueryWrapper();
         long id = 0l;
         if (map.containsKey("id")) {
             id = Long.valueOf(map.get("id").toString());
-            wrapper.lambda().eq(UserLoginEntity::getMemberId, id);
+            wrapper.lambda().eq(TyUserLoginEntity::getMemberId, id);
         }
 
         String name = null;
         if (map.containsKey("name")) {
             name = (String) map.get("name");
-            wrapper.lambda().eq(UserLoginEntity::getMemberNickName, name);
+            wrapper.lambda().eq(TyUserLoginEntity::getMemberNickName, name);
         }
 
         int status = 0;
         if (map.containsKey("status")) {
             status = Integer.valueOf(map.get("status").toString());
-            wrapper.lambda().eq(UserLoginEntity::getStatus, status);
+            wrapper.lambda().eq(TyUserLoginEntity::getStatus, status);
         }
 
-        return memberLoginService.pageMaps(page, wrapper);
+        return userLoginService.pageMaps(page, wrapper);
     }
 
 //    private void validatePageParams(Integer pageIndex, Integer pageSize) {
