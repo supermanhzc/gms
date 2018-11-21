@@ -21,6 +21,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Unit test for simple App.
@@ -37,7 +38,8 @@ public class AppTest extends TestCase {
     @Autowired
     private ILevelSettingService levelSettingService;
 
-    public AppTest(){}
+    public AppTest() {
+    }
 
     /**
      * Create the test case
@@ -82,21 +84,37 @@ public class AppTest extends TestCase {
     }
 
     @org.junit.Test
-    public void testLevelSetting(){
+    public void testLevelSetting() {
         List<LevelSettingEntity> levelSettingEntities = new ArrayList<LevelSettingEntity>();
-        for(int i =0;i<8;i++){
-            String name = "vip" +i;
+        for (int i = 0; i < 8; i++) {
+            String name = "vip" + i;
             LevelSettingEntity entity = new LevelSettingEntity();
             entity.setId(i);
             entity.setName(name);
-            entity.setExperience(1000*(i+1));
+            entity.setExperience(1000 * (i + 1));
             entity.setDrawCondition(100);
             entity.setDrawTimes(10);
             entity.setRechargeCommission(2);
             entity.setRelieveGoldenCoin(50);
-            entity.setCashPrizeDiscount(100+i);
+            entity.setCashPrizeDiscount(100 + i);
             levelSettingEntities.add(entity);
         }
         levelSettingService.saveOrUpdateBatch(levelSettingEntities);
+    }
+
+    @org.junit.Test
+    public void test() {
+        System.out.println(getRandomNum());
+    }
+
+    //生成随机数
+    public static String getRandomNum () {
+        Random rand = new Random();//生成随机数
+        String cardNnumer = "";
+        for (int a = 0; a < 6; a++) {
+            cardNnumer += rand.nextInt(10);//生成6位数字
+        }
+
+        return cardNnumer;
     }
 }
