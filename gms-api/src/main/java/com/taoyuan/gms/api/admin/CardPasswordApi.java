@@ -2,7 +2,7 @@ package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.gms.model.entity.admin.web.CDKeyEntity;
+import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Map;
 
 @Api(value = "卡密服务")
-@RequestMapping("/cdkeymgnt")
-public interface CDKeyApi {
+@RequestMapping("/cardpwdmgnt")
+public interface CardPasswordApi {
 
     /**
      * 查询卡密信息
@@ -24,19 +24,19 @@ public interface CDKeyApi {
 
     /**
      * 创建卡密
-     * @param cdKeyEntity
+     * @param cardPasswordEntity
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public CDKeyEntity create(@RequestBody CDKeyEntity cdKeyEntity);
+    public CardPasswordEntity create(@RequestBody CardPasswordEntity cardPasswordEntity);
 
     /**
      * 修改卡密
-     * @param cdKeyEntity
+     * @param cardPasswordEntity
      * @return
      */
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public CDKeyEntity update(@RequestBody CDKeyEntity cdKeyEntity);
+    public CardPasswordEntity update(@RequestBody CardPasswordEntity cardPasswordEntity);
 
     /**
      * 删除卡密
