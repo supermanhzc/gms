@@ -9,12 +9,12 @@ import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.framework.common.util.TyRandomUtil;
-import com.taoyuan.gms.api.admin.CDKeyApi;
-import com.taoyuan.gms.core.adminmanage.service.ICDkeyService;
+import com.taoyuan.gms.api.admin.CardMgntApi;
+import com.taoyuan.gms.core.adminmanage.service.ICardMgntService;
 import com.taoyuan.gms.model.entity.admin.web.CDKeyEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,10 +22,10 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class CDKeyController extends BaseController implements CDKeyApi {
+public class CardMgntController extends BaseController implements CardMgntApi {
 
     @Autowired
-    private ICDkeyService service;
+    private ICardMgntService service;
 
     @Override
     public IPage<Map<String, Object>> retrieve(Map<String, Object> map) {

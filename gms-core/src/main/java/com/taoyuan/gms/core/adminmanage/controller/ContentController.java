@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.admin.ContentApi;
 import com.taoyuan.gms.core.adminmanage.service.IAnnouncemnetService;
@@ -35,17 +36,30 @@ public class ContentController implements ContentApi {
     @Override
     public TyResponse getAnnouncements(Integer pageIndex, Integer pageSize) {
         log.info("input is pageIndex:{} pageSize:{}", pageIndex, pageSize);
-        return new TySuccessResponse(announcemnetService.pageMaps(new Page<AnnouncementEntity>(pageIndex, pageSize), null));
+        return new TySuccessResponse(announcemnetService.pageMaps(new Page<AnnouncementEntity>(pageIndex, pageSize),
+                null));
     }
 
     @Override
     public TyResponse getAnnouncement(Long id) {
+        if (null == id) {
+            throw new ValidateException("id不能为空。");
+        }
         return new TySuccessResponse(announcemnetService.getMap(new QueryWrapper<AnnouncementEntity>().eq("id", id)));
     }
 
     @Override
     public TyResponse createAnnouncement(AnnouncementEntity announcement) {
         log.info("input:{}", announcement);
+        if (announcement.getTitle() == null) {
+            throw new ValidateException("标题不能为空。");
+        }
+
+        if (announcement.getSort() == null) {
+            throw new ValidateException("排序不能为空。");
+        }
+
+        announcement.setCreateUser(TySession.getCurrentUser().getUserId());
         announcement.setCreateTime(new Date());
         announcemnetService.save(announcement);
         return new TySuccessResponse(announcement);
@@ -53,15 +67,39 @@ public class ContentController implements ContentApi {
 
     @Override
     public TyResponse modifyAnnouncement(AnnouncementEntity announcement) {
-        if (null == announcement.getId()) {
-            throw new ValidateException(1000001, "参数不能为空。", "id");
+        Long id = announcement.getId();
+        if (null == id) {
+            throw new ValidateException("id不能为空。");
         }
-        announcemnetService.saveOrUpdate(announcement);
-        return new TySuccessResponse(announcement);
+
+        AnnouncementEntity orgData =
+                (AnnouncementEntity) announcemnetService.getObj(new QueryWrapper<AnnouncementEntity>().eq("id",
+                        id));
+        if (null == orgData) {
+            throw new ValidateException("对象不存在。");
+        }
+
+        orgData.setUpdateTime(new Date());
+        orgData.setUpdateUser(TySession.getCurrentUser().getUserId());
+        if (announcement.getContent() != null) {
+            orgData.setContent(announcement.getContent());
+        }
+        if (announcement.getSort() != null) {
+            orgData.setSort(announcement.getSort());
+        }
+
+        if (announcement.getTitle() != null) {
+            orgData.setTitle(announcement.getTitle());
+        }
+        announcemnetService.saveOrUpdate(orgData);
+        return new TySuccessResponse(orgData);
     }
 
     @Override
     public TyResponse deleteAnnouncement(Long id) {
+        if (null == id) {
+            throw new ValidateException("id不能为空。");
+        }
         log.info("delete input:{}", id);
         announcemnetService.remove(new QueryWrapper<AnnouncementEntity>().eq("id", id));
         return new TySuccessResponse(id);
@@ -74,13 +112,16 @@ public class ContentController implements ContentApi {
 
     @Override
     public TyResponse getCooperateBusiness(Long id) {
-        log.info("query value:",cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id", id)));
-        return new TySuccessResponse(cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id", id)));
+        log.info("query value:", cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id",
+                id)));
+        return new TySuccessResponse(cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq(
+                "id", id)));
     }
 
     @Override
     public TyResponse createCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
         cooperateBusiness.setCreateTime(new Date());
+        cooperateBusiness.setCreateUser(TySession.getCurrentUser().getUserId());
         cooperateBusinessService.save(cooperateBusiness);
         log.info("input:{},id:{}", cooperateBusiness, cooperateBusiness.getId());
         return new TySuccessResponse(cooperateBusiness);
@@ -88,12 +129,30 @@ public class ContentController implements ContentApi {
 
     @Override
     public TyResponse modifyCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
-        cooperateBusinessService.saveOrUpdate(cooperateBusiness);
-        return new TySuccessResponse(cooperateBusiness);
+        if (null == cooperateBusiness.getId()) {
+            throw new ValidateException("id不能为空。");
+        }
+
+        CooperateBusinessEntity entity =
+                (CooperateBusinessEntity) cooperateBusinessService.getObj(new QueryWrapper<CooperateBusinessEntity>().eq("id", cooperateBusiness.getId()));
+        if (cooperateBusiness.getName() != null) {
+            entity.setName(cooperateBusiness.getName());
+        }
+
+        if (cooperateBusiness.getQq() != null) {
+            entity.setQq(cooperateBusiness.getQq());
+        }
+        entity.setUpdateTime(new Date());
+        entity.setUpdateUser(TySession.getCurrentUser().getUserId());
+        cooperateBusinessService.saveOrUpdate(entity);
+        return new TySuccessResponse(entity);
     }
 
     @Override
     public TyResponse deleteCooperateBusiness(Long id) {
+        if (null == id) {
+            throw new ValidateException("id不能为空。");
+        }
         cooperateBusinessService.remove(new QueryWrapper<CooperateBusinessEntity>().eq("id", id));
         return new TySuccessResponse(id);
     }

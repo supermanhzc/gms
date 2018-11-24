@@ -1,11 +1,13 @@
 package com.taoyuan.gms.model.entity.admin;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-public class KeyPasswordEntity {
+@TableName(value = "admin_cardpassword")
+public class CardPasswordEntity {
     private Long id;
 
     //卡类型
@@ -31,6 +33,5 @@ public class KeyPasswordEntity {
 
     //使用注销时间
     private  Timestamp endTime;
-
 
 }
