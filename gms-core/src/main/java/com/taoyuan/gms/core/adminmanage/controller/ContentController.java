@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.admin.ContentApi;
 import com.taoyuan.gms.core.adminmanage.service.IAnnouncemnetService;
@@ -46,6 +47,7 @@ public class ContentController implements ContentApi {
     @Override
     public TyResponse createAnnouncement(AnnouncementEntity announcement) {
         log.info("input:{}", announcement);
+        announcement.setCreateUser(TySession.getCurrentUser().getUserId());
         announcement.setCreateTime(new Date());
         announcemnetService.save(announcement);
         return new TySuccessResponse(announcement);
@@ -56,12 +58,33 @@ public class ContentController implements ContentApi {
         if (null == announcement.getId()) {
             throw new ValidateException(1000001, "参数不能为空。", "id");
         }
-        announcemnetService.saveOrUpdate(announcement);
-        return new TySuccessResponse(announcement);
+
+        AnnouncementEntity orgData = (AnnouncementEntity) announcemnetService.getObj(new QueryWrapper<AnnouncementEntity>().eq("id", announcement.getId()));
+        if(null==orgData){
+            throw new ValidateException("对象不存在。");
+        }
+
+        orgData.setUpdateTime(new Date());
+        orgData.setUpdateUser(TySession.getCurrentUser().getUserId());
+        if(announcement.getContent()!=null) {
+            orgData.setContent(announcement.getContent());
+        }
+        if(announcement.getSort()!=null) {
+            orgData.setSort(announcement.getSort());
+        }
+
+        if(announcement.getTitle()!=null) {
+            orgData.setTitle(announcement.getTitle());
+        }
+        announcemnetService.saveOrUpdate(orgData);
+        return new TySuccessResponse(orgData);
     }
 
     @Override
     public TyResponse deleteAnnouncement(Long id) {
+        if (null == id) {
+            throw new ValidateException(1000001, "参数不能为空。", "id");
+        }
         log.info("delete input:{}", id);
         announcemnetService.remove(new QueryWrapper<AnnouncementEntity>().eq("id", id));
         return new TySuccessResponse(id);
