@@ -51,11 +51,11 @@ public class ContentController implements ContentApi {
     @Override
     public TyResponse createAnnouncement(AnnouncementEntity announcement) {
         log.info("input:{}", announcement);
-        if (announcement.getTitle() == null) {
+        if (null == announcement.getTitle()) {
             throw new ValidateException("标题不能为空。");
         }
 
-        if (announcement.getSort() == null) {
+        if (null == announcement.getSort()) {
             throw new ValidateException("排序不能为空。");
         }
 
@@ -120,6 +120,13 @@ public class ContentController implements ContentApi {
 
     @Override
     public TyResponse createCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
+        if (null == cooperateBusiness.getName()) {
+            throw new ValidateException("名称不能为空。");
+        }
+
+        if (null == cooperateBusiness.getQq()) {
+            throw new ValidateException("QQ不能为空。");
+        }
         cooperateBusiness.setCreateTime(new Date());
         cooperateBusiness.setCreateUser(TySession.getCurrentUser().getUserId());
         cooperateBusinessService.save(cooperateBusiness);
