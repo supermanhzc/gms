@@ -126,6 +126,11 @@ public class ContentController implements ContentApi {
 
         if (null == cooperateBusiness.getQq()) {
             throw new ValidateException("QQ不能为空。");
+        } else {
+            String qq = cooperateBusiness.getQq();
+            if (!qq.matches("[1-9][0-9]{4,14}")) {
+                throw new ValidateException("QQ格式非法。");
+            }
         }
         cooperateBusiness.setCreateTime(new Date());
         cooperateBusiness.setCreateUser(TySession.getCurrentUser().getUserId());

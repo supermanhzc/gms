@@ -2,7 +2,7 @@ package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.gms.model.entity.admin.web.CDKeyEntity;
+import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Api(value = "卡类管理服务")
 @RequestMapping("/cardmgnt")
-public interface CardMgntApi {
+public interface CardTypeApi {
 
     /**
      * 查询卡信息
@@ -24,19 +24,19 @@ public interface CardMgntApi {
 
     /**
      * 创建卡
-     * @param cdKeyEntity
+     * @param cardTypeEntity
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public CDKeyEntity create(@RequestBody CDKeyEntity cdKeyEntity);
+    public CardTypeEntity create(@RequestBody CardTypeEntity cardTypeEntity);
 
     /**
      * 修改卡
-     * @param cdKeyEntity
+     * @param cardTypeEntity
      * @return
      */
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public CDKeyEntity update(@RequestBody CDKeyEntity cdKeyEntity);
+    public CardTypeEntity update(@RequestBody CardTypeEntity cardTypeEntity);
 
     /**
      * 删除卡

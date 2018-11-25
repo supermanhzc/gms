@@ -28,4 +28,38 @@ public class LevelSettingEntity {
 
     //兑奖折扣
     private int cashPrizeDiscount;
+
+    public void update(LevelSettingEntity other){
+        if(other.getName()!=null){
+            this.setName( other.getName());
+        }
+
+        if(other.getId()!=0){
+            this.setId(other.getId());
+        }
+
+        if(other.getCashPrizeDiscount()!=0){
+            this.setCashPrizeDiscount(other.getCashPrizeDiscount());
+        }
+
+        if(other.getDrawCondition()!=0){
+            this.setDrawCondition(other.getDrawCondition());
+        }
+
+        if(other.getDrawTimes()!=0){
+            this.setDrawTimes(other.getDrawTimes());
+        }
+
+        if(other.getExperience()!=0){
+            this.setExperience(other.getExperience());
+        }
+
+        if(other.getRechargeCommission()!=0){
+            this.setRechargeCommission(other.getRechargeCommission());
+        }
+
+        if(other.getRelieveGoldenCoin()!=0){
+            this.setRelieveGoldenCoin(other.getRechargeCommission());
+        }
+    }
 }

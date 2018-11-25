@@ -1,16 +1,18 @@
 package com.taoyuan.gms.model.entity.admin;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @TableName(value = "admin_cardpassword")
 public class CardPasswordEntity {
     private Long id;
 
-    //卡类型
+    //卡类型,1:10元会员卡，2:20元会员卡，3:30元会员卡，4:红钻会员卡
     private int cardType;
 
     //卡id
@@ -29,9 +31,15 @@ public class CardPasswordEntity {
     private String rechargeId;
 
     //生成兑换时间
-    private Timestamp startTime;
+    private Date startTime;
 
     //使用注销时间
-    private  Timestamp endTime;
+    private  Date endTime;
+
+    //创建者
+    private Long createUser;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 
 }
