@@ -3,6 +3,8 @@ package com.taoyuan.gms.core.adminmanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.aaa.service.TyUserService;
+import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
@@ -12,8 +14,11 @@ import com.taoyuan.gms.api.admin.CardPasswordApi;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
 import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
 import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
+import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -27,6 +32,9 @@ public class CardPasswordController extends BaseController implements CardPasswo
 
     @Autowired
     private ICardPasswordService service;
+
+    @Autowired
+    private TyUserService userService;
 
     @Override
     public IPage<Map<String, Object>> retrieve(Map<String, Object> map) {
@@ -94,6 +102,29 @@ public class CardPasswordController extends BaseController implements CardPasswo
     }
 
     @Override
+    public TyResponse withdraw(List<CardPassword> cardPasswordList) {
+        if (CollectionUtils.isEmpty(cardPasswordList)) {
+            return new TySuccessResponse(null);
+        }
+
+        List<String> cardIdList = new ArrayList<String>();
+        for (CardPassword cp : cardPasswordList) {
+            String cardId = cp.getCardId();
+            QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
+            wrapper.lambda().eq(CardPasswordEntity::getCardId, cardId).eq(CardPasswordEntity::getCardPassword,cp.getPassword());
+            CardPasswordEntity dbValue = service.getOne(wrapper);
+            if(null!=dbValue){
+                cardIdList.add(cardId);
+            }
+        }
+
+        CardPasswordEntity entity = new CardPasswordEntity();
+        entity.setStatus(3);
+        service.update(entity,new QueryWrapper<CardPasswordEntity>().eq("card_id",cardIdList));
+        return new TySuccessResponse(cardIdList);
+    }
+
+    @Override
     public TyResponse delete(Map<String, Object> map) {
         if(!map.containsKey("cardId")){
             throw new ValidateException("卡号不能为空。");
@@ -102,6 +133,53 @@ public class CardPasswordController extends BaseController implements CardPasswo
         String cardId = (String) map.get("cardId");
         service.remove(new QueryWrapper<CardPasswordEntity>().eq("card_id",cardId));
         return new TySuccessResponse(cardId);
+    }
+
+    @Override
+    public List<CardPassword> getCardPasswordInfo(List<CardPassword> cardPasswordList) {
+        if (CollectionUtils.isEmpty(cardPasswordList)) {
+            return cardPasswordList;
+        }
+
+        List<CardPassword> rsltList = new ArrayList<CardPassword>();
+        List<String> cardIdList = new ArrayList<String>();
+        for (CardPassword cp : cardPasswordList) {
+            String cardId = cp.getCardId();
+            if (cardIdList.contains(cardId)) {
+                continue;
+            }
+            cardIdList.add(cardId);
+
+            QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
+            wrapper.lambda().eq(CardPasswordEntity::getCardId, cardId);
+            CardPasswordEntity dbValue = service.getOne(wrapper);
+            if (null == dbValue) {
+                cp.setInfo("卡号或密码不正确");
+                continue;
+            }
+
+            //已回收
+            if (dbValue.getStatus() == 3) {
+                cp.setInfo("卡密已回收");
+                continue;
+            }
+            if (cp.getPassword().equals(dbValue.getCardPassword())) {
+                if (dbValue.getRechargeId() != null) {
+                    String rechargeId = dbValue.getRechargeId();
+                    TyUser user = userService.getOne(new QueryWrapper<TyUser>().eq("id",
+                            Long.valueOf(rechargeId)));
+                    cp.setRechargeId(rechargeId);
+                    cp.setName(user.getName());
+                    //TODO待增加
+                    cp.setNickName("");
+                    cp.setQq("");
+                }
+            } else {
+                cp.setInfo("卡号或密码不正确");
+            }
+            rsltList.add(cp);
+        }
+        return rsltList;
     }
 
     private String getCardHead(int cardType) {
