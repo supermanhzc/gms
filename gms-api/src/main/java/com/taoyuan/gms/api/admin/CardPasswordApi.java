@@ -3,6 +3,7 @@ package com.taoyuan.gms.api.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
+import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +33,15 @@ public interface CardPasswordApi {
     public List<CardPasswordEntity> create(@RequestBody Map<String, Object> map);
 
     /**
-     * 修改卡密
+     * 回收卡密
      * @param map
      * @return
      */
     @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
     public TyResponse withdraw(@RequestBody Map<String, Object> map);
+
+    @RequestMapping(value = "/withdrawbatch", method = RequestMethod.POST)
+    public TyResponse withdraw(@RequestBody List<CardPassword> cardPasswordList);
 
     /**
      * 删除卡密
@@ -46,4 +50,7 @@ public interface CardPasswordApi {
      */
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public TyResponse delete(@RequestBody Map<String,Object> map);
+
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    public List<CardPassword> getCardPasswordInfo(@RequestBody List<CardPassword> cardPasswordList);
 }
