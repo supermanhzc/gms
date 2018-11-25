@@ -1,7 +1,6 @@
 package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.taoyuan.gms.model.entity.admin.web.CDKeyEntity;
 import com.taoyuan.gms.model.entity.admin.web.LevelSettingEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestBody;

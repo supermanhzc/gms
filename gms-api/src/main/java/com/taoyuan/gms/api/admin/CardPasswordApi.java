@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
 import java.util.Map;
 
 @Api(value = "卡密服务")
@@ -23,20 +24,20 @@ public interface CardPasswordApi {
     public IPage<Map<String, Object>> retrieve(@RequestBody Map<String,Object> map);
 
     /**
-     * 创建卡密
-     * @param cardPasswordEntity
+     * 批量创建卡密
+     * @param map
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public CardPasswordEntity create(@RequestBody CardPasswordEntity cardPasswordEntity);
+    public List<CardPasswordEntity> create(@RequestBody Map<String, Object> map);
 
     /**
      * 修改卡密
-     * @param cardPasswordEntity
+     * @param map
      * @return
      */
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public CardPasswordEntity update(@RequestBody CardPasswordEntity cardPasswordEntity);
+    @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
+    public TyResponse withdraw(@RequestBody Map<String, Object> map);
 
     /**
      * 删除卡密
