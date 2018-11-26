@@ -10,7 +10,9 @@ import com.taoyuan.framework.common.util.TyBigNumUtil;
 import com.taoyuan.framework.common.util.TyPageUtil;
 import com.taoyuan.framework.mail.TyVerificationCodeService;
 import com.taoyuan.gms.api.admin.RecordsQueryApi;
+import com.taoyuan.gms.common.util.StringUtil;
 import com.taoyuan.gms.core.adminmanage.service.*;
+import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
 import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
 import com.taoyuan.gms.model.entity.admin.*;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @Slf4j
 @RestController
@@ -52,6 +56,9 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Autowired
     private IJuniorCommissionService juniorCommissionService;
 
+    @Autowired
+    private IGoldenRechargeService goldenRechargeService;
+
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
@@ -64,41 +71,29 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public IPage<Map<String, Object>> getSubstitutes(Integer pageIndex, Integer pageSize) {
-        //TODO 测试数据
-        for (int i = 0; i < 10; i++) {
-            SubstituteEntity entity = new SubstituteEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setProxyId(3l);
-            entity.setProxyName("代理1");
-            entity.setMoney(100d);
-            entity.setStatus("提交");
-            substituteService.save(entity);
-        }
-
+    public IPage<Map<String, Object>> getRecharges(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
-        return substituteService.pageMaps(page, null);
+        return goldenRechargeService.pageMaps(page, null);
     }
 
     @Override
     public IPage<Map<String, Object>> getProxyOperates(Integer pageIndex, Integer pageSize) {
         //TODO 测试数据
-        for (int i = 0; i < 10; i++) {
-            ProxyOperEntity entity = new ProxyOperEntity();
-            entity.setProxyId(3l);
-            entity.setProxyName("代理1");
-            entity.setMoneyChanged(-100d);
-            entity.setAccount(1000d);
-            proxyOperService.save(entity);
-        }
+//        for (int i = 0; i < 10; i++) {
+//            ProxyOperEntity entity = new ProxyOperEntity();
+//            entity.setProxyId(3l);
+//            entity.setProxyName("代理1");
+//            entity.setMoneyChanged(BigDecimal.valueOf(-100));
+//            entity.setAccount(BigDecimal.valueOf(1000);
+//            proxyOperService.save(entity);
+//        }
 
         Page page = getPage(pageIndex, pageSize);
         return proxyOperService.pageMaps(new Page<ProxyOperEntity>(pageIndex, pageSize), null);
     }
 
     @Override
-    public List<SaleDetailEntity> getSaleStatistics(Map<String,Object> map) {
+    public List<SaleDetailEntity> getSaleStatistics(Map<String, Object> map) {
         Page page = getPage(map);
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
         if (map.containsKey("begin")) {
@@ -115,16 +110,16 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             }
         }
         List<SaleDetailEntity> entityList = saleDetailService.list(wrapper);
-        Map<String,SaleDetailEntity> rsltMap = new HashMap<String,SaleDetailEntity>();
-        for(SaleDetailEntity entity:entityList){
-            if(rsltMap.containsKey(entity.getProxyName())){
+        Map<String, SaleDetailEntity> rsltMap = new HashMap<String, SaleDetailEntity>();
+        for (SaleDetailEntity entity : entityList) {
+            if (rsltMap.containsKey(entity.getProxyName())) {
                 SaleDetailEntity saleDetailEntity = rsltMap.get(entity.getProxyName());
-                saleDetailEntity.setCallbackMoney(saleDetailEntity.getCallbackMoney()+entity.getCallbackMoney());
-                saleDetailEntity.setSubstituteMoney(saleDetailEntity.getSubstituteMoney()+entity.getSubstituteMoney());
-                saleDetailEntity.setIncome(saleDetailEntity.getIncome()+ entity.getIncome());
+                saleDetailEntity.setCallbackMoney(saleDetailEntity.getCallbackMoney() + entity.getCallbackMoney());
+                saleDetailEntity.setSubstituteMoney(saleDetailEntity.getSubstituteMoney() + entity.getSubstituteMoney());
+                saleDetailEntity.setIncome(saleDetailEntity.getIncome() + entity.getIncome());
                 continue;
             }
-            rsltMap.put(entity.getProxyName(),entity);
+            rsltMap.put(entity.getProxyName(), entity);
         }
 
         List<SaleDetailEntity> rsltList = new ArrayList<SaleDetailEntity>(rsltMap.values());
@@ -148,9 +143,9 @@ public class RecordQueryController extends BaseController implements RecordsQuer
         Page page = getPage(map);
 
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
-        if(map.containsKey("proxyName")){
+        if (map.containsKey("proxyName")) {
             String name = map.get("proxyName").toString();
-            wrapper.eq("proxyName",name);
+            wrapper.eq("proxyName", name);
         }
 
         if (map.containsKey("begin")) {
@@ -258,7 +253,7 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             chartsRewardsService.save(entity);
         }
 
-        Page page = getPage(pageIndex,pageSize);
+        Page page = getPage(pageIndex, pageSize);
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 2);
         return chartsRewardsService.pageMaps(page, wrapper);
@@ -271,9 +266,9 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
 
     @Override
-    public IPage<Map<String, Object>> getChipinWages(Map<String,Object> map) {
+    public IPage<Map<String, Object>> getChipinWages(Map<String, Object> map) {
         //TODO 测试数据
-        for(int i =0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             ChipinWageEntity entity = new ChipinWageEntity();
             entity.setMemberId(300001l);
             entity.setMemberNickName("会员1");
@@ -302,9 +297,9 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public IPage<Map<String, Object>> getJuniorCommissions(Map<String,Object> map) {
+    public IPage<Map<String, Object>> getJuniorCommissions(Map<String, Object> map) {
         //TODO 测试数据
-        for(int i =0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             JuniorCommissionEntity entity = new JuniorCommissionEntity();
             entity.setMemberId(300001l);
             entity.setMemberNickName("会员1");
@@ -365,18 +360,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public IPage<Map<String, Object>> getAdminLogins(HashMap<String, Object> map) {
-        //TODO 插入测试数据
-        for (int i = 0; i < 10; i++) {
-            TyUserLoginEntity entity = new TyUserLoginEntity();
-            entity.setMemberId(300002l);
-            entity.setMemberNickName("admin");
-            entity.setIp("181.1.1.200");
-            entity.setAddr("江苏省南京市");
-            entity.setStatus(1);
-            entity.setType(3);
-            userLoginService.save(entity);
-        }
-
         log.info("getAdminLogins map={}", map);
         Page page = TyPageUtil.getPage(map);
 
@@ -386,67 +369,21 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     }
 
-//    @Override
-//    public IPage<Map<String, Object>> getMemberLogins(Integer pageIndex, Integer pageSize) {
-//        log.info("getMemberLogins pageIndex={}, pageSize={}", pageIndex, pageSize);
-//        validatePageParams(pageIndex, pageSize);
-//        for (int i = 0; i < 10; i++) {
-//            UserLoginEntity entity = new UserLoginEntity();
-//            entity.setMemberId(300002l);
-//            entity.setMemberNickName("会员1");
-//            entity.setIp("181.1.1.200");
-//            entity.setAddr("江苏省南京市");
-//            entity.setStatus(1);
-//            entity.setType(1);
-//            memberLoginService.save(entity);
-//        }
-//
-//        QueryWrapper<UserLoginEntity> wrapper = new QueryWrapper<UserLoginEntity>();
-//        wrapper.eq("type", 1);
-//        return memberLoginService.pageMaps(new Page<UserLoginEntity>(pageIndex, pageSize), wrapper);
-//    }
-
-//    @Override
-//    public IPage<Map<String, Object>> getMemberLogins(PageConditionEntity entity) {
-//        Integer pageIndex = entity.getPageIndex();
-//        Integer pageSize = entity.getPageSize();
-//        Long id = entity.getId();
-//        int status = entity.getStatus();
-//        log.info("getMemberLogins:{}", entity);
-//
-//        QueryWrapper<UserLoginEntity> wrapper = new QueryWrapper<UserLoginEntity>();
-//        wrapper.lambda().eq(UserLoginEntity::getStatus, status).eq(UserLoginEntity::getId, id);
-//        return memberLoginService.pageMaps(new Page<UserLoginEntity>(pageIndex, pageSize), wrapper);
-//    }
-
     @Override
     public IPage<Map<String, Object>> getMemberLogins(HashMap<String, Object> map) {
-        //TODO 插入测试数据
-        for (int i = 0; i < 10; i++) {
-            TyUserLoginEntity entity = new TyUserLoginEntity();
-            entity.setMemberId(300002l);
-            entity.setMemberNickName("会员1");
-            entity.setIp("181.1.1.200");
-            entity.setAddr("江苏省南京市");
-            entity.setStatus(1);
-            entity.setType(1);
-            userLoginService.save(entity);
-        }
 
         log.info("map value is {}", map);
         Page page = TyPageUtil.getPage(map);
 
         QueryWrapper<TyUserLoginEntity> wrapper = new QueryWrapper();
-        long id = 0l;
-        if (map.containsKey("id")) {
-            id = Long.valueOf(map.get("id").toString());
-            wrapper.lambda().eq(TyUserLoginEntity::getMemberId, id);
-        }
-
-        String name = null;
-        if (map.containsKey("name")) {
-            name = (String) map.get("name");
-            wrapper.lambda().eq(TyUserLoginEntity::getMemberNickName, name);
+        String keyword = null;
+        if (map.containsKey("keyword")) {
+            keyword = (String) map.get("keyword");
+            if (StringUtil.isNumber(keyword)) {
+                wrapper.lambda().eq(TyUserLoginEntity::getMemberId, Long.valueOf(keyword)).or().eq(TyUserLoginEntity::getMemberNickName, keyword);
+            } else {
+                wrapper.lambda().eq(TyUserLoginEntity::getMemberNickName, keyword);
+            }
         }
 
         int status = 0;
@@ -454,7 +391,7 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             status = Integer.valueOf(map.get("status").toString());
             wrapper.lambda().eq(TyUserLoginEntity::getStatus, status);
         }
-
+        wrapper.eq("type", 1);
         return userLoginService.pageMaps(page, wrapper);
     }
 
@@ -469,4 +406,5 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     public static void main(String[] args) {
         System.out.println(new Date().toString());
     }
+
 }

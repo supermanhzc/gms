@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Data
@@ -19,12 +20,12 @@ public class ProxyOperEntity {
     private String proxyName;
 
     //账户变动
-    private Double moneyChanged;
+    private BigDecimal moneyChanged;
 
     //余额
-    private Double account;
+    private BigDecimal account;
 
-    //类型
+    //类型：1代充，2充值，3提现，4登录，5回收
     private int type;
 
     //描述
