@@ -8,6 +8,7 @@ import com.taoyuan.framework.common.entity.TyUserLoginEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.util.TyBigNumUtil;
 import com.taoyuan.framework.common.util.TyPageUtil;
+import com.taoyuan.framework.mail.TyVerificationCodeService;
 import com.taoyuan.gms.api.admin.RecordsQueryApi;
 import com.taoyuan.gms.core.adminmanage.service.*;
 import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
@@ -25,7 +26,7 @@ import java.util.*;
 public class RecordQueryController extends BaseController implements RecordsQueryApi {
 
     @Autowired
-    private IVerificationCodeService verificationCodeService;
+    private TyVerificationCodeService verificationCodeService;
 
     @Autowired
     private ISubstituteService substituteService;
