@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -68,12 +69,12 @@ public class CardPasswordController extends BaseController implements CardPasswo
         for (int i = 0; i < number; i++) {
             //默认生成随机8位id和密码
             String id = TyRandomUtil.getRandomNum(8);
-            log.info("generate id is {}",id);
+            log.info("generate id is {}", id);
             String pwd = TyRandomUtil.getRandomStr(8);
-            log.info("generate password is {}",pwd);
+            log.info("generate password is {}", pwd);
             CardPasswordEntity entity = new CardPasswordEntity();
             entity.setCardType(cardType);
-            entity.setCardId(cardHead+id);
+            entity.setCardId(cardHead + id);
             entity.setStatus(1);
             entity.setCardPassword(pwd);
             entity.setCreateTime(new Date());
@@ -88,21 +89,21 @@ public class CardPasswordController extends BaseController implements CardPasswo
 
     @Override
     public TyResponse withdraw(Map<String, Object> map) {
-        if(!map.containsKey("cardId")){
+        if (!map.containsKey("cardId")) {
             throw new ValidateException("卡号不能为空。");
         }
 
         String cardId = (String) map.get("cardId");
         CardPasswordEntity entity = new CardPasswordEntity();
 //        CardPasswordEntity entity = service.getOne(new QueryWrapper<CardPasswordEntity>().eq("card_id",cardId));
-        log.info("withdraw object is {}",entity);
+        log.info("withdraw object is {}", entity);
         entity.setStatus(3);
-        service.update(entity,new QueryWrapper<CardPasswordEntity>().eq("card_id",cardId));
+        service.update(entity, new QueryWrapper<CardPasswordEntity>().eq("card_id", cardId));
         return new TySuccessResponse(cardId);
     }
 
     @Override
-    public TyResponse withdraw(List<CardPassword> cardPasswordList) {
+    public TyResponse withdrawbatch(List<CardPassword> cardPasswordList) {
         if (CollectionUtils.isEmpty(cardPasswordList)) {
             return new TySuccessResponse(null);
         }
@@ -110,33 +111,45 @@ public class CardPasswordController extends BaseController implements CardPasswo
         List<String> cardIdList = new ArrayList<String>();
         for (CardPassword cp : cardPasswordList) {
             String cardId = cp.getCardId();
+            if (StringUtils.isEmpty(cardId)) {
+                throw new ValidateException("待撤销卡密卡号不能为空。");
+            }
+            String pwd = cp.getPassword();
+            if (StringUtils.isEmpty(pwd)) {
+                throw new ValidateException("待撤销卡密密码不能为空。");
+            }
+
             QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
-            wrapper.lambda().eq(CardPasswordEntity::getCardId, cardId).eq(CardPasswordEntity::getCardPassword,cp.getPassword());
+            wrapper.lambda().eq(CardPasswordEntity::getCardId, cardId).eq(CardPasswordEntity::getCardPassword, pwd);
             CardPasswordEntity dbValue = service.getOne(wrapper);
-            if(null!=dbValue){
+            if (null != dbValue) {
                 cardIdList.add(cardId);
             }
+
         }
 
+        log.info("card id list is {}", cardIdList);
         CardPasswordEntity entity = new CardPasswordEntity();
         entity.setStatus(3);
-        service.update(entity,new QueryWrapper<CardPasswordEntity>().eq("card_id",cardIdList));
+        service.update(entity, new QueryWrapper<CardPasswordEntity>().in("card_id", cardIdList));
         return new TySuccessResponse(cardIdList);
     }
 
     @Override
-    public TyResponse delete(Map<String, Object> map) {
-        if(!map.containsKey("cardId")){
+    public TyResponse delete(String id) {
+        if (null == id) {
             throw new ValidateException("卡号不能为空。");
         }
 
-        String cardId = (String) map.get("cardId");
-        service.remove(new QueryWrapper<CardPasswordEntity>().eq("card_id",cardId));
+        String cardId = id;
+        log.info("card id is {}", cardId);
+        service.remove(new QueryWrapper<CardPasswordEntity>().eq("card_id", cardId));
         return new TySuccessResponse(cardId);
     }
 
     @Override
     public List<CardPassword> getCardPasswordInfo(List<CardPassword> cardPasswordList) {
+        log.info("input is {}", cardPasswordList);
         if (CollectionUtils.isEmpty(cardPasswordList)) {
             return cardPasswordList;
         }
@@ -145,29 +158,39 @@ public class CardPasswordController extends BaseController implements CardPasswo
         List<String> cardIdList = new ArrayList<String>();
         for (CardPassword cp : cardPasswordList) {
             String cardId = cp.getCardId();
+            if (StringUtils.isEmpty(cardId)) {
+                throw new ValidateException("卡密卡号不能为空。");
+            }
             if (cardIdList.contains(cardId)) {
                 continue;
             }
             cardIdList.add(cardId);
 
-            QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
-            wrapper.lambda().eq(CardPasswordEntity::getCardId, cardId);
-            CardPasswordEntity dbValue = service.getOne(wrapper);
+            CardPasswordEntity dbValue = service.getCardPasswordById(cardId);
             if (null == dbValue) {
                 cp.setInfo("卡号或密码不正确");
+                rsltList.add(cp);
                 continue;
             }
 
             //已回收
             if (dbValue.getStatus() == 3) {
                 cp.setInfo("卡密已回收");
+                rsltList.add(cp);
                 continue;
             }
-            if (cp.getPassword().equals(dbValue.getCardPassword())) {
+            String pwd = cp.getPassword();
+            if (StringUtils.isEmpty(pwd.trim())) {
+                cp.setInfo("卡号或密码不正确");
+                rsltList.add(cp);
+                continue;
+            }
+
+            if (pwd.equals(dbValue.getCardPassword())) {
                 if (dbValue.getRechargeId() != null) {
                     String rechargeId = dbValue.getRechargeId();
-                    TyUser user = userService.getOne(new QueryWrapper<TyUser>().eq("id",
-                            Long.valueOf(rechargeId)));
+                    TyUser user = userService.getUserById(Long.valueOf(rechargeId));
+                    log.info("user info:{}", user);
                     cp.setRechargeId(rechargeId);
                     cp.setName(user.getName());
                     //TODO待增加
@@ -198,7 +221,7 @@ public class CardPasswordController extends BaseController implements CardPasswo
                 cardHead = "redzuan";
                 break;
             default:
-                throw  new ValidateException("不支持的卡类型。");
+                throw new ValidateException("不支持的卡类型。");
         }
         return cardHead;
     }
@@ -207,7 +230,7 @@ public class CardPasswordController extends BaseController implements CardPasswo
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
         List<CardPasswordEntity> dbValue = service.list(wrapper);
         for (CardPasswordEntity entity : dbValue) {
-            if (entity.getCardId().equals(getCardHead(entity.getCardType())+randomValue)) {
+            if (entity.getCardId().equals(getCardHead(entity.getCardType()) + randomValue)) {
                 randomValue = TyRandomUtil.getRandomNum(length);
                 return getRandomValue(length, randomValue);
             }

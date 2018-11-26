@@ -1,5 +1,9 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.taoyuan.framework.aaa.service.TyUserService;
+import com.taoyuan.framework.common.entity.TyUser;
+import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.framework.common.util.TyDateUtils;
@@ -25,13 +29,22 @@ public class GoldenRechargeController implements GoldenRechargeApi {
     @Autowired
     private IGoldenRechargeService goldenRechargeService;
 
+    @Autowired
+    private TyUserService userService;
+
     @Override
     public TyResponse createGoldenRecharge(GoldenRechargeEntity entity) {
+        Long memberId = entity.getMemberId();
+        TyUser user = userService.getUserById(memberId);
+        if(null==user){
+            throw new ValidateException("会员不存在。");
+        }
+
         entity.setTime(new Date());
         entity.setStatus(1);
-        log.info("创建时间：{}",new Date());
+        log.info("创建时间：{}", new Date());
         goldenRechargeService.save(entity);
-        log.info("GoldenRechargeEntity id：{}",entity.getId());
+        log.info("GoldenRechargeEntity id：{}", entity.getId());
         JobManager.addJob("GoldRecharge", GoldenRechargeJob.class, TyDateUtils.getCronAfterMinutes(5), entity.getId());
         return new TySuccessResponse(entity);
     }
