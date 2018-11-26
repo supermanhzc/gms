@@ -5,9 +5,7 @@ import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -41,15 +39,15 @@ public interface CardPasswordApi {
     public TyResponse withdraw(@RequestBody Map<String, Object> map);
 
     @RequestMapping(value = "/withdrawbatch", method = RequestMethod.POST)
-    public TyResponse withdraw(@RequestBody List<CardPassword> cardPasswordList);
+    public TyResponse withdrawbatch(@RequestBody List<CardPassword> cardPasswordList);
 
     /**
      * 删除卡密
-     * @param map
+     * @param id
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public TyResponse delete(@RequestBody Map<String,Object> map);
+    @DeleteMapping(value = "/delete/{id}")
+    public TyResponse delete(@PathVariable("id") String id);
 
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     public List<CardPassword> getCardPasswordInfo(@RequestBody List<CardPassword> cardPasswordList);
