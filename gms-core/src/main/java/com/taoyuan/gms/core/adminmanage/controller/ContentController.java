@@ -112,10 +112,9 @@ public class ContentController implements ContentApi {
 
     @Override
     public TyResponse getCooperateBusiness(Long id) {
-        log.info("query value:", cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id",
-                id)));
-        return new TySuccessResponse(cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq(
-                "id", id)));
+        Map<String, Object> rslt = cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id",
+                id));
+        return new TySuccessResponse(rslt);
     }
 
     @Override

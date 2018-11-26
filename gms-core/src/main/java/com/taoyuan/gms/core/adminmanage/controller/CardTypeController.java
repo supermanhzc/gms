@@ -15,6 +15,7 @@ import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -77,13 +78,12 @@ public class CardTypeController extends BaseController implements CardTypeApi {
     }
 
     @Override
-    public TyResponse delete(Map<String, Object> map) {
-        if (!map.containsKey("cardId")) {
+    public TyResponse delete(String id) {
+        if (StringUtils.isEmpty(id)) {
             throw new ValidateException(StatusCode.FAIL.getCode(), "id不能为空。");
         }
 
-        String id = (String) map.get("cardId");
-        service.remove(new QueryWrapper<CardTypeEntity>().eq("id", id));
+        service.remove(new QueryWrapper<CardTypeEntity>().eq("card_id", id));
         return new TySuccessResponse(id);
     }
 

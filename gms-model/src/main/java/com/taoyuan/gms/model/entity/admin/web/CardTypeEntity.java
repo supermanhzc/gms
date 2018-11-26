@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@TableName(value = "admin_cdkey")
+@TableName(value = "admin_cardtype")
 public class CardTypeEntity {
 
     private Long id;
