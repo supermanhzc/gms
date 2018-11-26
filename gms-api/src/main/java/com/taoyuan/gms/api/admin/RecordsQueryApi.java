@@ -29,8 +29,8 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/substitute/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getSubstitutes(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    @RequestMapping(value = "/recharge/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
+    public IPage<Map<String, Object>> getRecharges(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询所有代理操作
