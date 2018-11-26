@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,9 +41,9 @@ public interface CardTypeApi {
 
     /**
      * 删除卡
-     * @param map
+     * @param id
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public TyResponse delete(@RequestBody Map<String,Object> map);
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public TyResponse delete(@PathVariable("id") String id);
 }
