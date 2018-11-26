@@ -27,8 +27,11 @@ public class VerificationCodeEntity implements Serializable {
     //接口名称:短信
     private String infName;
 
-    //类型:注册,找回密码,兑奖
-    private String type;
+    //类型:1注册,2找回密码,3兑奖
+    private int type;
+
+    //验证码接收终端，当前默认为手机号码
+    private String dest;
 
     //验证码
     private String vCode;

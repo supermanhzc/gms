@@ -86,7 +86,7 @@ public interface ContentApi {
      *
      * @param cooperateBusiness
      */
-    @RequestMapping(value = "/cooperatbusiness/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/cooperatbusiness", method = RequestMethod.PUT)
     public TyResponse modifyCooperateBusiness(@RequestBody CooperateBusinessEntity cooperateBusiness);
 
     /**
