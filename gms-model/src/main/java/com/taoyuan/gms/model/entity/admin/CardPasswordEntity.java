@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -34,7 +35,7 @@ public class CardPasswordEntity {
     private Date startTime;
 
     //使用注销时间
-    private  Date endTime;
+    private Date endTime;
 
     //创建者
     private Long createUser;
@@ -42,4 +43,20 @@ public class CardPasswordEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
+    public BigDecimal getMoney() {
+        switch (cardType) {
+            case 1:
+                return BigDecimal.valueOf(10);
+            case 2:
+                return BigDecimal.valueOf(20);
+            case 3:
+                return BigDecimal.valueOf(30);
+            case 4:
+                return BigDecimal.valueOf(100);
+            default:
+                break;
+        }
+
+        return BigDecimal.ZERO;
+    }
 }

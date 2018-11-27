@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserLoginService;
+import com.taoyuan.framework.common.entity.TyProxyOperation;
 import com.taoyuan.framework.common.entity.TyUserLoginEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.util.TyBigNumUtil;
 import com.taoyuan.framework.common.util.TyPageUtil;
 import com.taoyuan.framework.mail.TyVerificationCodeService;
+import com.taoyuan.framework.oper.IProxyOperService;
 import com.taoyuan.gms.api.admin.RecordsQueryApi;
 import com.taoyuan.gms.common.util.StringUtil;
 import com.taoyuan.gms.core.adminmanage.service.*;
@@ -31,9 +33,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Autowired
     private TyVerificationCodeService verificationCodeService;
-
-    @Autowired
-    private ISubstituteService substituteService;
 
     @Autowired
     private IChartsRewardsService chartsRewardsService;
@@ -78,18 +77,8 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public IPage<Map<String, Object>> getProxyOperates(Integer pageIndex, Integer pageSize) {
-        //TODO 测试数据
-//        for (int i = 0; i < 10; i++) {
-//            ProxyOperEntity entity = new ProxyOperEntity();
-//            entity.setProxyId(3l);
-//            entity.setProxyName("代理1");
-//            entity.setMoneyChanged(BigDecimal.valueOf(-100));
-//            entity.setAccount(BigDecimal.valueOf(1000);
-//            proxyOperService.save(entity);
-//        }
-
         Page page = getPage(pageIndex, pageSize);
-        return proxyOperService.pageMaps(new Page<ProxyOperEntity>(pageIndex, pageSize), null);
+        return proxyOperService.pageMaps(new Page<TyProxyOperation>(pageIndex, pageSize), null);
     }
 
     @Override
@@ -128,18 +117,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public IPage<Map<String, Object>> getSaleDetails(Map<String, Object> map) {
-        //TODO 测试数据
-        for (int i = 0; i < 10; i++) {
-            SaleDetailEntity entity = new SaleDetailEntity();
-            entity.setId(1000000l + i);
-            entity.setProxyName("代理名称" + i);
-            entity.setCallbackMoney(1000);
-            entity.setIncome(100000);
-            entity.setSubstituteMoney(2000);
-            entity.setTime(new Date());
-            saleDetailService.save(entity);
-        }
-
         Page page = getPage(map);
 
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
