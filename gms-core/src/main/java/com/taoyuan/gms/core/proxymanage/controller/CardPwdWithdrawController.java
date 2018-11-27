@@ -5,6 +5,7 @@ import com.taoyuan.framework.aaa.service.TyUserService;
 import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.CardPwdWithdrawApi;
 import com.taoyuan.gms.core.adminmanage.controller.BaseController;
@@ -73,23 +74,26 @@ public class CardPwdWithdrawController extends BaseController implements CardPwd
 
         Date now = new Date();
         Map<String, CardPwdWithdrawEntity> map = new HashMap<String, CardPwdWithdrawEntity>();
-        for(String cardId:cardIdList){
+        for (String cardId : cardIdList) {
             CardPasswordEntity dbValue = cpService.getCardPasswordById(cardId);
+            log.info("Card info:{}", dbValue);
             List<CardPwdWithdrawEntity> list = new ArrayList<CardPwdWithdrawEntity>();
             CardPwdWithdrawEntity cpw = new CardPwdWithdrawEntity();
             String rechargeId = dbValue.getRechargeId();
             TyUser user = userService.getUserById(Long.valueOf(rechargeId));
+            cpw.setProxyId(TySession.getCurrentUser().getUserId());
+            cpw.setProxyName(TySession.getCurrentUser().getName());
             cpw.setMemberId(user.getId());
             cpw.setMemberName(user.getName());
             cpw.setTime(now);
-            if(map.containsKey(rechargeId)) {
-                cpw.setCount(cpw.getCount()+1);
+            if (map.containsKey(rechargeId)) {
+                cpw.setCount(cpw.getCount() + 1);
                 cpw.setAmount(dbValue.getMoney().add(cpw.getAmount()));
-            }else{
+            } else {
                 cpw.setCount(1);
                 cpw.setAmount(dbValue.getMoney());
             }
-            map.put(rechargeId,cpw);
+            map.put(rechargeId, cpw);
         }
         return new TySuccessResponse(map.values());
     }

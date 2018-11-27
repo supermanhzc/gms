@@ -27,7 +27,7 @@ public class CardPwdWithdrawEntity {
     private int count;
 
     //总金额
-    private BigDecimal amount;
+    private BigDecimal amount = BigDecimal.ZERO;
 
     private Date time;
 
