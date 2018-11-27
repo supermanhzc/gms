@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @ToString
@@ -31,5 +31,5 @@ public class ProxyOperEntity {
     //描述
     private String description;
 
-    private Timestamp time;
+    private Date time;
 }
