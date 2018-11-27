@@ -16,7 +16,7 @@ import java.util.Map;
 @RequestMapping("/webmgnt")
 public interface WebManageApi {
     @RequestMapping(value = "/setting", method = RequestMethod.GET)
-    public Map<String, Object> getWebSetting();
+    public WebSettingEntity getWebSetting();
 
     /**
      * 修改网站配置
@@ -27,7 +27,7 @@ public interface WebManageApi {
     public WebSettingEntity updateWebSetting(@RequestBody WebSettingEntity webSetting);
 
     @RequestMapping(value = "/gamesetting", method = RequestMethod.GET)
-    public Map<String, Object> getGameSetting();
+    public List<GameSettingEntity> getGameSetting();
 
     @RequestMapping(value = "/gamesetting", method = RequestMethod.PUT)
     public TyResponse updateGameSetting(@RequestBody List<GameSettingEntity> list);
