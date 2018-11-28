@@ -14,9 +14,18 @@ import java.util.List;
 @RequestMapping("/proxy/cardpwd")
 public interface CardPwdWithdrawApi {
 
+    /**
+     * 最近10笔记录
+     * @return
+     */
     @RequestMapping(value = "/getLatest10", method = RequestMethod.GET)
     TyResponse getLatest10();
 
+    /**
+     * 回收
+     * @param cpList
+     * @return
+     */
     @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
     public TyResponse withdraw(@RequestBody List<CardPassword> cpList);
 }

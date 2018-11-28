@@ -47,9 +47,8 @@ public class CardPwdWithdrawController extends BaseController implements CardPwd
             return new TySuccessResponse(null);
         }
 
-
-        List<String> cardIdList = new ArrayList<String>();
-
+        Date now = new Date();
+        List<CardPasswordEntity> dbList = new ArrayList<CardPasswordEntity>();
         for (CardPassword cp : cardPasswordList) {
             String cardId = cp.getCardId();
             if (StringUtils.isEmpty(cardId)) {
@@ -64,37 +63,54 @@ public class CardPwdWithdrawController extends BaseController implements CardPwd
             wrapper.lambda().eq(CardPasswordEntity::getCardId, cardId).eq(CardPasswordEntity::getCardPassword, pwd);
             CardPasswordEntity dbValue = cpService.getOne(wrapper);
             if (null != dbValue) {
-                cardIdList.add(cardId);
+                //只有未充值的卡密才能被回收，已充值2和已注销3的卡密不能被回收
+                if (dbValue.getStatus() == 1) {
+                    dbValue.setStatus(2);
+                    dbValue.setEndTime(now);
+                    dbList.add(dbValue);
+                }
             }
         }
-        log.info("card id list is {}", cardIdList);
-        CardPasswordEntity entity = new CardPasswordEntity();
-        entity.setStatus(3);
-        cpService.update(entity, new QueryWrapper<CardPasswordEntity>().in("card_id", cardIdList));
+        log.info("card pwd list is {}", dbList);
 
-        Date now = new Date();
-        Map<String, CardPwdWithdrawEntity> map = new HashMap<String, CardPwdWithdrawEntity>();
-        for (String cardId : cardIdList) {
-            CardPasswordEntity dbValue = cpService.getCardPasswordById(cardId);
-            log.info("Card info:{}", dbValue);
-            List<CardPwdWithdrawEntity> list = new ArrayList<CardPwdWithdrawEntity>();
-            CardPwdWithdrawEntity cpw = new CardPwdWithdrawEntity();
-            String rechargeId = dbValue.getRechargeId();
-            TyUser user = userService.getUserById(Long.valueOf(rechargeId));
-            cpw.setProxyId(TySession.getCurrentUser().getUserId());
-            cpw.setProxyName(TySession.getCurrentUser().getName());
-            cpw.setMemberId(user.getId());
-            cpw.setMemberName(user.getName());
-            cpw.setTime(now);
-            if (map.containsKey(rechargeId)) {
-                cpw.setCount(cpw.getCount() + 1);
-                cpw.setAmount(dbValue.getMoney().add(cpw.getAmount()));
-            } else {
-                cpw.setCount(1);
-                cpw.setAmount(dbValue.getMoney());
+        if (!CollectionUtils.isEmpty(dbList)) {
+            //回收后讲卡状态设置为已充值，同时记录卡密回收记录
+            Map<String, CardPwdWithdrawEntity> map = new HashMap<String, CardPwdWithdrawEntity>();
+            for (CardPasswordEntity card : dbList) {
+                CardPasswordEntity dbValue = cpService.getCardPasswordById(card.getCardId());
+                log.info("Card info:{}", dbValue);
+                CardPwdWithdrawEntity cpw = null;
+                String rechargeId = dbValue.getRechargeId();
+                log.info("卡面值：{}", dbValue.getMoney());
+                if (map.containsKey(rechargeId)) {
+                    cpw = map.get(rechargeId);
+                    cpw.setCount(cpw.getCount() + 1);
+                    cpw.setAmount(dbValue.getMoney().add(cpw.getAmount()));
+                } else {
+                    TyUser user = userService.getUserById(Long.valueOf(rechargeId));
+                    cpw = new CardPwdWithdrawEntity();
+                    cpw.setProxyId(TySession.getCurrentUser().getUserId());
+                    cpw.setProxyName(TySession.getCurrentUser().getName());
+                    cpw.setMemberId(user.getId());
+                    cpw.setMemberName(user.getName());
+                    cpw.setTime(now);
+                    cpw.setCount(1);
+                    cpw.setAmount(dbValue.getMoney());
+                }
+                map.put(rechargeId, cpw);
             }
-            map.put(rechargeId, cpw);
+
+            //保存卡密回收记录
+            service.saveOrUpdateBatch(map.values());
+
+            //TODO
+            // 给用户充值，给用户加上充值额度
+
+            //全部完成后更改卡状态为已回收
+            cpService.saveOrUpdateBatch(dbList);
+            return new TySuccessResponse(map.values());
         }
-        return new TySuccessResponse(map.values());
+
+        return new TySuccessResponse(null);
     }
 }

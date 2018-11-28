@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@TableName(value = "proxy_cardpwdcallback")
+@TableName(value = "proxy_cardpwdwithdraw")
 public class CardPwdWithdrawEntity {
     private Long id;
 
