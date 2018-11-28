@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@TableName(value = "admin_fundexchange")
+@TableName(value = "proxy_fundexchange")
 public class FundExchangeEntity {
 
     private Long id;
@@ -21,7 +21,7 @@ public class FundExchangeEntity {
     //对方，必填
     private Long opposite;
 
-    //当前操作代理,必填
+    //当前操作代理,非必填
     private Long proxyId;
 
     //时间
