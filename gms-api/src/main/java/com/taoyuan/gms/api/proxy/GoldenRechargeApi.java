@@ -18,7 +18,7 @@ public interface GoldenRechargeApi {
     public TyResponse createGoldenRecharge(@RequestBody GoldenRechargeEntity entity);
 
     @RequestMapping(value = "/get5", method = RequestMethod.GET)
-    public TyResponse get5GoldenRecharge(@RequestBody Map<String,Object> map);
+    public TyResponse get5GoldenRecharge();
 
     @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
     public TyResponse withdraw(@RequestBody GoldenRechargeEntity entity);

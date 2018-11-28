@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ExchangeCDKeyEntity implements Serializable {
+public class ExchangeCardPwdEntity implements Serializable {
 
     //订单号
     private long id;

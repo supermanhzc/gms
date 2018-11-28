@@ -161,10 +161,6 @@ public class CardPasswordController extends BaseController implements CardPasswo
             if (StringUtils.isEmpty(cardId)) {
                 throw new ValidateException("卡密卡号不能为空。");
             }
-            if (cardIdList.contains(cardId)) {
-                continue;
-            }
-            cardIdList.add(cardId);
 
             CardPasswordEntity dbValue = service.getCardPasswordById(cardId);
             if (null == dbValue) {
@@ -173,12 +169,20 @@ public class CardPasswordController extends BaseController implements CardPasswo
                 continue;
             }
 
-            //已回收
-            if (dbValue.getStatus() == 3) {
+            //已回收,已充值
+            if (dbValue.getStatus() == 2) {
                 cp.setInfo("卡密已回收");
                 rsltList.add(cp);
                 continue;
             }
+
+            //已撤销
+            if (dbValue.getStatus() == 3) {
+                cp.setInfo("卡密已撤销");
+                rsltList.add(cp);
+                continue;
+            }
+
             String pwd = cp.getPassword();
             if (StringUtils.isEmpty(pwd.trim())) {
                 cp.setInfo("卡号或密码不正确");
@@ -193,13 +197,20 @@ public class CardPasswordController extends BaseController implements CardPasswo
                     log.info("user info:{}", user);
                     cp.setRechargeId(rechargeId);
                     cp.setName(user.getName());
-                    //TODO待增加
-                    cp.setNickName("");
-                    cp.setQq("");
+                    //TODO
+                    // 待增加获取用户昵称和QQ
+                    cp.setNickName(user.getName());
+                    cp.setQq(user.getName());
                 }
             } else {
                 cp.setInfo("卡号或密码不正确");
             }
+
+            if (cardIdList.contains(cardId)) {
+                continue;
+            }
+            cardIdList.add(cardId);
+
             rsltList.add(cp);
         }
         return rsltList;

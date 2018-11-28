@@ -101,6 +101,10 @@ public class WebSettingEntity implements Serializable {
     private Timestamp updateTime;
 
     public void update(WebSettingEntity entity){
+        if(null==entity){
+            return;
+        }
+
         setCreateUser(null==entity.getCreateUser()?createUser:entity.getCreateUser());
         setCreateTime(null==entity.getCreateTime()?createTime:entity.getCreateTime());
         setCathecticWagesPropor(null==entity.getCathecticWagesPropor()?cathecticWagesPropor:entity.getCathecticWagesPropor());

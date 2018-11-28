@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserLoginService;
+import com.taoyuan.framework.common.entity.TyProxyOperation;
 import com.taoyuan.framework.common.entity.TyUserLoginEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.util.TyBigNumUtil;
 import com.taoyuan.framework.common.util.TyPageUtil;
 import com.taoyuan.framework.mail.TyVerificationCodeService;
+import com.taoyuan.framework.oper.IProxyOperService;
 import com.taoyuan.gms.api.admin.RecordsQueryApi;
 import com.taoyuan.gms.common.util.StringUtil;
 import com.taoyuan.gms.core.adminmanage.service.*;
@@ -31,9 +33,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Autowired
     private TyVerificationCodeService verificationCodeService;
-
-    @Autowired
-    private ISubstituteService substituteService;
 
     @Autowired
     private IChartsRewardsService chartsRewardsService;
@@ -78,18 +77,8 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public IPage<Map<String, Object>> getProxyOperates(Integer pageIndex, Integer pageSize) {
-        //TODO 测试数据
-//        for (int i = 0; i < 10; i++) {
-//            ProxyOperEntity entity = new ProxyOperEntity();
-//            entity.setProxyId(3l);
-//            entity.setProxyName("代理1");
-//            entity.setMoneyChanged(BigDecimal.valueOf(-100));
-//            entity.setAccount(BigDecimal.valueOf(1000);
-//            proxyOperService.save(entity);
-//        }
-
         Page page = getPage(pageIndex, pageSize);
-        return proxyOperService.pageMaps(new Page<ProxyOperEntity>(pageIndex, pageSize), null);
+        return proxyOperService.pageMaps(new Page<TyProxyOperation>(pageIndex, pageSize), null);
     }
 
     @Override
@@ -128,18 +117,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public IPage<Map<String, Object>> getSaleDetails(Map<String, Object> map) {
-        //TODO 测试数据
-        for (int i = 0; i < 10; i++) {
-            SaleDetailEntity entity = new SaleDetailEntity();
-            entity.setId(1000000l + i);
-            entity.setProxyName("代理名称" + i);
-            entity.setCallbackMoney(1000);
-            entity.setIncome(100000);
-            entity.setSubstituteMoney(2000);
-            entity.setTime(new Date());
-            saleDetailService.save(entity);
-        }
-
         Page page = getPage(map);
 
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
@@ -234,25 +211,27 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public IPage<Map<String, Object>> getChartsRewards(String id, String type) {
-        return null;
+    public IPage<Map<String, Object>> getChartsRewards(Map<String, Object> map) {
+        if (null == map) {
+            throw new ValidateException("查询条件不能为空。");
+        }
+        Page page = getPage(map);
+
+        QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
+        wrapper.lambda().eq(ChartsRewardsEntity::getType, 1);
+        if (map.containsKey("id")) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getMemberId, map.get("id"));
+        }
+
+        if (map.containsKey("status")) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getStatus, map.get("status"));
+        }
+
+        return chartsRewardsService.page(page, wrapper);
     }
 
     @Override
     public IPage<Map<String, Object>> getVChartsRewards(Integer pageIndex, Integer pageSize) {
-        List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
-        for (int i = 0; i < 10; i++) {
-            ChartsRewardsEntity entity = new ChartsRewardsEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setRewards(5555d);
-            entity.setStatus("未领取");
-            entity.setTime(new Date());
-            entity.setType(2);
-            list.add(entity);
-            chartsRewardsService.save(entity);
-        }
-
         Page page = getPage(pageIndex, pageSize);
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 2);
@@ -260,37 +239,49 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public IPage<Map<String, Object>> getVChartsRewards(String id, String type) {
-        return null;
+    public IPage<Map<String, Object>> getVChartsRewards(Map<String, Object> map) {
+        if (null == map) {
+            throw new ValidateException("查询条件不能为空。");
+        }
+        Page page = getPage(map);
+
+        QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
+        wrapper.lambda().eq(ChartsRewardsEntity::getType, 2);
+        if (map.containsKey("id")) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getMemberId, map.get("id"));
+        }
+
+        if (map.containsKey("status")) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getStatus, map.get("status"));
+        }
+
+        return chartsRewardsService.page(page, wrapper);
     }
 
 
     @Override
     public IPage<Map<String, Object>> getChipinWages(Map<String, Object> map) {
         //TODO 测试数据
-        for (int i = 0; i < 10; i++) {
-            ChipinWageEntity entity = new ChipinWageEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setWage(1000);
-            entity.setEffectiveFlow(10000);
-            entity.setDate(new Date());
-            entity.setStatus(1);
-            chipinWageService.save(entity);
-        }
+//        for (int i = 0; i < 10; i++) {
+//            ChipinWageEntity entity = new ChipinWageEntity();
+//            entity.setMemberId(300001l);
+//            entity.setMemberNickName("会员1");
+//            entity.setWage(1000);
+//            entity.setEffectiveFlow(10000);
+//            entity.setDate(new Date());
+//            entity.setStatus(1);
+//            chipinWageService.save(entity);
+//        }
 
         Page page = getPage(map);
-        QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper();
+        QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper<ChipinWageEntity>();
         long id = 0l;
         if (map.containsKey("id")) {
-            id = Long.valueOf(map.get("id").toString());
-            wrapper.lambda().eq(ChipinWageEntity::getMemberId, id);
+            wrapper.lambda().eq(ChipinWageEntity::getMemberId, map.get("id"));
         }
 
-        int status = 0;
         if (map.containsKey("status")) {
-            status = Integer.valueOf(map.get("status").toString());
-            wrapper.lambda().eq(ChipinWageEntity::getStatus, status);
+            wrapper.lambda().eq(ChipinWageEntity::getStatus, map.get("status"));
         }
 
         return chipinWageService.pageMaps(page, wrapper);
@@ -299,29 +290,25 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Override
     public IPage<Map<String, Object>> getJuniorCommissions(Map<String, Object> map) {
         //TODO 测试数据
-        for (int i = 0; i < 10; i++) {
-            JuniorCommissionEntity entity = new JuniorCommissionEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setWage(1000);
-            entity.setYtdJuniorCommissionFlow(10000);
-            entity.setDate(new Date());
-            entity.setStatus(1);
-            juniorCommissionService.save(entity);
-        }
+//        for (int i = 0; i < 10; i++) {
+//            JuniorCommissionEntity entity = new JuniorCommissionEntity();
+//            entity.setMemberId(300001l);
+//            entity.setMemberNickName("会员1");
+//            entity.setWage(1000);
+//            entity.setYtdJuniorCommissionFlow(10000);
+//            entity.setDate(new Date());
+//            entity.setStatus(1);
+//            juniorCommissionService.save(entity);
+//        }
 
         Page page = getPage(map);
         QueryWrapper<JuniorCommissionEntity> wrapper = new QueryWrapper();
-        long id = 0l;
         if (map.containsKey("id")) {
-            id = Long.valueOf(map.get("id").toString());
-            wrapper.lambda().eq(JuniorCommissionEntity::getMemberId, id);
+            wrapper.lambda().eq(JuniorCommissionEntity::getMemberId, map.get("id"));
         }
 
-        int status = 0;
         if (map.containsKey("status")) {
-            status = Integer.valueOf(map.get("status").toString());
-            wrapper.lambda().eq(JuniorCommissionEntity::getStatus, status);
+            wrapper.lambda().eq(JuniorCommissionEntity::getStatus, map.get("status"));
         }
 
         return juniorCommissionService.pageMaps(page, wrapper);
@@ -394,14 +381,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
         wrapper.eq("type", 1);
         return userLoginService.pageMaps(page, wrapper);
     }
-
-//    private void validatePageParams(Integer pageIndex, Integer pageSize) {
-//        if (null == pageIndex) {
-//            throw new ValidateException(10000001, "分页参数不能为空。", "pageIndex");
-//        } else if (null == pageSize) {
-//            throw new ValidateException(10000002, "分页参数不能为空。", "pageSize");
-//        }
-//    }
 
     public static void main(String[] args) {
         System.out.println(new Date().toString());
