@@ -54,7 +54,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/saledetail", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getSaleDetails(@RequestBody Map<String,Object> map);
+    public IPage<Map<String, Object>> getSaleDetails(@RequestBody Map<String, Object> map);
 
     /**
      * 查询所有亏损返利
@@ -66,11 +66,12 @@ public interface RecordsQueryApi {
 
     /**
      * 查询亏损返利
+     *
      * @param map
      * @return
      */
     @RequestMapping(value = "/lossrabate", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getLossRebates(@RequestBody Map<String,Object> map);
+    public IPage<Map<String, Object>> getLossRebates(@RequestBody Map<String, Object> map);
 
 
     /**
@@ -84,12 +85,11 @@ public interface RecordsQueryApi {
     /**
      * 查询排行榜奖励
      *
-     * @param id
-     * @param type
+     * @param map
      * @return
      */
-    @RequestMapping(value = "/chartsreward/{id}&{type}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getChartsRewards(@PathVariable("id") String id, @PathVariable("type") String type);
+    @RequestMapping(value = "/chartsrewards/", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> getChartsRewards(@RequestBody Map<String, Object> map);
 
 
     /**
@@ -103,13 +103,11 @@ public interface RecordsQueryApi {
     /**
      * 查询排行榜奖励
      *
-     * @param id
-     * @param type
+     * @param map
      * @return
      */
-    @RequestMapping(value = "/vchartsreward/{id}&{type}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getVChartsRewards(@PathVariable("id") String id, @PathVariable("type") String type);
-
+    @RequestMapping(value = "/vchartsrewards/", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> getVChartsRewards(@RequestBody Map<String, Object> map);
 
 
     /**
@@ -118,7 +116,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/chipinwage", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getChipinWages(@RequestBody Map<String,Object> map);
+    public IPage<Map<String, Object>> getChipinWages(@RequestBody Map<String, Object> map);
 
     /**
      * 查询下线提成
@@ -126,7 +124,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/juniorcommission", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getJuniorCommissions(@RequestBody Map<String,Object> map);
+    public IPage<Map<String, Object>> getJuniorCommissions(@RequestBody Map<String, Object> map);
 
     /**
      * 查询首冲返利
@@ -148,6 +146,7 @@ public interface RecordsQueryApi {
 
     /**
      * 查询每日统计
+     *
      * @return
      */
     @RequestMapping(value = "/dailystatistic", method = RequestMethod.GET)
@@ -157,7 +156,7 @@ public interface RecordsQueryApi {
      * 管理员登录
      */
     @RequestMapping(value = "/adminlogin", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getAdminLogins(@RequestBody HashMap<String,Object> map);
+    public IPage<Map<String, Object>> getAdminLogins(@RequestBody HashMap<String, Object> map);
 
 //    /**
 //     * 查询会员登录
@@ -174,5 +173,5 @@ public interface RecordsQueryApi {
 //    public IPage<Map<String, Object>> getMemberLogins(@RequestBody PageConditionEntity entity);
 
     @RequestMapping(value = "/memberlogin", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getMemberLogins(@RequestBody HashMap<String,Object> map);
+    public IPage<Map<String, Object>> getMemberLogins(@RequestBody HashMap<String, Object> map);
 }

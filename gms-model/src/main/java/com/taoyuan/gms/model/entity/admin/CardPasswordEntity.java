@@ -25,7 +25,7 @@ public class CardPasswordEntity {
     //所属者
     private String owner;
 
-    //状态；1未充值，2已充值,3已注销
+    //状态；1未充值，2已充值(回收),3已注销
     private int status;
 
     //兑奖ID

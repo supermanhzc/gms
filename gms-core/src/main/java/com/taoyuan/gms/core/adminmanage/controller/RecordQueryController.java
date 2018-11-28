@@ -211,25 +211,27 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public IPage<Map<String, Object>> getChartsRewards(String id, String type) {
-        return null;
+    public IPage<Map<String, Object>> getChartsRewards(Map<String, Object> map) {
+        if (null == map) {
+            throw new ValidateException("查询条件不能为空。");
+        }
+        Page page = getPage(map);
+
+        QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
+        wrapper.lambda().eq(ChartsRewardsEntity::getType, 1);
+        if (map.containsKey("id")) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getMemberId, map.get("id"));
+        }
+
+        if (map.containsKey("status")) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getStatus, map.get("status"));
+        }
+
+        return chartsRewardsService.page(page, wrapper);
     }
 
     @Override
     public IPage<Map<String, Object>> getVChartsRewards(Integer pageIndex, Integer pageSize) {
-        List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
-        for (int i = 0; i < 10; i++) {
-            ChartsRewardsEntity entity = new ChartsRewardsEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setRewards(5555d);
-            entity.setStatus("未领取");
-            entity.setTime(new Date());
-            entity.setType(2);
-            list.add(entity);
-            chartsRewardsService.save(entity);
-        }
-
         Page page = getPage(pageIndex, pageSize);
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 2);
@@ -237,37 +239,49 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public IPage<Map<String, Object>> getVChartsRewards(String id, String type) {
-        return null;
+    public IPage<Map<String, Object>> getVChartsRewards(Map<String, Object> map) {
+        if (null == map) {
+            throw new ValidateException("查询条件不能为空。");
+        }
+        Page page = getPage(map);
+
+        QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
+        wrapper.lambda().eq(ChartsRewardsEntity::getType, 2);
+        if (map.containsKey("id")) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getMemberId, map.get("id"));
+        }
+
+        if (map.containsKey("status")) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getStatus, map.get("status"));
+        }
+
+        return chartsRewardsService.page(page, wrapper);
     }
 
 
     @Override
     public IPage<Map<String, Object>> getChipinWages(Map<String, Object> map) {
         //TODO 测试数据
-        for (int i = 0; i < 10; i++) {
-            ChipinWageEntity entity = new ChipinWageEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setWage(1000);
-            entity.setEffectiveFlow(10000);
-            entity.setDate(new Date());
-            entity.setStatus(1);
-            chipinWageService.save(entity);
-        }
+//        for (int i = 0; i < 10; i++) {
+//            ChipinWageEntity entity = new ChipinWageEntity();
+//            entity.setMemberId(300001l);
+//            entity.setMemberNickName("会员1");
+//            entity.setWage(1000);
+//            entity.setEffectiveFlow(10000);
+//            entity.setDate(new Date());
+//            entity.setStatus(1);
+//            chipinWageService.save(entity);
+//        }
 
         Page page = getPage(map);
-        QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper();
+        QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper<ChipinWageEntity>();
         long id = 0l;
         if (map.containsKey("id")) {
-            id = Long.valueOf(map.get("id").toString());
-            wrapper.lambda().eq(ChipinWageEntity::getMemberId, id);
+            wrapper.lambda().eq(ChipinWageEntity::getMemberId, map.get("id"));
         }
 
-        int status = 0;
         if (map.containsKey("status")) {
-            status = Integer.valueOf(map.get("status").toString());
-            wrapper.lambda().eq(ChipinWageEntity::getStatus, status);
+            wrapper.lambda().eq(ChipinWageEntity::getStatus, map.get("status"));
         }
 
         return chipinWageService.pageMaps(page, wrapper);
@@ -276,29 +290,25 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Override
     public IPage<Map<String, Object>> getJuniorCommissions(Map<String, Object> map) {
         //TODO 测试数据
-        for (int i = 0; i < 10; i++) {
-            JuniorCommissionEntity entity = new JuniorCommissionEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setWage(1000);
-            entity.setYtdJuniorCommissionFlow(10000);
-            entity.setDate(new Date());
-            entity.setStatus(1);
-            juniorCommissionService.save(entity);
-        }
+//        for (int i = 0; i < 10; i++) {
+//            JuniorCommissionEntity entity = new JuniorCommissionEntity();
+//            entity.setMemberId(300001l);
+//            entity.setMemberNickName("会员1");
+//            entity.setWage(1000);
+//            entity.setYtdJuniorCommissionFlow(10000);
+//            entity.setDate(new Date());
+//            entity.setStatus(1);
+//            juniorCommissionService.save(entity);
+//        }
 
         Page page = getPage(map);
         QueryWrapper<JuniorCommissionEntity> wrapper = new QueryWrapper();
-        long id = 0l;
         if (map.containsKey("id")) {
-            id = Long.valueOf(map.get("id").toString());
-            wrapper.lambda().eq(JuniorCommissionEntity::getMemberId, id);
+            wrapper.lambda().eq(JuniorCommissionEntity::getMemberId, map.get("id"));
         }
 
-        int status = 0;
         if (map.containsKey("status")) {
-            status = Integer.valueOf(map.get("status").toString());
-            wrapper.lambda().eq(JuniorCommissionEntity::getStatus, status);
+            wrapper.lambda().eq(JuniorCommissionEntity::getStatus, map.get("status"));
         }
 
         return juniorCommissionService.pageMaps(page, wrapper);
@@ -371,14 +381,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
         wrapper.eq("type", 1);
         return userLoginService.pageMaps(page, wrapper);
     }
-
-//    private void validatePageParams(Integer pageIndex, Integer pageSize) {
-//        if (null == pageIndex) {
-//            throw new ValidateException(10000001, "分页参数不能为空。", "pageIndex");
-//        } else if (null == pageSize) {
-//            throw new ValidateException(10000002, "分页参数不能为空。", "pageSize");
-//        }
-//    }
 
     public static void main(String[] args) {
         System.out.println(new Date().toString());
