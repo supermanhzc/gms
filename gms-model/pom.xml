@@ -11,5 +11,11 @@
   <groupId>com.taoyuan.gms</groupId>
   <artifactId>gms-model</artifactId>
   <name>gms-model</name>
-  <dependencies></dependencies>
+  <dependencies>
+      <dependency>
+          <groupId>com.taoyuan.gms</groupId>
+          <artifactId>gms-common</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+      </dependency>
+  </dependencies>
 </project>

@@ -64,6 +64,8 @@ redis:
 taoyuan:
   unAuthUrls:
     - /contentmgnt/announcement/**
+    - /contentmgnt/announcement/**
+    - /swagger-ui.html
   permissions:
     /sitemanage/account/**=perms["account:*"]
 
