@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.util.TyPageUtil;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
+@RestController
 public abstract class BaseController {
 
     public BaseController() {
@@ -59,4 +62,13 @@ public abstract class BaseController {
         }
     }
 
+    //TODO    此处需要调用接口查询用户余额
+    public BigDecimal getBalance(Long id){
+        return BigDecimal.valueOf(20000);
+    }
+
+    //TODO 此处需要调用接口更新用户余额
+    public void updateBalance(Long id,BigDecimal money){
+        BigDecimal balance = getBalance(id).subtract(money);
+    }
 }
