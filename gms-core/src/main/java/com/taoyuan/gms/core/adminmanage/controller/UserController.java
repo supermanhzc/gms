@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-@RestController
 @Slf4j
+@RestController
 public class UserController extends BaseController implements UserApi {
 
     @Autowired
