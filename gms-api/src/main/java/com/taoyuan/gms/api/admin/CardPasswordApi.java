@@ -15,7 +15,8 @@ import java.util.Map;
 public interface CardPasswordApi {
 
     /**
-     * 查询卡密信息
+     * 管理员查询卡密信息
+     * 分页参数默认带
      * @param map
      * @return
      */
@@ -32,14 +33,35 @@ public interface CardPasswordApi {
 
     /**
      * 回收卡密
-     * @param map
+     * @param cardPassword
      * @return
      */
     @RequestMapping(value = "/withdraw", method = RequestMethod.POST)
-    public TyResponse withdraw(@RequestBody Map<String, Object> map);
+    public TyResponse withdraw(@RequestBody CardPassword cardPassword);
 
+    /**
+     * 批量回收卡密
+     * @param cardPasswordList
+     * @return
+     */
     @RequestMapping(value = "/withdrawbatch", method = RequestMethod.POST)
     public TyResponse withdrawbatch(@RequestBody List<CardPassword> cardPasswordList);
+
+    /**
+     * 批量注销
+     * @param cardPasswordList
+     * @return
+     */
+    @RequestMapping(value = "/cancelbatch", method = RequestMethod.POST)
+    public TyResponse cancelbatch(@RequestBody List<CardPassword> cardPasswordList);
+
+    /**
+     * 批量注销
+     * @param cardPassword
+     * @return
+     */
+    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
+    public TyResponse cancel(@RequestBody CardPassword cardPassword);
 
     /**
      * 删除卡密
@@ -51,4 +73,14 @@ public interface CardPasswordApi {
 
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     public List<CardPassword> getCardPasswordInfo(@RequestBody List<CardPassword> cardPasswordList);
+
+
+    /**
+     * 管理员条件查询
+     * keyword为关键字，cardType为卡类型，不传的话默认查所有，分页参数默认要带
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "/proxyquery", method = RequestMethod.POST)
+    public IPage<Map<String, Object>> query(@RequestBody Map<String, Object> map);
 }
