@@ -8,20 +8,18 @@ import lombok.Data;
 
 @Data
 @TableName(value = "gms_user")
-public class UserEntity extends TyUser {
+public class UserEntity {
 
+    @TableField(value = "user_id")
+    private Long userId;
     @TableField(value = "nick_name")
     private String nickName;
     private String qq;
     private float balance;
     private String bank;
     private Integer experience;
+
 //    private Integer totalRecharge;
 //    private Integer totalAward;
 //    private Integer childNumber;
-
-    public UserEntity(){
-        super(UserType.USER);
-    }
-
 }

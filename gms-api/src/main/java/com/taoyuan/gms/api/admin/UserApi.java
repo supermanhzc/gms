@@ -11,18 +11,18 @@ import java.util.Map;
 @Api(value = "会员管理")
 @RequestMapping("/users")
 public interface UserApi{
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", method = RequestMethod.POST)
     IPage<Map<String, Object>> getAllUsers(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
     void modifyUser(@RequestBody UserDto userDto);
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     void deleteUser(@PathVariable("id") Integer id);
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    void createUser(@RequestBody UserDto userDto);
+    @RequestMapping(value = "/create/normal", method = RequestMethod.POST)
+    TyResponse createUser(@RequestBody UserDto userDto);
 
-    @RequestMapping(value = "/sys", method = RequestMethod.POST)
+    @RequestMapping(value = "/create/sys", method = RequestMethod.POST)
     void batchCreateUser(@RequestParam("count") Integer sysUserCount);
 }
