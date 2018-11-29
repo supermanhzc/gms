@@ -111,4 +111,20 @@ public abstract class BaseController {
     public Long getCurrentUserId() {
         return TySession.getCurrentUser().getUserId();
     }
+
+    public String getCurrentUserName(){
+        return TySession.getCurrentUser().getName();
+    }
+
+    /**
+     * 根据id查询用户信息
+     * @param id
+     * @return
+     */
+    public UserEntity getById(Long id) {
+        QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
+        wrapper.lambda().eq(UserEntity::getUserId, id);
+        UserEntity user = userService.getOne(wrapper);
+        return user;
+    }
 }

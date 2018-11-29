@@ -5,4 +5,6 @@ import com.taoyuan.gms.model.entity.admin.prize.PrizeEntity;
 
 public interface IPrizeService extends IService<PrizeEntity> {
     PrizeEntity getById(Long id);
+
+    PrizeEntity getByName(String name);
 }

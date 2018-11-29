@@ -13,4 +13,9 @@ public class PrizeServiceImpl extends ServiceImpl<PrizeMapper, PrizeEntity> impl
     public PrizeEntity getById(Long id) {
         return getOne(new QueryWrapper<PrizeEntity>().lambda().eq(PrizeEntity::getId,id));
     }
+
+    @Override
+    public PrizeEntity getByName(String name) {
+        return getOne(new QueryWrapper<PrizeEntity>().lambda().eq(PrizeEntity::getName,name));
+    }
 }
