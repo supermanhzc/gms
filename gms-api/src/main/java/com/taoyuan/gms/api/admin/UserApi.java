@@ -15,10 +15,10 @@ public interface UserApi{
     IPage<Map<String, Object>> getAllUsers(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
 
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    void modifyUser(@RequestBody UserDto userDto);
+    TyResponse modifyUser(@RequestBody UserDto userDto);
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    void deleteUser(@PathVariable("id") Integer id);
+    TyResponse deleteUser(@PathVariable("id") Long id);
 
     @RequestMapping(value = "/create/normal", method = RequestMethod.POST)
     TyResponse createUser(@RequestBody UserDto userDto);

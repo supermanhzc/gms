@@ -38,19 +38,24 @@ public class UserController extends BaseController implements UserApi {
     }
 
     @Override
-    public void modifyUser(UserDto userDto) {
+    public TyResponse modifyUser(UserDto userDto) {
+        TyUser tyUser = new TyUser();
+        BeanUtils.copyProperties(userDto, tyUser);
+
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(userDto, userEntity);
-        if(!userService.update(userEntity, null)){
-            throw TyExceptionUtil.buildException(ResultCode.USER_UPDATE_ERROR);
+        TyResponse response = tyAuthController.modify(tyUser);
+        if(ResultCode.SUCCESS.getCode().toString().equals(response.getCode())){
+            if(userService.updateById(userEntity)){
+                return response;
+            }
         }
+        throw TyExceptionUtil.buildException(ResultCode.USER_UPDATE_ERROR);
     }
 
     @Override
-    public void deleteUser(Integer id) {
-        if(!userService.removeById(id)){
-            throw TyExceptionUtil.buildException(ResultCode.USER_REMOVE_ERROR);
-        }
+    public TyResponse deleteUser(Long id) {
+        return tyAuthController.delete(id);
     }
 
     @Override
@@ -62,14 +67,12 @@ public class UserController extends BaseController implements UserApi {
         BeanUtils.copyProperties(userDto, tyUser);
         TyResponse response = tyAuthController.register(tyUser);
         if(ResultCode.SUCCESS.getCode().toString().equals(response.getCode())){
-            userEntity.setUserId(((TyUser)response.getData()).getId());
-            if(!userService.save(userEntity)){
-                throw TyExceptionUtil.buildException(ResultCode.USER_REGISTRY_ERROR);
+            userEntity.setId(((TyUser)response.getData()).getId());
+            if(userService.save(userEntity)){
+                return response;
             }
-        }else{
-            throw TyExceptionUtil.buildException(ResultCode.USER_REGISTRY_ERROR);
         }
-        return response;
+        throw TyExceptionUtil.buildException(ResultCode.USER_REGISTRY_ERROR);
     }
 
     @Override
