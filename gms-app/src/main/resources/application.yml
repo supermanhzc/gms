@@ -1,9 +1,18 @@
 server:
-  port: 8081
+  port: 8443
   tomcat:
     uri-encoding: UTF-8
   servlet:
     context-path: /gms
+
+  ssl:
+    key-store-type: PKCS12
+    key-store: keystore.p12
+    key-store-password: gms@123
+    key-alias: tomcat
+
+http:
+  port: 8081
 
 spring:
   application:
