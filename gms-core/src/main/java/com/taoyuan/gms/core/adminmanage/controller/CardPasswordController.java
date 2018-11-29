@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
 import com.taoyuan.framework.common.entity.TyUser;
+import com.taoyuan.framework.common.entity.TyUserLoginEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
@@ -41,13 +42,24 @@ public class CardPasswordController extends BaseController implements CardPasswo
         Page page = getPage(map);
 
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
-        if (map.containsKey("key")) {
-            wrapper.lambda().eq(CardPasswordEntity::getCardType, map.get("cardType"));
-        }
-        if (map.containsKey("cardId")) {
-            wrapper.lambda().eq(CardPasswordEntity::getCardId, map.get("cardId"));
+        if (map.containsKey("keyword")) {
+            String keyword = (String) map.get("keyword");
+            wrapper.lambda().eq(CardPasswordEntity::getCardId, keyword).or().eq(CardPasswordEntity::getCardPassword,
+                    keyword).or().eq(CardPasswordEntity::getRechargeId, keyword);
         }
 
+        if (map.containsKey("cardType")) {
+            wrapper.lambda().eq(CardPasswordEntity::getCardType, map.get("cardType"));
+        }
+
+        if (map.containsKey("status")) {
+            wrapper.lambda().eq(CardPasswordEntity::getStatus, map.get("status"));
+        }
+
+        if (map.containsKey("owner")) {
+            wrapper.lambda().eq(CardPasswordEntity::getOwner, map.get("owner"));
+        }
+        wrapper.lambda().orderByDesc(CardPasswordEntity::getCreateTime);
         return service.pageMaps(page, wrapper);
     }
 
@@ -83,6 +95,9 @@ public class CardPasswordController extends BaseController implements CardPasswo
             entityList.add(entity);
         }
         service.saveBatch(entityList);
+
+        //更新库存
+
         return entityList;
     }
 
@@ -103,6 +118,7 @@ public class CardPasswordController extends BaseController implements CardPasswo
         log.info("withdraw card password:{}", entity);
         //设置状态为已回收
         entity.setStatus(2);
+        entity.setEndTime(new Date());
         service.saveOrUpdate(entity);
 
         //回收后给用户增加对应金额
@@ -131,6 +147,7 @@ public class CardPasswordController extends BaseController implements CardPasswo
             if (null != dbValue) {
                 //设置状态为已回收
                 dbValue.setStatus(2);
+                dbValue.setEndTime(new Date());
                 dbValueList.add(dbValue);
             }
 
@@ -169,6 +186,7 @@ public class CardPasswordController extends BaseController implements CardPasswo
             if (null != dbValue) {
                 //设置状态为已撤销
                 dbValue.setStatus(2);
+                dbValue.setEndTime(new Date());
                 dbValueList.add(dbValue);
             }
 
@@ -205,6 +223,7 @@ public class CardPasswordController extends BaseController implements CardPasswo
         log.info("cancel object:{}", entity);
         //设置状态为已撤销
         entity.setStatus(3);
+        entity.setEndTime(new Date());
         service.saveOrUpdate(entity);
 
         //更新用户余额
@@ -295,6 +314,35 @@ public class CardPasswordController extends BaseController implements CardPasswo
             rsltList.add(cp);
         }
         return rsltList;
+    }
+
+    @Override
+    public IPage<Map<String, Object>> query(Map<String, Object> map) {
+        Page page = getPage(map);
+
+        QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
+//        if (map.containsKey("createUser")) {
+//            Long owner = Long.valueOf(map.get("createUser").toString());
+//            wrapper.lambda().eq(CardPasswordEntity::getCreateUser, owner);
+//        }
+
+        if (map.containsKey("keyword")) {
+            String keyword = (String) map.get("keyword");
+            if (!StringUtils.isEmpty(keyword)) {
+                wrapper.lambda().eq(CardPasswordEntity::getCardId, Long.valueOf(keyword)).or().eq
+                        (CardPasswordEntity::getCardPassword, keyword).or().eq(CardPasswordEntity::getId, Long.valueOf
+                        (keyword));
+            }
+        }
+
+        if (map.containsKey("cardType")) {
+            int cardType = (int) map.get("cardType");
+            wrapper.lambda().eq(CardPasswordEntity::getCardType, cardType);
+        }
+
+        wrapper.lambda().orderByDesc(CardPasswordEntity::getCreateTime);
+        wrapper.lambda().orderByDesc(CardPasswordEntity::getCreateTime);
+        return service.pageMaps(page, wrapper);
     }
 
     private String getCardHead(int cardType) {
