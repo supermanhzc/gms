@@ -20,7 +20,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @Slf4j
@@ -77,7 +76,7 @@ public class CardPwdWithdrawController extends BaseController implements CardPwd
             //回收后讲卡状态设置为已充值，同时记录卡密回收记录
             Map<String, CardPwdWithdrawEntity> map = new HashMap<String, CardPwdWithdrawEntity>();
             for (CardPasswordEntity card : dbList) {
-                CardPasswordEntity dbValue = cpService.getCardPasswordById(card.getCardId());
+                CardPasswordEntity dbValue = cpService.getByCardId(card.getCardId());
                 log.info("Card info:{}", dbValue);
                 CardPwdWithdrawEntity cpw = null;
                 String rechargeId = dbValue.getRechargeId();

@@ -13,15 +13,14 @@ import com.taoyuan.framework.common.util.TyRandomUtil;
 import com.taoyuan.gms.api.admin.CardPasswordApi;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
 import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
-import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,17 +87,26 @@ public class CardPasswordController extends BaseController implements CardPasswo
     }
 
     @Override
-    public TyResponse withdraw(Map<String, Object> map) {
-        if (!map.containsKey("cardId")) {
+    public TyResponse withdraw(CardPassword cardPassword) {
+        log.info("input:{}", cardPassword);
+        String cardId = cardPassword.getCardId();
+        if (StringUtils.isEmpty(cardId)) {
             throw new ValidateException("卡号不能为空。");
         }
 
-        String cardId = (String) map.get("cardId");
-        CardPasswordEntity entity = new CardPasswordEntity();
-//        CardPasswordEntity entity = service.getOne(new QueryWrapper<CardPasswordEntity>().eq("card_id",cardId));
-        log.info("withdraw object is {}", entity);
-        entity.setStatus(3);
-        service.update(entity, new QueryWrapper<CardPasswordEntity>().eq("card_id", cardId));
+        String pwd = cardPassword.getPassword();
+        if (StringUtils.isEmpty(pwd)) {
+            throw new ValidateException("密码不能为空。");
+        }
+
+        CardPasswordEntity entity = service.getByCardId(cardId);
+        log.info("withdraw card password:{}", entity);
+        //设置状态为已回收
+        entity.setStatus(2);
+        service.saveOrUpdate(entity);
+
+        //回收后给用户增加对应金额
+        updateBalance(Long.valueOf(entity.getRechargeId()), entity.getMoney());
         return new TySuccessResponse(cardId);
     }
 
@@ -108,31 +116,100 @@ public class CardPasswordController extends BaseController implements CardPasswo
             return new TySuccessResponse(null);
         }
 
-        List<String> cardIdList = new ArrayList<String>();
+        List<CardPasswordEntity> dbValueList = new ArrayList<CardPasswordEntity>();
+        for (CardPassword cp : cardPasswordList) {
+            String cardId = cp.getCardId();
+            if (StringUtils.isEmpty(cardId)) {
+                throw new ValidateException("待回收卡密卡号不能为空。");
+            }
+            String pwd = cp.getPassword();
+            if (StringUtils.isEmpty(pwd)) {
+                throw new ValidateException("待回收卡密密码不能为空。");
+            }
+
+            CardPasswordEntity dbValue = service.getByCardIdAndPwd(cardId, pwd);
+            if (null != dbValue) {
+                //设置状态为已回收
+                dbValue.setStatus(2);
+                dbValueList.add(dbValue);
+            }
+
+        }
+
+        log.info("card password list:{}", dbValueList);
+        service.saveOrUpdateBatch(dbValueList);
+
+        //回收后给用户增加对应金额
+        for (CardPasswordEntity cp : dbValueList) {
+            updateBalance(Long.valueOf(cp.getRechargeId()), cp.getMoney());
+        }
+
+        return new TySuccessResponse(dbValueList);
+    }
+
+    @Override
+    public TyResponse cancelbatch(List<CardPassword> cardPasswordList) {
+        if (CollectionUtils.isEmpty(cardPasswordList)) {
+            return new TySuccessResponse(null);
+        }
+
+        List<CardPasswordEntity> dbValueList = new ArrayList<CardPasswordEntity>();
         for (CardPassword cp : cardPasswordList) {
             String cardId = cp.getCardId();
             if (StringUtils.isEmpty(cardId)) {
                 throw new ValidateException("待撤销卡密卡号不能为空。");
             }
+
             String pwd = cp.getPassword();
             if (StringUtils.isEmpty(pwd)) {
                 throw new ValidateException("待撤销卡密密码不能为空。");
             }
 
-            QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
-            wrapper.lambda().eq(CardPasswordEntity::getCardId, cardId).eq(CardPasswordEntity::getCardPassword, pwd);
-            CardPasswordEntity dbValue = service.getOne(wrapper);
+            CardPasswordEntity dbValue = service.getByCardIdAndPwd(cardId, pwd);
             if (null != dbValue) {
-                cardIdList.add(cardId);
+                //设置状态为已撤销
+                dbValue.setStatus(2);
+                dbValueList.add(dbValue);
             }
 
         }
 
-        log.info("card id list is {}", cardIdList);
-        CardPasswordEntity entity = new CardPasswordEntity();
+        log.info("card list is {}", dbValueList);
+        service.saveOrUpdateBatch(dbValueList);
+
+        Long proxyId = getCurrentUserId();
+        BigDecimal cancelMoney = BigDecimal.ZERO;
+        //计算需要撤销的总金额
+        for (CardPasswordEntity cp : dbValueList) {
+            cancelMoney.add(cp.getMoney());
+        }
+        //更新代理余额
+        updateBalance(proxyId, cancelMoney);
+
+        return new TySuccessResponse(dbValueList);
+    }
+
+    @Override
+    public TyResponse cancel(CardPassword cardPassword) {
+        String cardId = cardPassword.getCardId();
+        if (StringUtils.isEmpty(cardId)) {
+            throw new ValidateException("卡号不能为空。");
+        }
+
+        String pwd = cardPassword.getPassword();
+        if (StringUtils.isEmpty(pwd)) {
+            throw new ValidateException("密码不能为空。");
+        }
+
+        CardPasswordEntity entity = service.getByCardId(cardId);
+        log.info("cancel object:{}", entity);
+        //设置状态为已撤销
         entity.setStatus(3);
-        service.update(entity, new QueryWrapper<CardPasswordEntity>().in("card_id", cardIdList));
-        return new TySuccessResponse(cardIdList);
+        service.saveOrUpdate(entity);
+
+        //更新用户余额
+        updateBalance(getCurrentUserId(), entity.getMoney());
+        return new TySuccessResponse(cardId);
     }
 
     @Override
@@ -140,11 +217,15 @@ public class CardPasswordController extends BaseController implements CardPasswo
         if (null == id) {
             throw new ValidateException("卡号不能为空。");
         }
+        log.info("card password id:{}", id);
+        CardPasswordEntity entity = service.getByCardId(id);
+        if (!StringUtils.isEmpty(entity.getRechargeId())) {
+            throw new ValidateException("不能删除已经兑换的卡。");
+        }
 
-        String cardId = id;
-        log.info("card id is {}", cardId);
-        service.remove(new QueryWrapper<CardPasswordEntity>().eq("card_id", cardId));
-        return new TySuccessResponse(cardId);
+        //只有管理员才能删除，代理和会员不能删除
+        service.remove(new QueryWrapper<CardPasswordEntity>().eq("card_id", id));
+        return new TySuccessResponse(id);
     }
 
     @Override
@@ -162,7 +243,7 @@ public class CardPasswordController extends BaseController implements CardPasswo
                 throw new ValidateException("卡密卡号不能为空。");
             }
 
-            CardPasswordEntity dbValue = service.getCardPasswordById(cardId);
+            CardPasswordEntity dbValue = service.getByCardId(cardId);
             if (null == dbValue) {
                 cp.setInfo("卡号或密码不正确");
                 rsltList.add(cp);

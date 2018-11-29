@@ -5,5 +5,7 @@ import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
 
 public interface ICardPasswordService extends IService<CardPasswordEntity> {
 
-    public CardPasswordEntity getCardPasswordById(String id);
+    public CardPasswordEntity getByCardId(String id);
+
+    public CardPasswordEntity getByCardIdAndPwd(String cardId,String password);
 }
