@@ -11,13 +11,20 @@ import org.springframework.util.StringUtils;
 @Service
 public class CardPasswordServiceImpl extends ServiceImpl<CardPasswordMapper, CardPasswordEntity> implements ICardPasswordService {
     @Override
-    public CardPasswordEntity getCardPasswordById(String id) {
-        if(StringUtils.isEmpty(id)){
+    public CardPasswordEntity getByCardId(String id) {
+        if (StringUtils.isEmpty(id)) {
             return null;
         }
 
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
         wrapper.lambda().eq(CardPasswordEntity::getCardId, id);
+        return getOne(wrapper);
+    }
+
+    @Override
+    public CardPasswordEntity getByCardIdAndPwd(String cardId, String password) {
+        QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
+        wrapper.lambda().eq(CardPasswordEntity::getCardId, cardId).eq(CardPasswordEntity::getCardPassword, password);
         return getOne(wrapper);
     }
 }
