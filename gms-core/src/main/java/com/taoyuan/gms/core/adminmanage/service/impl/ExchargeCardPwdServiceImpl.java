@@ -10,13 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExchargeCardPwdServiceImpl extends ServiceImpl<ExchargeCardPwdMapper, ExchargeCardPwdEntity> implements IExchargeCardPwdService {
     @Override
-    public ExchargeCardPwdEntity getById(Long id) {
-        QueryWrapper<ExchargeCardPwdEntity> wrapper = new QueryWrapper<ExchargeCardPwdEntity>();
-        wrapper.lambda().eq(ExchargeCardPwdEntity::getId, id);
-        return getOne(wrapper);
-    }
-
-    @Override
     public ExchargeCardPwdEntity getByOrderId(int id) {
         QueryWrapper<ExchargeCardPwdEntity> wrapper = new QueryWrapper<ExchargeCardPwdEntity>();
         wrapper.lambda().eq(ExchargeCardPwdEntity::getOrderId, id);

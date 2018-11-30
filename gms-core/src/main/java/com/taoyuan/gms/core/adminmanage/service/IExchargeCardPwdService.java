@@ -5,7 +5,5 @@ import com.taoyuan.gms.model.entity.admin.prize.ExchargeCardPwdEntity;
 
 public interface IExchargeCardPwdService extends IService<ExchargeCardPwdEntity> {
 
-    ExchargeCardPwdEntity getById(Long id);
-
     ExchargeCardPwdEntity getByOrderId(int id);
 }
