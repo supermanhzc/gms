@@ -13,7 +13,7 @@ import sun.nio.cs.ext.ExtendedCharsets;
 import java.util.Map;
 
 @Api(value = "兑奖订单服务")
-@RequestMapping("/peizemgnt/excharge")
+@RequestMapping("/prizemgnt/excharge")
 public interface ExchargeApi {
     /**
      * 查询所有兑奖订单信息
@@ -27,8 +27,8 @@ public interface ExchargeApi {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/order/retrieve?id={id}", method = RequestMethod.GET)
-    public ExchargeOrderEntity getExchangeOrder(@PathVariable("id") Long id);
+    @RequestMapping(value = "/order/retrieve/id={id}", method = RequestMethod.GET)
+    public ExchargeOrderEntity getExchangeOrder(@PathVariable("id") Integer id);
 
     /**
      * 复杂条件查询兑奖订单信息
@@ -43,7 +43,7 @@ public interface ExchargeApi {
      * @return
      */
     @RequestMapping(value = "/order/sipping", method = RequestMethod.POST)
-    public ExchargeOrderEntity freeze(@RequestBody ExchargeOrderEntity order);
+    public ExchargeOrderEntity sipping(@RequestBody ExchargeOrderEntity order);
 
     /**
      * 取消
@@ -65,7 +65,7 @@ public interface ExchargeApi {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/cardpwd/retrieve?id={id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/cardpwd/retrieve/id={id}", method = RequestMethod.GET)
     public ExchargeCardPwdEntity getExchangeCardPwd(@PathVariable("id") Long id);
 
     /**
@@ -76,7 +76,7 @@ public interface ExchargeApi {
     public IPage<Map<String, Object>> getExchangeCardPwds(@RequestBody Map<String,Object> map);
 
     /**
-     * 发货
+     * 冻结
      * @param order
      * @return
      */
@@ -84,7 +84,7 @@ public interface ExchargeApi {
     public ExchargeCardPwdEntity freeze(@RequestBody ExchargeCardPwdEntity order);
 
     /**
-     * 取消
+     * 解冻
      * @param order
      * @return
      */
