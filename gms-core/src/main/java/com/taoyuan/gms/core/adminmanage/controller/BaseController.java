@@ -30,6 +30,21 @@ public abstract class BaseController {
         return TyPageUtil.getPage(map);
     }
 
+    public Page getPageWithoutValidation(Map map){
+        Page page = new Page();
+        if (map.containsKey("pageIndex")) {
+            long pageIndex = Long.valueOf(map.get("pageIndex").toString());
+            page.setCurrent(pageIndex);
+            if (map.containsKey("pageSize")) {
+                page.setSize(Long.valueOf(map.get("pageSize").toString()));
+                return page;
+            } else {
+                throw new ValidateException(10000001, "分页参数不能为空。", "pageSize");
+            }
+        }
+        return page;
+    }
+
     public Page getPage(Integer index, Integer size) {
         validatePageParams(index, size);
         return new Page(index, size);
