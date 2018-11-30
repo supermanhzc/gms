@@ -30,6 +30,13 @@ public class CardTypeController extends BaseController implements CardTypeApi {
     private ICardMgntService service;
 
     @Override
+    public CardTypeEntity retrieve(Long id) {
+        QueryWrapper<CardTypeEntity> wrapper = new QueryWrapper<CardTypeEntity>();
+        wrapper.lambda().eq(CardTypeEntity::getId, id);
+        return service.getOne(wrapper);
+    }
+
+    @Override
     public IPage<Map<String, Object>> retrieve(Map<String, Object> map) {
         Page page = getPage(map);
 
