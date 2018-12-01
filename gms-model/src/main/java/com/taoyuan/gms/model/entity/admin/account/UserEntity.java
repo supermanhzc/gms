@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 @TableName(value = "gms_user")
 public class UserEntity {
@@ -15,8 +17,8 @@ public class UserEntity {
     @TableField(value = "nick_name")
     private String nickName;
     private String qq;
-    private Float balance;
-    private String bank;
+    private BigDecimal balance;
+    private BigDecimal bank;
     private Integer experience;
 
 //    private Integer totalRecharge;

@@ -10,6 +10,7 @@ public class UserDto {
     private String phone;
     private String name;
     private String qq;
+    private Integer type;
     private String password;
     private String securityPassword;
     private boolean needAuth;

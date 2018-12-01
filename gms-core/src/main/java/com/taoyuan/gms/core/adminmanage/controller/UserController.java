@@ -8,6 +8,7 @@ import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.TyExceptionUtil;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.api.admin.UserApi;
+import com.taoyuan.gms.common.consts.UserTypeConsts;
 import com.taoyuan.gms.core.adminmanage.service.IUserService;
 import com.taoyuan.gms.model.dto.admin.UserDto;
 import com.taoyuan.gms.model.entity.admin.account.UserEntity;
@@ -62,6 +63,9 @@ public class UserController extends BaseController implements UserApi {
 
         TyUser tyUser = new TyUser();
         BeanUtils.copyProperties(userDto, tyUser);
+        if(null == tyUser.getType()){
+            tyUser.setType(UserTypeConsts.NORMALUSER);
+        }
         TyResponse response = tyAuthController.register(tyUser);
         if(ResultCode.SUCCESS.getCode().toString().equals(response.getCode())){
             userEntity.setId(((TyUser)response.getData()).getId());
