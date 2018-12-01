@@ -7,9 +7,10 @@ import com.taoyuan.gms.model.entity.admin.account.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper extends BaseMapper<UserEntity> {
-    List queryRegisterUser(IPage mapPage, QueryAccountRequest queryAccountRequest);
-    List queryProxy(IPage mapPage);
+    List<Map> queryRegisterUser(IPage mapPage, QueryAccountRequest queryAccountRequest);
+    List<Map> queryProxy(IPage mapPage);
 }

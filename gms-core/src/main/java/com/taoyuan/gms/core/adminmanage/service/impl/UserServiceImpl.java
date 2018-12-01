@@ -9,6 +9,7 @@ import com.taoyuan.framework.common.constant.UserConsts;
 import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.TyExceptionUtil;
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.common.consts.UserTypeConsts;
 import com.taoyuan.gms.core.adminmanage.dao.UserMapper;
 import com.taoyuan.gms.core.adminmanage.service.IUserService;
@@ -28,7 +29,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     private TyUserService tyUserService;
 
     @Override
-    public TyResponse createUser(Integer type, Object request){
+    public boolean createUser(Integer type, Object request){
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(request, userEntity);
 
@@ -40,37 +41,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             tyUser.setUserName(tyUser.getPhone());
         }
 
-        TyResponse response = tyUserService.register(tyUser);
+        boolean isUserAdded = tyUserService.register(tyUser);
         if(UserTypeConsts.ADMIN == tyUser.getType()){
-            return response;
+            return isUserAdded;
         }
-        if(ResultCode.SUCCESS.getCode().toString().equals(response.getCode())){
-            userEntity.setId(((TyUser)response.getData()).getId());
-            if(this.save(userEntity)){
-                return response;
-            }
+        if(isUserAdded){
+            userEntity.setId(tyUser.getId());
+            return this.save(userEntity);
         }
-        throw TyExceptionUtil.buildException(ResultCode.USER_REGISTRY_ERROR);
+        return false;
     }
 
     @Override
-    public TyResponse updateUser(Object request) {
+    public boolean updateUser(Object request) {
         TyUser tyUser = new TyUser();
         BeanUtils.copyProperties(request, tyUser);
 
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(request, userEntity);
-        TyResponse response = tyUserService.modify(tyUser);
-        if(ResultCode.SUCCESS.getCode().toString().equals(response.getCode())){
-            if(this.updateById(userEntity)){
-                return response;
-            }
-        }
-        throw TyExceptionUtil.buildException(ResultCode.USER_UPDATE_ERROR);
+        boolean isUserModified = tyUserService.modify(tyUser);
+        return isUserModified && this.updateById(userEntity);
     }
 
     @Override
-    public TyResponse deleteUser(Long id) {
+    public boolean deleteUser(Long id) {
         return tyUserService.delete(id);
     }
 

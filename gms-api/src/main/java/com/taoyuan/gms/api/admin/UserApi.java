@@ -1,6 +1,7 @@
 package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.dto.admin.account.*;
 import io.swagger.annotations.Api;
@@ -12,10 +13,10 @@ import java.util.Map;
 @RequestMapping("/users")
 public interface UserApi{
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    IPage queryUsers(@RequestBody QueryAccountRequest queryAccountRequest, @RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
+    TyResponse queryUsers(@RequestBody QueryAccountRequest queryAccountRequest);
 
     @RequestMapping(value = "/getProxy", method = RequestMethod.POST)
-    IPage queryProxys(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
+    TyResponse queryProxys(TyPageEntity queryProxyRequest);
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     TyResponse deleteUser(@PathVariable("id") Long id);
