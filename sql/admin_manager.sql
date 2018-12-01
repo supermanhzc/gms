@@ -64,3 +64,24 @@ CREATE TABLE `admin_verificationcode` (
   `version` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '版本',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+CREATE OR REPLACE VIEW v_ty_today_statistics AS SELECT
+    DATE_FORMAT( now( ), '%Y-%m-%d')  today,
+    count(1) user_count,
+    (SELECT sum( balance ) all_balance FROM gms_user ) user_balance,
+    (SELECT sum( balance ) FROM gms_user g WHERE EXISTS ( SELECT 1 FROM ty_user t WHERE type = 2 AND g.id = t.id )) proxy_balance,
+    0 game_balance,
+    0 cash_balance,
+    (SELECT sum( amount ) FROM proxy_goldenrecharge  WHERE DATE_FORMAT( time,'%Y-%m-%d') = DATE_FORMAT(now(), '%Y-%m-%d' )) recharg_balance,
+    0 cash_cost,
+    (SELECT sum( amount ) FROM proxy_cardpwdwithdraw WHERE DATE_FORMAT( time,'%Y-%m-%d')= DATE_FORMAT(now(), '%Y-%m-%d' ) ) card_balance,
+    0 ranking_balance,
+    0 betting_commission,
+    0 first_reward,
+    0 loss_rebate,
+    0 betting_wage
+  FROM
+    ty_user
+  WHERE
+      DATE_FORMAT( create_time, '%Y-%m-%d' ) = DATE_FORMAT( now( ), '%Y-%m-%d')
