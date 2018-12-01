@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taoyuan.gms.core.adminmanage.dao.UserMapper">
+
+    <!-- 开启二级缓存 -->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+    <sql id="selectUser">
+         SELECT
+          tyu.id,
+          tyu.name,
+          gu.nick_name,
+          gu.qq,
+          tyu.phone,
+          gu.balance,
+          gu.bank,
+          gu.experience,
+          tyu.status,
+          tyu.type
+        FROM
+          ty_user tyu
+        LEFT JOIN
+          gms_user gu
+        ON
+          tyu.id = gu.id
+        WHERE
+          tyu.status != 4
+    </sql>
+
+    <sql id="selectProxy">
+        SELECT
+        tyu.id,
+        tyu.name,
+        tyu.phone,
+        gu.balance,
+        gu.distrib_money as distribMoney,
+        tyu.status
+        FROM
+        ty_user tyu
+        LEFT JOIN
+        gms_user gu
+        ON
+        tyu.id = gu.id
+        WHERE
+        tyu.status != 4
+    </sql>
+
+    <select id="queryRegisterUser" parameterType="com.taoyuan.gms.model.dto.admin.account.QueryAccountRequest" resultType="java.util.Map">
+        <include refid="selectUser" />
+        <if test="queryAccountRequest.queryKey != null and queryAccountRequest.queryKey != ''">
+            AND (
+            tyu.id = #{queryAccountRequest.queryKey} OR
+            gu.nick_name like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
+            tyu.phone like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
+            tyu.name like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
+            gu.qq like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
+            )
+        </if>
+        <if test="queryAccountRequest.types != null and queryAccountRequest.types.size>0">
+            and tyu.type in
+            <foreach item="type" index="index" collection="queryAccountRequest.types"
+                     open="(" close=")" separator=",">
+                #{type}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="queryProxy" resultType="java.util.Map">
+        <include refid="selectProxy" />
+    </select>
+</mapper>

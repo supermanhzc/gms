@@ -99,7 +99,7 @@ public abstract class BaseController {
         //TODO 此处逻辑先屏蔽，后面等功能提供后放开
 //        QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
 //        wrapper.lambda().eq(UserEntity::getId, id);
-//        UserEntity user = userService.getOne(wrapper);
+//        UserEntity account = userService.getOne(wrapper);
         return BigDecimal.valueOf(1000000);
     }
 
@@ -117,7 +117,7 @@ public abstract class BaseController {
         //TODO 此处接口实现后放开
 //        QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
 //        wrapper.lambda().eq(UserEntity::getId, id);
-//        UserEntity user = userService.getOne(wrapper);
+//        UserEntity account = userService.getOne(wrapper);
     }
 
     /**
@@ -126,7 +126,7 @@ public abstract class BaseController {
      * @return
      */
     public Long getCurrentUserId() {
-        log.info("current user id:{}", TySession.getCurrentUser().getUserId());
+        log.info("current account id:{}", TySession.getCurrentUser().getUserId());
         return TySession.getCurrentUser().getUserId();
     }
 

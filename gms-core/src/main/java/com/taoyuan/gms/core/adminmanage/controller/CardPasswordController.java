@@ -294,7 +294,7 @@ public class CardPasswordController extends BaseController implements CardPasswo
                 if (dbValue.getRechargeId() != null) {
                     String rechargeId = dbValue.getRechargeId();
                     TyUser user = userService.getUserById(Long.valueOf(rechargeId));
-                    log.info("user info:{}", user);
+                    log.info("account info:{}", user);
                     cp.setRechargeId(rechargeId);
                     cp.setName(user.getName());
                     //TODO

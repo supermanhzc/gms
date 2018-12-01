@@ -2,7 +2,7 @@ package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.gms.model.dto.admin.UserDto;
+import com.taoyuan.gms.model.dto.admin.account.*;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,17 +12,32 @@ import java.util.Map;
 @RequestMapping("/users")
 public interface UserApi{
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    IPage<Map<String, Object>> getAllUsers(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
+    IPage queryUsers(@RequestBody QueryAccountRequest queryAccountRequest, @RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
 
-    @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    TyResponse modifyUser(@RequestBody UserDto userDto);
+    @RequestMapping(value = "/getProxy", method = RequestMethod.POST)
+    IPage queryProxys(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     TyResponse deleteUser(@PathVariable("id") Long id);
 
-    @RequestMapping(value = "/create/normal", method = RequestMethod.POST)
-    TyResponse createUser(@RequestBody UserDto userDto);
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    TyResponse register(@RequestBody RegisterAccountRequest registerAccountRequest);
 
-    @RequestMapping(value = "/create/sys", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    TyResponse update(@RequestBody UpdateAccountRequest updateAccountRequest);
+
+    @RequestMapping(value = "/allocateProxy", method = RequestMethod.POST)
+    TyResponse allocateProxy(@RequestBody AllocateProxyRequest allocateProxyRequest);
+
+    @RequestMapping(value = "/updateProxy", method = RequestMethod.POST)
+    TyResponse updateProxy(@RequestBody UpdateProxyRequest updateProxyRequest);
+
+    @RequestMapping(value = "/createAdmin", method = RequestMethod.POST)
+    TyResponse createAdmin(CreateAdminRequest createAdminRequest);
+
+    @RequestMapping(value = "/updateAdmin", method = RequestMethod.POST)
+    TyResponse updateAdmin(@RequestBody UpdateAdminRequest updateAdminRequest);
+
+    @RequestMapping(value = "/batchsys", method = RequestMethod.POST)
     void batchCreateUser(@RequestParam("count") Integer sysUserCount);
 }
