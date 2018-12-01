@@ -23,10 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.regex.Pattern;
+
 
 @Slf4j
 @RestController
@@ -66,11 +64,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
-//        VerificationCodeEntity entity= new VerificationCodeEntity();
-//        entity.setInfName("短信");
-//        entity.setType("注册");
-//        entity.setVCode("888888");
-//        verificationCodeService.save(entity);
         return verificationCodeService.pageMaps(page, null);
     }
 
@@ -150,35 +143,11 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Override
     public IPage<Map<String, Object>> getLossRebates(Integer pageIndex, Integer pageSize) {
         super.validatePageParams(pageIndex, pageSize);
-        List<LossRabateEntity> list = new ArrayList<LossRabateEntity>();
-        for (int i = 0; i < 10; i++) {
-            LossRabateEntity entity = new LossRabateEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setLoss(50000d);
-            entity.setRabate(10000d);
-            entity.setTime(new Date());
-            entity.setStatus(1);
-            list.add(entity);
-            lossRabateService.save(entity);
-        }
         return lossRabateService.pageMaps(new Page<LossRabateEntity>(pageIndex, pageSize), null);
     }
 
     @Override
     public IPage<Map<String, Object>> getLossRebates(@RequestBody Map<String, Object> map) {
-        //TODO 测试代码
-        for (int i = 0; i < 10; i++) {
-            LossRabateEntity entity = new LossRabateEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setLoss(50000d);
-            entity.setRabate(10000d);
-            entity.setTime(new Date());
-            entity.setStatus(1);
-            lossRabateService.save(entity);
-        }
-
         Page page = TyPageUtil.getPage(map);
         QueryWrapper<LossRabateEntity> wrapper = new QueryWrapper<LossRabateEntity>();
         if (map.containsKey("id")) {
@@ -198,18 +167,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Override
     public IPage<Map<String, Object>> getChartsRewards(Integer pageIndex, Integer pageSize) {
         List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
-        for (int i = 0; i < 10; i++) {
-            ChartsRewardsEntity entity = new ChartsRewardsEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setRewards(5555d);
-            entity.setStatus("未领取");
-            entity.setTime(new Date());
-            entity.setType(1);
-            list.add(entity);
-            chartsRewardsService.save(entity);
-        }
-
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 1);
         return chartsRewardsService.pageMaps(new Page<ChartsRewardsEntity>(pageIndex, pageSize), wrapper);
@@ -266,18 +223,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public IPage<Map<String, Object>> getChipinWages(Map<String, Object> map) {
-        //TODO 测试数据
-//        for (int i = 0; i < 10; i++) {
-//            ChipinWageEntity entity = new ChipinWageEntity();
-//            entity.setMemberId(300001l);
-//            entity.setMemberNickName("会员1");
-//            entity.setWage(1000);
-//            entity.setEffectiveFlow(10000);
-//            entity.setDate(new Date());
-//            entity.setStatus(1);
-//            chipinWageService.save(entity);
-//        }
-
         Page page = getPage(map);
         QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper<ChipinWageEntity>();
         long id = 0l;
@@ -294,18 +239,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public IPage<Map<String, Object>> getJuniorCommissions(Map<String, Object> map) {
-        //TODO 测试数据
-//        for (int i = 0; i < 10; i++) {
-//            JuniorCommissionEntity entity = new JuniorCommissionEntity();
-//            entity.setMemberId(300001l);
-//            entity.setMemberNickName("会员1");
-//            entity.setWage(1000);
-//            entity.setYtdJuniorCommissionFlow(10000);
-//            entity.setDate(new Date());
-//            entity.setStatus(1);
-//            juniorCommissionService.save(entity);
-//        }
-
         Page page = getPage(map);
         QueryWrapper<JuniorCommissionEntity> wrapper = new QueryWrapper();
         if (map.containsKey("id")) {
