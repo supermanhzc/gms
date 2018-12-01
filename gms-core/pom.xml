@@ -35,7 +35,7 @@
       <dependency>
           <groupId>com.taoyuan.framework</groupId>
           <artifactId>framework-bs</artifactId>
-          <version>${framework-version}</version>
+        <version>${framework-version}</version>
       </dependency>
 
   </dependencies>

@@ -62,6 +62,8 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath*:sqlmap/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 redis:
   auth:

@@ -1,7 +1,12 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.framework.bs.controller.TyBaseController;
+import com.taoyuan.framework.common.constant.ResultCode;
+import com.taoyuan.framework.common.entity.TyPageEntity;
+import com.taoyuan.framework.common.exception.TyExceptionUtil;
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.admin.UserApi;
 import com.taoyuan.gms.common.consts.UserTypeConsts;
 import com.taoyuan.gms.core.adminmanage.service.IUserService;
@@ -14,54 +19,83 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class UserController extends BaseController implements UserApi {
+public class UserController extends TyBaseController implements UserApi {
 
     @Autowired
     private IUserService userService;
 
     @Override
-    public IPage queryUsers(QueryAccountRequest queryAccountRequest, Integer pageIndex, Integer pageSize) {
-        return userService.queryUsers(queryAccountRequest, getPage(pageIndex, pageSize));
+    public TyResponse queryUsers(QueryAccountRequest queryAccountRequest) {
+        IPage result = userService.queryUsers(queryAccountRequest, getPage(queryAccountRequest));
+        if(null != result){
+            return new TySuccessResponse(result);
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_GET_ERROR);
     }
 
     @Override
-    public IPage queryProxys(Integer pageIndex, Integer pageSize) {
-        return userService.queryProxys(getPage(pageIndex, pageSize));
+    public TyResponse queryProxys(TyPageEntity queryProxyRequest) {
+        IPage result = userService.queryProxys(getPage(queryProxyRequest));
+        if(null != result){
+            return new TySuccessResponse(result);
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_GET_ERROR);
     }
 
     @Override
     public TyResponse deleteUser(Long id) {
-        return userService.deleteUser(id);
+        if(userService.deleteUser(id)){
+            return new TySuccessResponse("user delete successfully.");
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_REMOVE_ERROR);
     }
 
     @Override
     public TyResponse register(RegisterAccountRequest registerAccountRequest) {
-        return userService.createUser(UserTypeConsts.NORMALUSER, registerAccountRequest);
+        if(userService.createUser(UserTypeConsts.NORMALUSER, registerAccountRequest)){
+            return new TySuccessResponse("user register successfully.");
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_REGISTRY_ERROR);
     }
 
     @Override
     public TyResponse update(UpdateAccountRequest updateAccountRequest) {
-        return userService.updateUser(updateAccountRequest);
+        if(userService.updateUser(updateAccountRequest)){
+            return new TySuccessResponse("user update successfully.");
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_UPDATE_ERROR);
     }
 
     @Override
     public TyResponse allocateProxy(AllocateProxyRequest allocateProxyRequest) {
-        return userService.createUser(UserTypeConsts.PROXY, allocateProxyRequest);
+        if(userService.createUser(UserTypeConsts.PROXY, allocateProxyRequest)){
+            return new TySuccessResponse("proxy allocate successfully.");
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_REGISTRY_ERROR);
     }
 
     @Override
     public TyResponse updateProxy(UpdateProxyRequest updateProxyRequest) {
-        return userService.updateUser(updateProxyRequest);
+        if(userService.updateUser(updateProxyRequest)){
+            return new TySuccessResponse("proxy update successfully.");
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_UPDATE_ERROR);
     }
 
     @Override
     public TyResponse createAdmin(CreateAdminRequest createAdminRequest) {
-        return userService.createUser(UserTypeConsts.ADMIN, createAdminRequest);
+        if(userService.createUser(UserTypeConsts.ADMIN, createAdminRequest)){
+            return new TySuccessResponse("admin allocate successfully.");
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_REGISTRY_ERROR);
     }
 
     @Override
     public TyResponse updateAdmin(UpdateAdminRequest updateAdminRequest){
-        return userService.updateUser(updateAdminRequest);
+        if(userService.updateUser(updateAdminRequest)){
+            return new TySuccessResponse("admin update successfully.");
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_UPDATE_ERROR);
     }
 
     @Override

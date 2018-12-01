@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.taoyuan.gms.core.adminmanage.dao.UserMapper">
-
     <!-- 开启二级缓存 -->
     <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
 
@@ -9,7 +8,7 @@
          SELECT
           tyu.id,
           tyu.name,
-          gu.nick_name,
+          gu.nick_name as nickName,
           gu.qq,
           tyu.phone,
           gu.balance,
@@ -24,7 +23,8 @@
         ON
           tyu.id = gu.id
         WHERE
-          tyu.status != 4
+          tyu.status != ${@com.taoyuan.framework.common.constant.UserConsts@DELETED.ordinal()} AND
+          tyu.type in (${@com.taoyuan.gms.common.consts.UserTypeConsts@NORMALUSER}, ${@com.taoyuan.gms.common.consts.UserTypeConsts@SYSTEMUSER})
     </sql>
 
     <sql id="selectProxy">
@@ -42,10 +42,11 @@
         ON
         tyu.id = gu.id
         WHERE
-        tyu.status != 4
+        tyu.status != ${@com.taoyuan.framework.common.constant.UserConsts@DELETED.ordinal()} AND
+        tyu.type = ${@com.taoyuan.gms.common.consts.UserTypeConsts@PROXY}
     </sql>
 
-    <select id="queryRegisterUser" parameterType="com.taoyuan.gms.model.dto.admin.account.QueryAccountRequest" resultType="java.util.Map">
+    <select id="queryRegisterUser" resultType="java.util.Map">
         <include refid="selectUser" />
         <if test="queryAccountRequest.queryKey != null and queryAccountRequest.queryKey != ''">
             AND (
@@ -53,7 +54,7 @@
             gu.nick_name like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
             tyu.phone like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
             tyu.name like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
-            gu.qq like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
+            gu.qq like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%')
             )
         </if>
         <if test="queryAccountRequest.types != null and queryAccountRequest.types.size>0">

@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface IUserService extends IService<UserEntity> {
-    TyResponse createUser(Integer type, Object request);
-    TyResponse updateUser(Object request);
+    boolean createUser(Integer type, Object request);
+    boolean updateUser(Object request);
 
 
-    TyResponse deleteUser(Long id);
+    boolean deleteUser(Long id);
 
     IPage queryUsers(QueryAccountRequest queryAccountRequest, IPage page);
     IPage queryProxys(IPage page);
