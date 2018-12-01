@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taoyuan.gms.core.adminmanage.dao.UserMapper">
+
+    <!-- 开启二级缓存 -->
+    <!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+    <sql id="selectUser">
+         SELECT
+          tyu.id,
+          tyu.name,
+          gu.nick_name,
+          gu.qq,
+          tyu.phone,
+          gu.balance,
+          gu.bank,
+          gu.experience,
+          tyu.status,
+          tyu.type
+        FROM
+          ty_user tyu
+        LEFT JOIN
+          gms_user gu
+        ON
+          tyu.id = gu.id
+        WHERE
+          tyu.status != 4
+    </sql>
+
+    <select id="queryRegisterUser" resultType="java.util.Map">
+        <include refid="selectUser" />
+
+
+    </select>
+</mapper>

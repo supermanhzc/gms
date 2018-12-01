@@ -20,8 +20,8 @@ public class UserEntity {
     private BigDecimal balance;
     private BigDecimal bank;
     private Integer experience;
-
-//    private Integer totalRecharge;
-//    private Integer totalAward;
-//    private Integer childNumber;
+    @TableField(value = "distrib_money")
+    private BigDecimal distribMoney;
+    @TableField(value = "referee_id")
+    private Long refereeId;
 }

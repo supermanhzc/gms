@@ -4,5 +4,5 @@ public interface UserTypeConsts {
     int NORMALUSER = 0;
     int SYSTEMUSER = 1;
     int PROXY = 2;
-    int Admin = 999;
+    int ADMIN = 999;
 }

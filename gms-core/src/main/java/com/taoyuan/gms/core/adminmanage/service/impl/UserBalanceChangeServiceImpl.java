@@ -25,6 +25,6 @@ public class UserBalanceChangeServiceImpl extends ServiceImpl<UserBalanceChangeM
         if (this.save(userBalanceChangeEntity)){
             return new TySuccessResponse(userBalanceChangeEntity);
         }
-        throw new TyBusinessException("user balance change failed.");
+        throw new TyBusinessException("account balance change failed.");
     }
 }
