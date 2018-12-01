@@ -17,6 +17,7 @@ import com.taoyuan.gms.core.adminmanage.service.*;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
 import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
 import com.taoyuan.gms.model.entity.admin.*;
+import com.taoyuan.gms.model.entity.statistics.TodayStatisticsEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,6 +58,10 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Autowired
     private IGoldenRechargeService goldenRechargeService;
+
+    @Autowired
+    private ITodayStatisicsService todayStatisticsService;
+
 
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
@@ -328,20 +333,23 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     public DailyStatisticDto getDailyStatistic() {
         //TODO需要从各个表实时查询，只查询当日
         DailyStatisticDto dto = new DailyStatisticDto();
-        dto.setDate(LocalDate.now().toString());
-        dto.setRegisterMemberNum(10);
-        dto.setMembersBalance(TyBigNumUtil.cvrtNum2String(111111111.02222d));
-        dto.setProxyBalance(TyBigNumUtil.cvrtNum2String(10001234123412340.23232d));
-        dto.setGameProfitLoss(TyBigNumUtil.cvrtNum2String(1001234230.00d));
-        dto.setExchange(TyBigNumUtil.cvrtNum2String(5555547456d));
-        dto.setSubstitute(TyBigNumUtil.cvrtNum2String(567442534528.00d));
-        dto.setExchangePoundage(TyBigNumUtil.cvrtNum2String(321.00d));
-        dto.setCdKeyRecharge(TyBigNumUtil.cvrtNum2String(13451345d));
-        dto.setChartsReward(TyBigNumUtil.cvrtNum2String(1313d));
-        dto.setChipinCommission(TyBigNumUtil.cvrtNum2String(2222d));
-        dto.setFirstChargeRebate(TyBigNumUtil.cvrtNum2String(22222d));
-        dto.setLossRebate(TyBigNumUtil.cvrtNum2String(33333d));
-        dto.setChipinWage(TyBigNumUtil.cvrtNum2String(123d));
+
+        QueryWrapper<TodayStatisticsEntity> wrapper = new QueryWrapper<TodayStatisticsEntity>();
+        TodayStatisticsEntity  todayStatisticsEntity = todayStatisticsService.getOne(wrapper);
+        dto.setDate(todayStatisticsEntity.getToday());
+        dto.setRegisterMemberNum(todayStatisticsEntity.getUserCount());
+        dto.setMembersBalance(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getUserBalance()));
+        dto.setProxyBalance(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getProxyBalance()));
+        dto.setGameProfitLoss(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getGameBalance()));
+        dto.setExchange(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getCashBalance()));
+        dto.setSubstitute(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getRechargBalance()));
+        dto.setExchangePoundage(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getCashCost()));
+        dto.setCdKeyRecharge(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getCardBalance()));
+        dto.setChartsReward(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getRankingBalance()));
+        dto.setChipinCommission(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getBettingCommission()));
+        dto.setFirstChargeRebate(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getFirstReward()));
+        dto.setLossRebate(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getLossRebate()));
+        dto.setChipinWage(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getBettingWage()));
         return dto;
     }
 
