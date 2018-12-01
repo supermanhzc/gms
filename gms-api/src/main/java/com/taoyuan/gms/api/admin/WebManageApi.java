@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/webmgnt")
 public interface WebManageApi {
     @RequestMapping(value = "/setting", method = RequestMethod.GET)
-    public WebSettingEntity getWebSetting();
+    public TyResponse getWebSetting();
 
     /**
      * 修改网站配置
@@ -23,10 +23,10 @@ public interface WebManageApi {
      * @param webSetting
      */
     @RequestMapping(value = "/setting", method = RequestMethod.PUT)
-    public WebSettingEntity updateWebSetting(@RequestBody WebSettingEntity webSetting);
+    public TyResponse updateWebSetting(@RequestBody WebSettingEntity webSetting);
 
     @RequestMapping(value = "/gamesetting", method = RequestMethod.GET)
-    public List<GameSettingEntity> getGameSetting();
+    public TyResponse getGameSetting();
 
     @RequestMapping(value = "/gamesetting", method = RequestMethod.PUT)
     public TyResponse updateGameSetting(@RequestBody List<GameSettingEntity> list);

@@ -49,5 +49,5 @@ public interface GoldenRechargeApi {
      * @return
      */
     @RequestMapping(value = "/records", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> retrieve(@RequestBody TyPageEntity pageEntity);
+    public TyResponse retrieve(@RequestBody TyPageEntity pageEntity);
 }

@@ -23,7 +23,7 @@ public interface RechargeWithdrawApi {
      * @return
      */
     @RequestMapping(value = "/retrieve", method = RequestMethod.POST)
-    List<RechargeWithdrawEntity> getRechargeWithdraws(@RequestBody TyPageEntity page);
+    TyResponse getRechargeWithdraws(@RequestBody TyPageEntity page);
 
     /**
      * 充值或者提现

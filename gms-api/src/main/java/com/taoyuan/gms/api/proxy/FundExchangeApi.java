@@ -17,10 +17,10 @@ import java.util.Map;
 public interface FundExchangeApi {
 
     @RequestMapping(value = "/getLatest10", method = RequestMethod.GET)
-    List<FundExchangeEntity> getLatest10();
+    TyResponse getLatest10();
 
     @RequestMapping(value = "/getFundExchanges", method = RequestMethod.POST)
-    List<FundExchangeEntity> getFundExchanges(@RequestBody TyPageEntity pageEntity);
+    TyResponse getFundExchanges(@RequestBody TyPageEntity pageEntity);
 
     /**
      * 回收

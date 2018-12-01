@@ -20,7 +20,7 @@ public interface PrizeClassifyApi {
      * @return
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public List<PrizeClassifyEntity> getPrizeClassifies();
+    public TyResponse getPrizeClassifies();
 
     /**
      * 根据id查询奖品分类信息
@@ -28,14 +28,14 @@ public interface PrizeClassifyApi {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public PrizeClassifyEntity getPrizeClassify(@PathVariable("id") Long id);
+    public TyResponse getPrizeClassify(@PathVariable("id") Long id);
 
     /**
      * 创建奖品分类
      * @param classify
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public PrizeClassifyEntity createPrizeClassfy(@RequestBody PrizeClassifyEntity classify);
+    public TyResponse createPrizeClassfy(@RequestBody PrizeClassifyEntity classify);
 
     /**
      * 修改奖品分类
@@ -43,7 +43,7 @@ public interface PrizeClassifyApi {
      * @param classifyName
      */
     @RequestMapping(value = "/id={id}&classifyName={classifyName}", method = RequestMethod.PUT)
-    public PrizeClassifyEntity modifyPrizeClassfy(@PathVariable("id") Long id, @PathVariable("classifyName") String classifyName);
+    public TyResponse modifyPrizeClassfy(@PathVariable("id") Long id, @PathVariable("classifyName") String classifyName);
 
     /**
      * 删除奖品分类

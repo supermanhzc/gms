@@ -41,7 +41,7 @@ public interface CardPwdWithdrawApi {
      * @return
      */
     @RequestMapping(value = "/retrieve", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> retrieve(@RequestBody TyPageEntity pageEntity);
+    public TyResponse retrieve(@RequestBody TyPageEntity pageEntity);
 
     /**
      * 代理卡密记录查询
@@ -49,5 +49,5 @@ public interface CardPwdWithdrawApi {
      * @return
      */
     @RequestMapping(value = "/records", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> records(@RequestBody TyPageEntity pageEntity);
+    public TyResponse records(@RequestBody TyPageEntity pageEntity);
 }
