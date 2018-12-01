@@ -17,15 +17,14 @@ import com.taoyuan.gms.core.adminmanage.service.*;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
 import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
 import com.taoyuan.gms.model.entity.admin.*;
+import com.taoyuan.gms.model.entity.statistics.TodayStatisticsEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.regex.Pattern;
+
 
 @Slf4j
 @RestController
@@ -58,14 +57,13 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Autowired
     private IGoldenRechargeService goldenRechargeService;
 
+    @Autowired
+    private ITodayStatisicsService todayStatisticsService;
+
+
     @Override
     public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
-//        VerificationCodeEntity entity= new VerificationCodeEntity();
-//        entity.setInfName("短信");
-//        entity.setType("注册");
-//        entity.setVCode("888888");
-//        verificationCodeService.save(entity);
         return verificationCodeService.pageMaps(page, null);
     }
 
@@ -145,35 +143,11 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Override
     public IPage<Map<String, Object>> getLossRebates(Integer pageIndex, Integer pageSize) {
         super.validatePageParams(pageIndex, pageSize);
-        List<LossRabateEntity> list = new ArrayList<LossRabateEntity>();
-        for (int i = 0; i < 10; i++) {
-            LossRabateEntity entity = new LossRabateEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setLoss(50000d);
-            entity.setRabate(10000d);
-            entity.setTime(new Date());
-            entity.setStatus(1);
-            list.add(entity);
-            lossRabateService.save(entity);
-        }
         return lossRabateService.pageMaps(new Page<LossRabateEntity>(pageIndex, pageSize), null);
     }
 
     @Override
     public IPage<Map<String, Object>> getLossRebates(@RequestBody Map<String, Object> map) {
-        //TODO 测试代码
-        for (int i = 0; i < 10; i++) {
-            LossRabateEntity entity = new LossRabateEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setLoss(50000d);
-            entity.setRabate(10000d);
-            entity.setTime(new Date());
-            entity.setStatus(1);
-            lossRabateService.save(entity);
-        }
-
         Page page = TyPageUtil.getPage(map);
         QueryWrapper<LossRabateEntity> wrapper = new QueryWrapper<LossRabateEntity>();
         if (map.containsKey("id")) {
@@ -193,18 +167,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Override
     public IPage<Map<String, Object>> getChartsRewards(Integer pageIndex, Integer pageSize) {
         List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
-        for (int i = 0; i < 10; i++) {
-            ChartsRewardsEntity entity = new ChartsRewardsEntity();
-            entity.setMemberId(300001l);
-            entity.setMemberNickName("会员1");
-            entity.setRewards(5555d);
-            entity.setStatus("未领取");
-            entity.setTime(new Date());
-            entity.setType(1);
-            list.add(entity);
-            chartsRewardsService.save(entity);
-        }
-
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 1);
         return chartsRewardsService.pageMaps(new Page<ChartsRewardsEntity>(pageIndex, pageSize), wrapper);
@@ -261,18 +223,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public IPage<Map<String, Object>> getChipinWages(Map<String, Object> map) {
-        //TODO 测试数据
-//        for (int i = 0; i < 10; i++) {
-//            ChipinWageEntity entity = new ChipinWageEntity();
-//            entity.setMemberId(300001l);
-//            entity.setMemberNickName("会员1");
-//            entity.setWage(1000);
-//            entity.setEffectiveFlow(10000);
-//            entity.setDate(new Date());
-//            entity.setStatus(1);
-//            chipinWageService.save(entity);
-//        }
-
         Page page = getPage(map);
         QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper<ChipinWageEntity>();
         long id = 0l;
@@ -289,18 +239,6 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public IPage<Map<String, Object>> getJuniorCommissions(Map<String, Object> map) {
-        //TODO 测试数据
-//        for (int i = 0; i < 10; i++) {
-//            JuniorCommissionEntity entity = new JuniorCommissionEntity();
-//            entity.setMemberId(300001l);
-//            entity.setMemberNickName("会员1");
-//            entity.setWage(1000);
-//            entity.setYtdJuniorCommissionFlow(10000);
-//            entity.setDate(new Date());
-//            entity.setStatus(1);
-//            juniorCommissionService.save(entity);
-//        }
-
         Page page = getPage(map);
         QueryWrapper<JuniorCommissionEntity> wrapper = new QueryWrapper();
         if (map.containsKey("id")) {
@@ -328,20 +266,23 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     public DailyStatisticDto getDailyStatistic() {
         //TODO需要从各个表实时查询，只查询当日
         DailyStatisticDto dto = new DailyStatisticDto();
-        dto.setDate(LocalDate.now().toString());
-        dto.setRegisterMemberNum(10);
-        dto.setMembersBalance(TyBigNumUtil.cvrtNum2String(111111111.02222d));
-        dto.setProxyBalance(TyBigNumUtil.cvrtNum2String(10001234123412340.23232d));
-        dto.setGameProfitLoss(TyBigNumUtil.cvrtNum2String(1001234230.00d));
-        dto.setExchange(TyBigNumUtil.cvrtNum2String(5555547456d));
-        dto.setSubstitute(TyBigNumUtil.cvrtNum2String(567442534528.00d));
-        dto.setExchangePoundage(TyBigNumUtil.cvrtNum2String(321.00d));
-        dto.setCdKeyRecharge(TyBigNumUtil.cvrtNum2String(13451345d));
-        dto.setChartsReward(TyBigNumUtil.cvrtNum2String(1313d));
-        dto.setChipinCommission(TyBigNumUtil.cvrtNum2String(2222d));
-        dto.setFirstChargeRebate(TyBigNumUtil.cvrtNum2String(22222d));
-        dto.setLossRebate(TyBigNumUtil.cvrtNum2String(33333d));
-        dto.setChipinWage(TyBigNumUtil.cvrtNum2String(123d));
+
+        QueryWrapper<TodayStatisticsEntity> wrapper = new QueryWrapper<TodayStatisticsEntity>();
+        TodayStatisticsEntity  todayStatisticsEntity = todayStatisticsService.getOne(wrapper);
+        dto.setDate(todayStatisticsEntity.getToday());
+        dto.setRegisterMemberNum(todayStatisticsEntity.getUserCount());
+        dto.setMembersBalance(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getUserBalance()));
+        dto.setProxyBalance(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getProxyBalance()));
+        dto.setGameProfitLoss(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getGameBalance()));
+        dto.setExchange(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getCashBalance()));
+        dto.setSubstitute(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getRechargBalance()));
+        dto.setExchangePoundage(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getCashCost()));
+        dto.setCdKeyRecharge(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getCardBalance()));
+        dto.setChartsReward(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getRankingBalance()));
+        dto.setChipinCommission(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getBettingCommission()));
+        dto.setFirstChargeRebate(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getFirstReward()));
+        dto.setLossRebate(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getLossRebate()));
+        dto.setChipinWage(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getBettingWage()));
         return dto;
     }
 
