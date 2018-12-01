@@ -75,15 +75,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public IPage<Map<String, Object>> getAllUsers(List<Integer> types, IPage page) {
-        QueryWrapper<TyUser> wrapper = new QueryWrapper<>();
-        wrapper.lambda().ne(TyUser::getStatus, UserConsts.DELETED);
-        if(!CollectionUtils.isEmpty(types)){
-            wrapper.lambda().in(TyUser::getType, types);
-        }
-        IPage<Map<String, Object>> tyUsers = tyUserService.pageMaps(page, wrapper);
-        return tyUsers;
+    public IPage queryUsers(QueryAccountRequest queryAccountRequest, IPage page) {
+        return page.setRecords(baseMapper.queryRegisterUser(page, queryAccountRequest));
     }
 
-
+    @Override
+    public IPage queryProxys(IPage page) {
+        return page.setRecords(baseMapper.queryProxy(page));
+    }
 }

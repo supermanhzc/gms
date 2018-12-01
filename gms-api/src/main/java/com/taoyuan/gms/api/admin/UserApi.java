@@ -12,7 +12,10 @@ import java.util.Map;
 @RequestMapping("/users")
 public interface UserApi{
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    IPage<Map<String, Object>> getAllUsers(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
+    IPage queryUsers(@RequestBody QueryAccountRequest queryAccountRequest, @RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
+
+    @RequestMapping(value = "/getProxy", method = RequestMethod.POST)
+    IPage queryProxys(@RequestParam("pageIndex") Integer pageIndex, @RequestParam("pageSize") Integer pageSize);
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     TyResponse deleteUser(@PathVariable("id") Long id);

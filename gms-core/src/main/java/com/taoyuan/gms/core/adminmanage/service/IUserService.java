@@ -16,5 +16,6 @@ public interface IUserService extends IService<UserEntity> {
 
     TyResponse deleteUser(Long id);
 
-    IPage<Map<String, Object>> getAllUsers(List<Integer> types, IPage page);
+    IPage queryUsers(QueryAccountRequest queryAccountRequest, IPage page);
+    IPage queryProxys(IPage page);
 }

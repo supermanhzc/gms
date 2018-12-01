@@ -1,7 +1,6 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.taoyuan.framework.aaa.service.TyUserService;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.api.admin.UserApi;
 import com.taoyuan.gms.common.consts.UserTypeConsts;
@@ -20,26 +19,14 @@ public class UserController extends BaseController implements UserApi {
     @Autowired
     private IUserService userService;
 
-    @Autowired
-    private TyUserService tyUserService;
-
-//    @Override
-//    public IPage<Map<String, Object>> getAllProxys(Integer pageIndex, Integer pageSize) {
-//        List<Integer> types = new ArrayList<Integer>();
-//        types.add(UserTypeConsts.PROXY);
-//        return userService.getAllUsers(types, getPage(pageIndex, pageSize));
-//    }
-//
-//    @Override
-//    public IPage<Map<String, Object>> getAllRegisterUsers(Integer pageIndex, Integer pageSize) {
-//        List<Integer> types = new ArrayList<Integer>();
-//        types.add(UserTypeConsts.PROXY);
-//        return userService.getAllUsers(types, getPage(pageIndex, pageSize));
-//    }
+    @Override
+    public IPage queryUsers(QueryAccountRequest queryAccountRequest, Integer pageIndex, Integer pageSize) {
+        return userService.queryUsers(queryAccountRequest, getPage(pageIndex, pageSize));
+    }
 
     @Override
-    public IPage<Map<String, Object>> getAllUsers(Integer pageIndex, Integer pageSize) {
-        return userService.getAllUsers(null, getPage(pageIndex, pageSize));
+    public IPage queryProxys(Integer pageIndex, Integer pageSize) {
+        return userService.queryProxys(getPage(pageIndex, pageSize));
     }
 
     @Override
