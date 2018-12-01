@@ -7,6 +7,7 @@ import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.util.TyPageUtil;
 import com.taoyuan.gms.core.adminmanage.service.IUserService;
 import com.taoyuan.gms.model.entity.admin.account.UserEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.Map;
 
+@Slf4j
 @RestController
 public abstract class BaseController {
 
@@ -109,15 +111,17 @@ public abstract class BaseController {
      * @return
      */
     public Long getCurrentUserId() {
+        log.info("current user id:{}", TySession.getCurrentUser().getUserId());
         return TySession.getCurrentUser().getUserId();
     }
 
-    public String getCurrentUserName(){
+    public String getCurrentUserName() {
         return TySession.getCurrentUser().getName();
     }
 
     /**
      * 根据id查询用户信息
+     *
      * @param id
      * @return
      */
@@ -125,6 +129,7 @@ public abstract class BaseController {
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
         wrapper.lambda().eq(UserEntity::getId, id);
         UserEntity user = userService.getOne(wrapper);
+        log.info("User info:{}", user);
         return user;
     }
 }
