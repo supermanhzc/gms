@@ -123,7 +123,7 @@ public abstract class BaseController {
      */
     public UserEntity getById(Long id) {
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
-        wrapper.lambda().eq(UserEntity::getUserId, id);
+        wrapper.lambda().eq(UserEntity::getId, id);
         UserEntity user = userService.getOne(wrapper);
         return user;
     }
