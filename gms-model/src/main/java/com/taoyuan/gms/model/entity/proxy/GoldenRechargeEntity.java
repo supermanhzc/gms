@@ -27,7 +27,7 @@ public class GoldenRechargeEntity {
     //时间
     private Date time;
 
-    //状态1:可撤销，2：不可撤销
+    //状态1:成功，2：已撤销
     private int status;
 
     //撤销状态，0已撤销,1未撤销

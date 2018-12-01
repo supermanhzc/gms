@@ -1,6 +1,7 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
 import com.taoyuan.framework.common.entity.TyProxyOperation;
@@ -26,6 +27,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -108,6 +110,12 @@ public class GoldenRechargeController extends BaseController implements GoldenRe
         dbValue.setWithdraw(0);
         goldenRechargeService.saveOrUpdate(dbValue);
         return new TySuccessResponse(dbValue);
+    }
+
+    @Override
+    public IPage<Map<String, Object>> retrieve(Map<String, Object> map) {
+        Page page = getPageWithoutValidation(map);
+        return goldenRechargeService.pageMaps(page, new QueryWrapper<GoldenRechargeEntity>());
     }
 
     public static void main(String[] args) {
