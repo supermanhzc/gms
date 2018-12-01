@@ -1,6 +1,7 @@
 package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.gms.model.entity.admin.web.LevelSettingEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,7 @@ import java.util.Map;
 public interface LevelSettingApi {
 
     @RequestMapping(value = "/retrieve", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> retrieve(@RequestBody Map<String, Object> map);
+    public IPage retrieve(@RequestBody TyPageEntity pageEntity);
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public List<LevelSettingEntity> update(@RequestBody List<LevelSettingEntity> levelSettingEntityList);

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.entity.TyProxyOperation;
 import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.ValidateException;
@@ -13,29 +14,28 @@ import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.framework.common.util.TyDateUtils;
 import com.taoyuan.framework.oper.IProxyOperService;
 import com.taoyuan.gms.api.proxy.GoldenRechargeApi;
-import com.taoyuan.gms.core.adminmanage.controller.BaseController;
+import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
+import com.taoyuan.gms.core.proxymanage.dao.GoldenRechargeMapper;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
 import com.taoyuan.gms.job.JobManager;
 import com.taoyuan.gms.job.proxymanage.GoldenRechargeJob;
-import com.taoyuan.gms.model.entity.admin.ProxyOperEntity;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
-public class GoldenRechargeController extends BaseController implements GoldenRechargeApi {
+public class GoldenRechargeController extends BaseGmsController implements GoldenRechargeApi {
 
     @Autowired
     private IGoldenRechargeService goldenRechargeService;
+
+    @Autowired
+    private GoldenRechargeMapper goldenRechargeMapper;
 
     @Autowired
     private TyUserService userService;
@@ -113,18 +113,9 @@ public class GoldenRechargeController extends BaseController implements GoldenRe
     }
 
     @Override
-    public IPage<Map<String, Object>> retrieve(Map<String, Object> map) {
-        Page page = getPageWithoutValidation(map);
-        return goldenRechargeService.pageMaps(page, new QueryWrapper<GoldenRechargeEntity>());
+    public IPage retrieve(TyPageEntity pageEntity) {
+        Page page = getPage(pageEntity);
+        return goldenRechargeMapper.selectPage(page, new QueryWrapper<GoldenRechargeEntity>());
     }
 
-    public static void main(String[] args) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date now = new Date();
-        System.out.println("当前时间：" + sdf.format(now));
-
-        Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.SECOND, 5);
-        System.out.println(sdf.format(nowTime.getTime()));
-    }
 }

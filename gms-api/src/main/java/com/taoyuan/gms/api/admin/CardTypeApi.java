@@ -2,6 +2,7 @@ package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.gms.model.dto.admin.CardTypeRequest;
 import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +19,15 @@ public interface CardTypeApi {
      * @return
      */
     @RequestMapping(value = "/retrieve/id={id}", method = RequestMethod.GET)
-    public CardTypeEntity retrieve(@PathVariable Long id);
+    public TyResponse retrieve(@PathVariable Long id);
 
     /**
      * 查询卡信息
-     * @param map
+     * @param request
      * @return
      */
     @RequestMapping(value = "/retrieve", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> retrieve(@RequestBody Map<String,Object> map);
+    public TyResponse retrieve(@RequestBody CardTypeRequest request);
 
     /**
      * 创建卡
@@ -34,7 +35,7 @@ public interface CardTypeApi {
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public CardTypeEntity create(@RequestBody CardTypeEntity cardTypeEntity);
+    public TyResponse create(@RequestBody CardTypeEntity cardTypeEntity);
 
     /**
      * 修改卡
@@ -42,7 +43,7 @@ public interface CardTypeApi {
      * @return
      */
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public CardTypeEntity update(@RequestBody CardTypeEntity cardTypeEntity);
+    public TyResponse update(@RequestBody CardTypeEntity cardTypeEntity);
 
     /**
      * 删除卡

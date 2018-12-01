@@ -1,25 +1,25 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.FundExchangeApi;
-import com.taoyuan.gms.core.adminmanage.controller.BaseController;
+import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
 import com.taoyuan.gms.core.proxymanage.service.IFundExchangeService;
 import com.taoyuan.gms.model.entity.proxy.FundExchangeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.annotation.Retention;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-public class FundExchangeController extends BaseController implements FundExchangeApi {
+public class FundExchangeController extends BaseGmsController implements FundExchangeApi {
 
     @Autowired
     private IFundExchangeService fundExchangeService;
@@ -30,8 +30,8 @@ public class FundExchangeController extends BaseController implements FundExchan
     }
 
     @Override
-    public List<FundExchangeEntity> getFundExchanges(Map<String, Object> map) {
-        Page page = getPage(map);
+    public List<FundExchangeEntity> getFundExchanges(TyPageEntity pageEntity) {
+        Page page = getPage(pageEntity);
         return fundExchangeService.pageMaps(page, null).getRecords();
     }
 

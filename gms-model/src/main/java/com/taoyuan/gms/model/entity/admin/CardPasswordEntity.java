@@ -31,6 +31,9 @@ public class CardPasswordEntity {
     //兑奖ID
     private String rechargeId;
 
+    //兑奖人姓名
+    private String rechargeName;
+
     //生成兑换时间
     private Date startTime;
 

@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-public class PrizeController extends BaseController implements PrizeApi {
+public class PrizeController extends BaseGmsController implements PrizeApi {
 
     @Autowired
     private IPrizeService service;

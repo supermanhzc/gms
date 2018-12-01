@@ -1,5 +1,6 @@
 package com.taoyuan.gms.api.proxy;
 
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.entity.proxy.FundExchangeEntity;
 import com.taoyuan.gms.model.entity.proxy.RechargeWithdrawEntity;
@@ -18,11 +19,11 @@ public interface RechargeWithdrawApi {
     /**
      * 查询
      *
-     * @param map
+     * @param page
      * @return
      */
     @RequestMapping(value = "/retrieve", method = RequestMethod.POST)
-    List<RechargeWithdrawEntity> getRechargeWithdraws(@RequestBody Map<String, Object> map);
+    List<RechargeWithdrawEntity> getRechargeWithdraws(@RequestBody TyPageEntity page);
 
     /**
      * 充值或者提现

@@ -1,5 +1,6 @@
 package com.taoyuan.gms.api.proxy;
 
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import com.taoyuan.gms.model.entity.proxy.FundExchangeEntity;
@@ -19,7 +20,7 @@ public interface FundExchangeApi {
     List<FundExchangeEntity> getLatest10();
 
     @RequestMapping(value = "/getFundExchanges", method = RequestMethod.POST)
-    List<FundExchangeEntity> getFundExchanges(@RequestBody Map<String, Object> map);
+    List<FundExchangeEntity> getFundExchanges(@RequestBody TyPageEntity pageEntity);
 
     /**
      * 回收
