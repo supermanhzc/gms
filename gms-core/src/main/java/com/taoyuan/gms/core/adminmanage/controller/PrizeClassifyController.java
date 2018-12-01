@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-public class PrizeClassifyController extends BaseController implements PrizeClassifyApi {
+public class PrizeClassifyController extends BaseGmsController implements PrizeClassifyApi {
 
     @Autowired
     private IPrizeClassifyService service;

@@ -1,5 +1,6 @@
 package com.taoyuan.gms.api.proxy;
 
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import com.taoyuan.gms.model.entity.proxy.FundExchangeEntity;
@@ -16,10 +17,10 @@ import java.util.Map;
 public interface FundExchangeApi {
 
     @RequestMapping(value = "/getLatest10", method = RequestMethod.GET)
-    List<FundExchangeEntity> getLatest10();
+    TyResponse getLatest10();
 
     @RequestMapping(value = "/getFundExchanges", method = RequestMethod.POST)
-    List<FundExchangeEntity> getFundExchanges(@RequestBody Map<String, Object> map);
+    TyResponse getFundExchanges(@RequestBody TyPageEntity pageEntity);
 
     /**
      * 回收

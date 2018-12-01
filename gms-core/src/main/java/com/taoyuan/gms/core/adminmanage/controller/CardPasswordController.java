@@ -12,7 +12,9 @@ import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.framework.common.util.TyRandomUtil;
 import com.taoyuan.gms.api.admin.CardPasswordApi;
+import com.taoyuan.gms.core.adminmanage.dao.CardPasswordMapper;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
+import com.taoyuan.gms.model.dto.admin.CardPasswordRequest;
 import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import lombok.extern.slf4j.Slf4j;
@@ -29,42 +31,45 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class CardPasswordController extends BaseController implements CardPasswordApi {
+public class CardPasswordController extends BaseGmsController implements CardPasswordApi {
 
     @Autowired
     private ICardPasswordService service;
 
     @Autowired
+    private CardPasswordMapper mapper;
+
+    @Autowired
     private TyUserService userService;
 
     @Override
-    public IPage<Map<String, Object>> retrieve(Map<String, Object> map) {
-        Page page = getPage(map);
+    public TyResponse retrieve(CardPasswordRequest request) {
+        Page page = getPage(request);
 
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
-        if (map.containsKey("keyword")) {
-            String keyword = (String) map.get("keyword");
+        if (!StringUtils.isEmpty(request.getKeyword())) {
+            String keyword = request.getKeyword();
             wrapper.lambda().eq(CardPasswordEntity::getCardId, keyword).or().eq(CardPasswordEntity::getCardPassword,
                     keyword).or().eq(CardPasswordEntity::getRechargeId, keyword);
         }
 
-        if (map.containsKey("cardType")) {
-            wrapper.lambda().eq(CardPasswordEntity::getCardType, map.get("cardType"));
+        if (request.getCardType()!=0) {
+            wrapper.lambda().eq(CardPasswordEntity::getCardType, request.getCardType());
         }
 
-        if (map.containsKey("status")) {
-            wrapper.lambda().eq(CardPasswordEntity::getStatus, map.get("status"));
+        if (request.getStatus()!=0) {
+            wrapper.lambda().eq(CardPasswordEntity::getStatus, request.getStatus());
         }
 
-        if (map.containsKey("owner")) {
-            wrapper.lambda().eq(CardPasswordEntity::getOwner, map.get("owner"));
+        if (!StringUtils.isEmpty(request.getOwner())) {
+            wrapper.lambda().eq(CardPasswordEntity::getOwner, request.getOwner());
         }
         wrapper.lambda().orderByDesc(CardPasswordEntity::getCreateTime);
-        return service.pageMaps(page, wrapper);
+        return new TySuccessResponse(mapper.selectPage(page, wrapper));
     }
 
     @Override
-    public List<CardPasswordEntity> create(Map<String, Object> map) {
+    public TyResponse create(Map<String, Object> map) {
         if (!map.containsKey("cardType")) {
             throw new ValidateException("卡类型不能为空。");
         }
@@ -98,7 +103,7 @@ public class CardPasswordController extends BaseController implements CardPasswo
 
         //更新库存
 
-        return entityList;
+        return new TySuccessResponse(entityList);
     }
 
     @Override
@@ -248,10 +253,10 @@ public class CardPasswordController extends BaseController implements CardPasswo
     }
 
     @Override
-    public List<CardPassword> getCardPasswordInfo(List<CardPassword> cardPasswordList) {
+    public TyResponse getCardPasswordInfo(List<CardPassword> cardPasswordList) {
         log.info("input is {}", cardPasswordList);
         if (CollectionUtils.isEmpty(cardPasswordList)) {
-            return cardPasswordList;
+            return new TySuccessResponse(cardPasswordList);
         }
 
         List<CardPassword> rsltList = new ArrayList<CardPassword>();
@@ -313,21 +318,21 @@ public class CardPasswordController extends BaseController implements CardPasswo
 
             rsltList.add(cp);
         }
-        return rsltList;
+        return new TySuccessResponse(rsltList);
     }
 
     @Override
-    public IPage<Map<String, Object>> query(Map<String, Object> map) {
-        Page page = getPage(map);
+    public TyResponse query(CardPasswordRequest request) {
+        Page page = getPage(request);
 
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
-//        if (map.containsKey("createUser")) {
-//            Long owner = Long.valueOf(map.get("createUser").toString());
-//            wrapper.lambda().eq(CardPasswordEntity::getCreateUser, owner);
-//        }
+        if (!StringUtils.isEmpty(request.getCreateUser())) {
+            Long owner = request.getCreateUser();
+            wrapper.lambda().eq(CardPasswordEntity::getCreateUser, owner);
+        }
 
-        if (map.containsKey("keyword")) {
-            String keyword = (String) map.get("keyword");
+        if (!StringUtils.isEmpty(request.getKeyword())) {
+            String keyword = request.getKeyword();
             if (!StringUtils.isEmpty(keyword)) {
                 wrapper.lambda().eq(CardPasswordEntity::getCardId, Long.valueOf(keyword)).or().eq
                         (CardPasswordEntity::getCardPassword, keyword).or().eq(CardPasswordEntity::getId, Long.valueOf
@@ -335,14 +340,14 @@ public class CardPasswordController extends BaseController implements CardPasswo
             }
         }
 
-        if (map.containsKey("cardType")) {
-            int cardType = (int) map.get("cardType");
+        if (request.getCardType()!=0) {
+            int cardType = (int) request.getCardType();
             wrapper.lambda().eq(CardPasswordEntity::getCardType, cardType);
         }
 
         wrapper.lambda().orderByDesc(CardPasswordEntity::getCreateTime);
         wrapper.lambda().orderByDesc(CardPasswordEntity::getCreateTime);
-        return service.pageMaps(page, wrapper);
+        return new TySuccessResponse(mapper.selectPage(page, wrapper));
     }
 
     private String getCardHead(int cardType) {

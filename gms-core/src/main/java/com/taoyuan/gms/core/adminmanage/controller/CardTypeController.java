@@ -10,12 +10,13 @@ import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.framework.common.util.TyRandomUtil;
 import com.taoyuan.gms.api.admin.CardTypeApi;
+import com.taoyuan.gms.core.adminmanage.dao.CardTypeMapper;
 import com.taoyuan.gms.core.adminmanage.service.ICardMgntService;
+import com.taoyuan.gms.model.dto.admin.CardTypeRequest;
 import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -24,34 +25,39 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class CardTypeController extends BaseController implements CardTypeApi {
+public class CardTypeController extends BaseGmsController implements CardTypeApi {
 
     @Autowired
     private ICardMgntService service;
 
+    @Autowired
+    private CardTypeMapper cardTypeMapper;
+
     @Override
-    public CardTypeEntity retrieve(Long id) {
+    public TyResponse retrieve(Long id) {
         QueryWrapper<CardTypeEntity> wrapper = new QueryWrapper<CardTypeEntity>();
         wrapper.lambda().eq(CardTypeEntity::getId, id);
-        return service.getOne(wrapper);
+        return new TySuccessResponse(service.getOne(wrapper));
     }
 
     @Override
-    public IPage<Map<String, Object>> retrieve(Map<String, Object> map) {
-        Page page = getPage(map);
+    public TyResponse retrieve(CardTypeRequest request) {
+        Page page = getPage(request);
 
         QueryWrapper<CardTypeEntity> wrapper = new QueryWrapper<CardTypeEntity>();
-        if (map.containsKey("cardType")) {
-            wrapper.lambda().eq(CardTypeEntity::getCardType, map.get("cardType"));
+        if (request.getCardType()!=0) {
+            wrapper.lambda().eq(CardTypeEntity::getCardType, request.getCardType());
         }
-        if (map.containsKey("cardId")) {
-            wrapper.lambda().eq(CardTypeEntity::getCardId, map.get("cardId"));
+
+        if (StringUtils.isEmpty(request.getCardId())) {
+            wrapper.lambda().eq(CardTypeEntity::getCardId, request.getCardId());
         }
-        return service.pageMaps(page, wrapper);
+
+        return new TySuccessResponse(cardTypeMapper.selectMapsPage(page, wrapper));
     }
 
     @Override
-    public CardTypeEntity create(CardTypeEntity cardTypeEntity) {
+    public TyResponse create(CardTypeEntity cardTypeEntity) {
         validate(cardTypeEntity);
 
         int randomFigure = cardTypeEntity.getRandomFigure();
@@ -61,11 +67,11 @@ public class CardTypeController extends BaseController implements CardTypeApi {
         cardTypeEntity.setCreateUser(TySession.getCurrentUser().getUserId());
         cardTypeEntity.setCreateTime(new Date());
         service.saveOrUpdate(cardTypeEntity);
-        return cardTypeEntity;
+        return new TySuccessResponse(cardTypeEntity);
     }
 
     @Override
-    public CardTypeEntity update(CardTypeEntity cardTypeEntity) {
+    public TyResponse update(CardTypeEntity cardTypeEntity) {
         if (StringUtils.isEmpty(cardTypeEntity.getName())) {
             throw new ValidateException("名称不能为空。");
         }
@@ -81,7 +87,7 @@ public class CardTypeController extends BaseController implements CardTypeApi {
         dbValue.setUpdateUser(TySession.getCurrentUser().getUserId());
         dbValue.setUpdateTime(new Date());
         service.saveOrUpdate(cardTypeEntity);
-        return dbValue;
+        return new TySuccessResponse(dbValue);
     }
 
     @Override

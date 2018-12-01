@@ -1,12 +1,13 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.RechargeWithdrawApi;
-import com.taoyuan.gms.core.adminmanage.controller.BaseController;
+import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
 import com.taoyuan.gms.core.proxymanage.service.IRechargeWithdrawService;
 import com.taoyuan.gms.model.entity.proxy.RechargeWithdrawEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -16,18 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
-public class RechargeWithdrawController extends BaseController implements RechargeWithdrawApi {
+public class RechargeWithdrawControllerGms extends BaseGmsController implements RechargeWithdrawApi {
 
     @Autowired
     private IRechargeWithdrawService service;
 
     @Override
-    public List<RechargeWithdrawEntity> getRechargeWithdraws(Map<String, Object> map) {
-        Page page = getPage(map);
+    public List<RechargeWithdrawEntity> getRechargeWithdraws(TyPageEntity entity) {
+        Page page = getPage(entity);
         return service.pageMaps(page, null).getRecords();
     }
 

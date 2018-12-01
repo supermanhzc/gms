@@ -21,7 +21,7 @@ public interface PrizeApi {
      * @return
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public List<PrizeEntity> getPrizes();
+    public TyResponse getPrizes();
 
     /**
      * 根据id查询奖品信息
@@ -30,7 +30,7 @@ public interface PrizeApi {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public PrizeEntity getPrize(@PathVariable("id") Long id);
+    public TyResponse getPrize(@PathVariable("id") Long id);
 
     /**
      * 创建奖品
@@ -38,7 +38,7 @@ public interface PrizeApi {
      * @param classifyName
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public PrizeEntity createPrize(@RequestBody PrizeEntity classifyName);
+    public TyResponse createPrize(@RequestBody PrizeEntity classifyName);
 
     /**
      * 修改奖品
@@ -46,7 +46,7 @@ public interface PrizeApi {
      * @param prizeEntity
      */
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public PrizeEntity modifyPrize(@RequestBody PrizeEntity prizeEntity);
+    public TyResponse modifyPrize(@RequestBody PrizeEntity prizeEntity);
 
     /**
      * 删除奖品管理

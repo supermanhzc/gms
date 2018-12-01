@@ -1,6 +1,7 @@
 package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
 import com.taoyuan.gms.model.entity.admin.SaleDetailEntity;
 import io.swagger.annotations.Api;
@@ -22,7 +23,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/verificationcode/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getVerificationCodes(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    public TyResponse getVerificationCodes(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询所有代充信息
@@ -30,7 +31,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/recharge/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getRecharges(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    public TyResponse getRecharges(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询所有代理操作
@@ -38,7 +39,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/proxyopearte/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getProxyOperates(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    public TyResponse getProxyOperates(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询所有销售统计
@@ -46,7 +47,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/salestatistic", method = RequestMethod.POST)
-    public List<SaleDetailEntity> getSaleStatistics(@RequestBody Map<String, Object> map);
+    public TyResponse getSaleStatistics(@RequestBody Map<String, Object> map);
 
     /**
      * 查询所有销售明细
@@ -54,7 +55,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/saledetail", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getSaleDetails(@RequestBody Map<String, Object> map);
+    public TyResponse getSaleDetails(@RequestBody Map<String, Object> map);
 
     /**
      * 查询所有亏损返利
@@ -62,7 +63,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/lossrabate/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getLossRebates(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    public TyResponse getLossRebates(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询亏损返利
@@ -71,7 +72,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/lossrabate", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getLossRebates(@RequestBody Map<String, Object> map);
+    public TyResponse getLossRebates(@RequestBody Map<String, Object> map);
 
 
     /**
@@ -80,7 +81,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/chartsrewards/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getChartsRewards(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    public TyResponse getChartsRewards(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询排行榜奖励
@@ -89,7 +90,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/chartsrewards/", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getChartsRewards(@RequestBody Map<String, Object> map);
+    public TyResponse getChartsRewards(@RequestBody Map<String, Object> map);
 
 
     /**
@@ -98,7 +99,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/vchartsrewards/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getVChartsRewards(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
+    public TyResponse getVChartsRewards(@PathVariable("pageIndex") Integer pageIndex, @PathVariable("pageSize") Integer pageSize);
 
     /**
      * 查询排行榜奖励
@@ -107,7 +108,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/vchartsrewards/", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getVChartsRewards(@RequestBody Map<String, Object> map);
+    public TyResponse getVChartsRewards(@RequestBody Map<String, Object> map);
 
 
     /**
@@ -116,7 +117,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/chipinwage", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getChipinWages(@RequestBody Map<String, Object> map);
+    public TyResponse getChipinWages(@RequestBody Map<String, Object> map);
 
     /**
      * 查询下线提成
@@ -124,7 +125,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/juniorcommission", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getJuniorCommissions(@RequestBody Map<String, Object> map);
+    public TyResponse getJuniorCommissions(@RequestBody Map<String, Object> map);
 
     /**
      * 查询首冲返利
@@ -132,7 +133,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/firstchargerebate/", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getFirstchargeRebates();
+    public TyResponse getFirstchargeRebates();
 
     /**
      * 查询首冲返利
@@ -142,7 +143,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/firstchargerebate/{id}&{type}", method = RequestMethod.GET)
-    public IPage<Map<String, Object>> getFirstchargeRebates(@PathVariable("id") String id, @PathVariable("type") String type);
+    public TyResponse getFirstchargeRebates(@PathVariable("id") String id, @PathVariable("type") String type);
 
     /**
      * 查询每日统计
@@ -150,13 +151,13 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/dailystatistic", method = RequestMethod.GET)
-    public DailyStatisticDto getDailyStatistic();
+    public TyResponse getDailyStatistic();
 
     /**
      * 管理员登录
      */
     @RequestMapping(value = "/adminlogin", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getAdminLogins(@RequestBody HashMap<String, Object> map);
+    public TyResponse getAdminLogins(@RequestBody HashMap<String, Object> map);
 
 //    /**
 //     * 查询会员登录
@@ -173,5 +174,5 @@ public interface RecordsQueryApi {
 //    public IPage<Map<String, Object>> getMemberLogins(@RequestBody PageConditionEntity entity);
 
     @RequestMapping(value = "/memberlogin", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getMemberLogins(@RequestBody HashMap<String, Object> map);
+    public TyResponse getMemberLogins(@RequestBody HashMap<String, Object> map);
 }

@@ -3,17 +3,24 @@ package com.taoyuan.gms.core.adminmanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.aaa.dao.TyUserLoginMapper;
 import com.taoyuan.framework.aaa.service.TyUserLoginService;
 import com.taoyuan.framework.common.entity.TyProxyOperation;
 import com.taoyuan.framework.common.entity.TyUserLoginEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
+import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.framework.common.util.TyBigNumUtil;
 import com.taoyuan.framework.common.util.TyPageUtil;
+import com.taoyuan.framework.mail.TyVerificationCodeMapper;
 import com.taoyuan.framework.mail.TyVerificationCodeService;
 import com.taoyuan.framework.oper.IProxyOperService;
+import com.taoyuan.framework.oper.ProxyOperMapper;
 import com.taoyuan.gms.api.admin.RecordsQueryApi;
 import com.taoyuan.gms.common.util.StringUtil;
+import com.taoyuan.gms.core.adminmanage.dao.*;
 import com.taoyuan.gms.core.adminmanage.service.*;
+import com.taoyuan.gms.core.proxymanage.dao.GoldenRechargeMapper;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
 import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
 import com.taoyuan.gms.model.entity.admin.*;
@@ -34,53 +41,80 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     private TyVerificationCodeService verificationCodeService;
 
     @Autowired
+    private TyVerificationCodeMapper verificationCodeMapper;
+
+    @Autowired
     private IChartsRewardsService chartsRewardsService;
+
+    @Autowired
+    private ChartsRewardsMapper chartsRewardsMapper;
 
     @Autowired
     private ILossRabateService lossRabateService;
 
     @Autowired
+    private LossRabateMapper lossRabateMapper;
+
+    @Autowired
     private IProxyOperService proxyOperService;
+
+    @Autowired
+    private ProxyOperMapper proxyOperMapper;
 
     @Autowired
     private TyUserLoginService userLoginService;
 
     @Autowired
+    private TyUserLoginMapper userLoginMapper;
+
+    @Autowired
     private ISaleDetailService saleDetailService;
+
+    @Autowired
+    private SaleDetailMapper saleDetailMapper;
 
     @Autowired
     private IChipinWageService chipinWageService;
 
     @Autowired
+    private ChipinWageMapper chipinWageMapper;
+
+    @Autowired
     private IJuniorCommissionService juniorCommissionService;
 
     @Autowired
+    private JuniorCommissionMapper juniorCommissionMapper;
+
+    @Autowired
     private IGoldenRechargeService goldenRechargeService;
+
+    @Autowired
+    private GoldenRechargeMapper goldenRechargeMapper;
 
     @Autowired
     private ITodayStatisicsService todayStatisticsService;
 
 
     @Override
-    public IPage<Map<String, Object>> getVerificationCodes(Integer pageIndex, Integer pageSize) {
+    public TyResponse getVerificationCodes(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
-        return verificationCodeService.pageMaps(page, null);
+        return new TySuccessResponse(verificationCodeMapper.selectPage(page,null));
     }
 
     @Override
-    public IPage<Map<String, Object>> getRecharges(Integer pageIndex, Integer pageSize) {
+    public TyResponse getRecharges(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
-        return goldenRechargeService.pageMaps(page, null);
+        return new TySuccessResponse(goldenRechargeMapper.selectPage(page, null));
     }
 
     @Override
-    public IPage<Map<String, Object>> getProxyOperates(Integer pageIndex, Integer pageSize) {
+    public TyResponse getProxyOperates(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
-        return proxyOperService.pageMaps(new Page<TyProxyOperation>(pageIndex, pageSize), null);
+        return new TySuccessResponse(proxyOperMapper.selectPage(page, null));
     }
 
     @Override
-    public List<SaleDetailEntity> getSaleStatistics(Map<String, Object> map) {
+    public TyResponse getSaleStatistics(Map<String, Object> map) {
         Page page = getPage(map);
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
         if (map.containsKey("begin")) {
@@ -110,11 +144,11 @@ public class RecordQueryController extends BaseController implements RecordsQuer
         }
 
         List<SaleDetailEntity> rsltList = new ArrayList<SaleDetailEntity>(rsltMap.values());
-        return rsltList;
+        return new TySuccessResponse(rsltList);
     }
 
     @Override
-    public IPage<Map<String, Object>> getSaleDetails(Map<String, Object> map) {
+    public TyResponse getSaleDetails(Map<String, Object> map) {
         Page page = getPage(map);
 
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
@@ -137,17 +171,17 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             }
         }
 
-        return saleDetailService.pageMaps(page, wrapper);
+        return new TySuccessResponse(saleDetailMapper.selectPage(page, wrapper));
     }
 
     @Override
-    public IPage<Map<String, Object>> getLossRebates(Integer pageIndex, Integer pageSize) {
+    public TyResponse getLossRebates(Integer pageIndex, Integer pageSize) {
         super.validatePageParams(pageIndex, pageSize);
-        return lossRabateService.pageMaps(new Page<LossRabateEntity>(pageIndex, pageSize), null);
+        return new TySuccessResponse(lossRabateMapper.selectPage(new Page<LossRabateEntity>(pageIndex, pageSize), null));
     }
 
     @Override
-    public IPage<Map<String, Object>> getLossRebates(@RequestBody Map<String, Object> map) {
+    public TyResponse getLossRebates(@RequestBody Map<String, Object> map) {
         Page page = TyPageUtil.getPage(map);
         QueryWrapper<LossRabateEntity> wrapper = new QueryWrapper<LossRabateEntity>();
         if (map.containsKey("id")) {
@@ -161,19 +195,19 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             }
         }
 
-        return lossRabateService.pageMaps(page, wrapper);
+        return new TySuccessResponse(lossRabateMapper.selectPage(page, wrapper));
     }
 
     @Override
-    public IPage<Map<String, Object>> getChartsRewards(Integer pageIndex, Integer pageSize) {
+    public TyResponse getChartsRewards(Integer pageIndex, Integer pageSize) {
         List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 1);
-        return chartsRewardsService.pageMaps(new Page<ChartsRewardsEntity>(pageIndex, pageSize), wrapper);
+        return new TySuccessResponse(chartsRewardsMapper.selectPage(new Page<ChartsRewardsEntity>(pageIndex, pageSize), wrapper));
     }
 
     @Override
-    public IPage<Map<String, Object>> getChartsRewards(Map<String, Object> map) {
+    public TyResponse getChartsRewards(Map<String, Object> map) {
         if (null == map) {
             throw new ValidateException("查询条件不能为空。");
         }
@@ -189,19 +223,19 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             wrapper.lambda().eq(ChartsRewardsEntity::getStatus, map.get("status"));
         }
 
-        return chartsRewardsService.page(page, wrapper);
+        return new TySuccessResponse(chartsRewardsMapper.selectPage(page, wrapper));
     }
 
     @Override
-    public IPage<Map<String, Object>> getVChartsRewards(Integer pageIndex, Integer pageSize) {
+    public TyResponse getVChartsRewards(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 2);
-        return chartsRewardsService.pageMaps(page, wrapper);
+        return new TySuccessResponse(chartsRewardsMapper.selectPage(page, wrapper));
     }
 
     @Override
-    public IPage<Map<String, Object>> getVChartsRewards(Map<String, Object> map) {
+    public TyResponse getVChartsRewards(Map<String, Object> map) {
         if (null == map) {
             throw new ValidateException("查询条件不能为空。");
         }
@@ -217,12 +251,12 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             wrapper.lambda().eq(ChartsRewardsEntity::getStatus, map.get("status"));
         }
 
-        return chartsRewardsService.page(page, wrapper);
+        return new TySuccessResponse(chartsRewardsMapper.selectPage(page, wrapper));
     }
 
 
     @Override
-    public IPage<Map<String, Object>> getChipinWages(Map<String, Object> map) {
+    public TyResponse getChipinWages(Map<String, Object> map) {
         Page page = getPage(map);
         QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper<ChipinWageEntity>();
         long id = 0l;
@@ -234,11 +268,11 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             wrapper.lambda().eq(ChipinWageEntity::getStatus, map.get("status"));
         }
 
-        return chipinWageService.pageMaps(page, wrapper);
+        return new TySuccessResponse(chipinWageMapper.selectPage(page, wrapper));
     }
 
     @Override
-    public IPage<Map<String, Object>> getJuniorCommissions(Map<String, Object> map) {
+    public TyResponse getJuniorCommissions(Map<String, Object> map) {
         Page page = getPage(map);
         QueryWrapper<JuniorCommissionEntity> wrapper = new QueryWrapper();
         if (map.containsKey("id")) {
@@ -249,21 +283,21 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             wrapper.lambda().eq(JuniorCommissionEntity::getStatus, map.get("status"));
         }
 
-        return juniorCommissionService.pageMaps(page, wrapper);
+        return new TySuccessResponse(juniorCommissionMapper.selectPage(page, wrapper));
     }
 
     @Override
-    public IPage<Map<String, Object>> getFirstchargeRebates() {
+    public TyResponse getFirstchargeRebates() {
         return null;
     }
 
     @Override
-    public IPage<Map<String, Object>> getFirstchargeRebates(String id, String type) {
+    public TyResponse getFirstchargeRebates(String id, String type) {
         return null;
     }
 
     @Override
-    public DailyStatisticDto getDailyStatistic() {
+    public TyResponse getDailyStatistic() {
         //TODO需要从各个表实时查询，只查询当日
         DailyStatisticDto dto = new DailyStatisticDto();
 
@@ -283,22 +317,22 @@ public class RecordQueryController extends BaseController implements RecordsQuer
         dto.setFirstChargeRebate(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getFirstReward()));
         dto.setLossRebate(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getLossRebate()));
         dto.setChipinWage(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getBettingWage()));
-        return dto;
+        return new TySuccessResponse(dto);
     }
 
     @Override
-    public IPage<Map<String, Object>> getAdminLogins(HashMap<String, Object> map) {
+    public TyResponse getAdminLogins(HashMap<String, Object> map) {
         log.info("getAdminLogins map={}", map);
         Page page = TyPageUtil.getPage(map);
 
         QueryWrapper<TyUserLoginEntity> wrapper = new QueryWrapper<TyUserLoginEntity>();
         wrapper.eq("type", 3);
-        return userLoginService.pageMaps(page, wrapper);
+        return new TySuccessResponse(userLoginMapper.selectPage(page, wrapper));
 
     }
 
     @Override
-    public IPage<Map<String, Object>> getMemberLogins(HashMap<String, Object> map) {
+    public TyResponse getMemberLogins(HashMap<String, Object> map) {
 
         log.info("map value is {}", map);
         Page page = TyPageUtil.getPage(map);
@@ -320,7 +354,7 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             wrapper.lambda().eq(TyUserLoginEntity::getStatus, status);
         }
         wrapper.eq("type", 1);
-        return userLoginService.pageMaps(page, wrapper);
+        return new TySuccessResponse(userLoginMapper.selectPage(page, wrapper));
     }
 
     public static void main(String[] args) {

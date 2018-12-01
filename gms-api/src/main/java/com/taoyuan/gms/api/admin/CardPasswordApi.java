@@ -2,6 +2,7 @@ package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.gms.model.dto.admin.CardPasswordRequest;
 import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import io.swagger.annotations.Api;
@@ -17,11 +18,11 @@ public interface CardPasswordApi {
     /**
      * 管理员查询卡密信息
      * 分页参数默认带
-     * @param map
+     * @param request
      * @return
      */
     @RequestMapping(value = "/retrieve", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> retrieve(@RequestBody Map<String,Object> map);
+    public TyResponse retrieve(@RequestBody CardPasswordRequest request);
 
     /**
      * 批量创建卡密
@@ -29,7 +30,7 @@ public interface CardPasswordApi {
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public List<CardPasswordEntity> create(@RequestBody Map<String, Object> map);
+    public TyResponse create(@RequestBody Map<String, Object> map);
 
     /**
      * 回收卡密
@@ -72,15 +73,15 @@ public interface CardPasswordApi {
     public TyResponse delete(@PathVariable("id") String id);
 
     @RequestMapping(value = "/info", method = RequestMethod.POST)
-    public List<CardPassword> getCardPasswordInfo(@RequestBody List<CardPassword> cardPasswordList);
+    public TyResponse getCardPasswordInfo(@RequestBody List<CardPassword> cardPasswordList);
 
 
     /**
-     * 管理员条件查询
+     * 代理条件查询
      * keyword为关键字，cardType为卡类型，不传的话默认查所有，分页参数默认要带
-     * @param map
+     * @param request
      * @return
      */
-    @RequestMapping(value = "/proxyquery", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> query(@RequestBody Map<String, Object> map);
+    @RequestMapping(value = "/query", method = RequestMethod.POST)
+    public TyResponse query(@RequestBody CardPasswordRequest request);
 }

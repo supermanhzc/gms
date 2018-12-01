@@ -5,5 +5,5 @@ import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface CDKeyMapper extends BaseMapper<CardTypeEntity> {
+public interface CardTypeMapper extends BaseMapper<CardTypeEntity> {
 }
