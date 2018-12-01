@@ -3,11 +3,12 @@ package com.taoyuan.gms.core.adminmanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.gms.api.admin.LevelSettingApi;
 import com.taoyuan.gms.common.util.CollectionsUtil;
+import com.taoyuan.gms.core.adminmanage.dao.LevelSettingMapper;
 import com.taoyuan.gms.core.adminmanage.service.ILevelSettingService;
-import com.taoyuan.gms.model.entity.admin.content.AnnouncementEntity;
 import com.taoyuan.gms.model.entity.admin.web.LevelSettingEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,18 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class LevelSettingController extends BaseController implements LevelSettingApi {
+public class LevelSettingController extends BaseGmsController implements LevelSettingApi {
 
     @Autowired
     private ILevelSettingService levelSettingService;
 
+    @Autowired
+    private LevelSettingMapper levelSettingMapper;
+
     @Override
-    public IPage<Map<String, Object>> retrieve(Map<String, Object> map) {
-        Page page = getPage(map);
-        return levelSettingService.pageMaps(page, null);
+    public IPage retrieve(TyPageEntity pageEntity) {
+        Page page = getPage(pageEntity);
+        return levelSettingMapper.selectPage(page, null);
     }
 
     @Override

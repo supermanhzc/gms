@@ -1,6 +1,7 @@
 package com.taoyuan.gms.api.admin;
 
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.gms.model.dto.admin.ChartsRequest;
 import com.taoyuan.gms.model.entity.admin.web.ChartRankingEntity;
 import com.taoyuan.gms.model.entity.admin.web.ChartRankingSettingEntity;
 import com.taoyuan.gms.model.entity.admin.web.VChartRankingEntity;
@@ -33,11 +34,11 @@ public interface ChartRewardApi {
 
     /**
      * 查询奖励
-     * @param map
+     * @param request
      * @return
      */
     @RequestMapping(value = "/charts/retrieve", method = RequestMethod.POST)
-    public TyResponse retrieveCharts(@RequestBody Map<String,Object> map);
+    public TyResponse retrieveCharts(@RequestBody ChartsRequest request);
 
     /**
      * 更改奖励
@@ -64,11 +65,11 @@ public interface ChartRewardApi {
 
     /**
      * 查询虚拟奖励
-     * @param map
+     * @param request
      * @return
      */
     @RequestMapping(value = "/vcharts/retrieve", method = RequestMethod.POST)
-    public TyResponse retrieveVCharts(@RequestBody Map<String,Object> map);
+    public TyResponse retrieveVCharts(@RequestBody ChartsRequest request);
 
     /**
      * 更改虚拟奖励
@@ -76,6 +77,6 @@ public interface ChartRewardApi {
      * @return
      */
     @RequestMapping(value = "/vcharts/update", method = RequestMethod.PUT)
-    public List<VChartRankingEntity> updateVCharts(@RequestBody List<VChartRankingEntity> entityList);
+    public TyResponse updateVCharts(@RequestBody List<VChartRankingEntity> entityList);
 
 }

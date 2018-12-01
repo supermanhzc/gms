@@ -7,10 +7,14 @@ import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.admin.ChartRewardApi;
+import com.taoyuan.gms.core.adminmanage.dao.ChartRankingMapper;
+import com.taoyuan.gms.core.adminmanage.dao.ChartRankingSeetingMapper;
+import com.taoyuan.gms.core.adminmanage.dao.VChartRankingMapper;
 import com.taoyuan.gms.core.adminmanage.service.ICHartRankingSettingService;
 import com.taoyuan.gms.core.adminmanage.service.IChartRankingService;
 import com.taoyuan.gms.core.adminmanage.service.IVChartRankingService;
 import com.taoyuan.gms.core.adminmanage.service.IVChartRankingSettingService;
+import com.taoyuan.gms.model.dto.admin.ChartsRequest;
 import com.taoyuan.gms.model.entity.admin.web.ChartRankingEntity;
 import com.taoyuan.gms.model.entity.admin.web.ChartRankingSettingEntity;
 import com.taoyuan.gms.model.entity.admin.web.VChartRankingEntity;
@@ -25,12 +29,18 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class ChartRewardController extends BaseController implements ChartRewardApi {
+public class ChartRewardController extends BaseGmsController implements ChartRewardApi {
     @Autowired
     private ICHartRankingSettingService chartRankingSettingService;
 
     @Autowired
     private IChartRankingService chartRankingService;
+
+    @Autowired
+    private ChartRankingMapper chartRankingMapper;
+
+    @Autowired
+    private VChartRankingMapper vChartRankingMapper;
 
     @Autowired
     private IVChartRankingSettingService vChartRankingSettingService;
@@ -58,28 +68,27 @@ public class ChartRewardController extends BaseController implements ChartReward
     }
 
     @Override
-    public TyResponse retrieveCharts(Map<String, Object> map) {
-        //默认为20
-        int count = 20;
-        if (map.containsKey("count")) {
-            count = (int) map.get("count");
+    public TyResponse retrieveCharts(ChartsRequest request) {
+        int count = 0;
+        if (request.getCount() != 0) {
+            count = request.getCount();
         }
 
         QueryWrapper<ChartRankingEntity> wrapper = new QueryWrapper<ChartRankingEntity>();
         wrapper.orderByAsc("ranking");
 
         Page page = new Page(1, count);
-        IPage<Map<String, Object>> result = chartRankingService.pageMaps(page, wrapper);
-
+        IPage<ChartRankingEntity> result = chartRankingMapper.selectMapsPage(page, wrapper);
+        ;
         return new TySuccessResponse(result);
     }
 
     @Override
     public List<ChartRankingEntity> updateCharts(List<ChartRankingEntity> entityList) {
-        log.info("input is {}",entityList);
+        log.info("input is {}", entityList);
         List<ChartRankingEntity> dbEntityList = new ArrayList<ChartRankingEntity>();
         for (ChartRankingEntity entity : entityList) {
-            if(0==entity.getRanking()){
+            if (0 == entity.getRanking()) {
                 throw new ValidateException("排行id不能为空。");
             }
 
@@ -114,13 +123,13 @@ public class ChartRewardController extends BaseController implements ChartReward
     @Override
     public TyResponse updateVRanking(VChartRankingSettingEntity entity) {
         VChartRankingSettingEntity dbValue = vChartRankingSettingService.getOne(null);
-        if(null==dbValue){
+        if (null == dbValue) {
             throw new ValidateException("对象不存在。");
         }
-        if(entity.getRankingCount()!=0){
+        if (entity.getRankingCount() != 0) {
             dbValue.setRankingCount(entity.getRankingCount());
         }
-        if(entity.getBaseChart()!=0){
+        if (entity.getBaseChart() != 0) {
             dbValue.setBaseChart(entity.getBaseChart());
         }
         vChartRankingSettingService.saveOrUpdate(dbValue);
@@ -128,16 +137,16 @@ public class ChartRewardController extends BaseController implements ChartReward
     }
 
     @Override
-    public TyResponse retrieveVCharts(Map<String, Object> map) {
+    public TyResponse retrieveVCharts(ChartsRequest request) {
         int count = 0;
-        if (map.containsKey("count")) {
-            count = (int) map.get("count");
-        }else{
+        if (request.getCount() != 0) {
+            count = request.getCount();
+        } else {
             VChartRankingSettingEntity dbValue = vChartRankingSettingService.getOne(null);
-            if(null==dbValue){
+            if (null == dbValue) {
                 //默认是10
-                count =10;
-            }else {
+                count = 10;
+            } else {
                 count = vChartRankingSettingService.getOne(null).getRankingCount();
             }
         }
@@ -146,17 +155,17 @@ public class ChartRewardController extends BaseController implements ChartReward
         wrapper.orderByAsc("ranking");
 
         Page page = new Page(1, count);
-        IPage<Map<String, Object>> result = vChartRankingService.pageMaps(page, wrapper);
+        IPage result = vChartRankingMapper.selectMapsPage(page, wrapper);
 
         return new TySuccessResponse(result);
     }
 
     @Override
-    public List<VChartRankingEntity> updateVCharts(List<VChartRankingEntity> entityList) {
-        log.info("input is {}",entityList);
+    public TyResponse updateVCharts(List<VChartRankingEntity> entityList) {
+        log.info("input is {}", entityList);
         List<VChartRankingEntity> dbEntityList = new ArrayList<VChartRankingEntity>();
         for (VChartRankingEntity entity : entityList) {
-            if(0==entity.getRanking()){
+            if (0 == entity.getRanking()) {
                 throw new ValidateException("排行id不能为空。");
             }
 
@@ -173,6 +182,6 @@ public class ChartRewardController extends BaseController implements ChartReward
             dbEntityList.add(dbValue);
         }
         vChartRankingService.saveOrUpdateBatch(dbEntityList);
-        return dbEntityList;
+        return new TySuccessResponse(dbEntityList);
     }
 }

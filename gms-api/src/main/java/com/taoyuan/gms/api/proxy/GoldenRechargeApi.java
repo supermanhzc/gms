@@ -1,6 +1,7 @@
 package com.taoyuan.gms.api.proxy;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.entity.admin.content.AnnouncementEntity;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
@@ -44,9 +45,9 @@ public interface GoldenRechargeApi {
 
     /**
      * 查询代充记录用，带分页
-     * @param map
+     * @param pageEntity
      * @return
      */
-    @RequestMapping(value = "/retrieve", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> retrieve(@RequestBody Map<String, Object> map);
+    @RequestMapping(value = "/records", method = RequestMethod.POST)
+    public TyResponse retrieve(@RequestBody TyPageEntity pageEntity);
 }

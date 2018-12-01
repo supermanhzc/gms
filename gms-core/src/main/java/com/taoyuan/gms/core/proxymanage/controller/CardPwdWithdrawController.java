@@ -1,14 +1,17 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.CardPwdWithdrawApi;
-import com.taoyuan.gms.core.adminmanage.controller.BaseController;
+import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
 import com.taoyuan.gms.core.proxymanage.service.ICardPwdWithdrawService;
 import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
@@ -24,7 +27,7 @@ import java.util.*;
 
 @Slf4j
 @RestController
-public class CardPwdWithdrawController extends BaseController implements CardPwdWithdrawApi {
+public class CardPwdWithdrawController extends BaseGmsController implements CardPwdWithdrawApi {
 
     @Autowired
     private ICardPwdWithdrawService service;
@@ -65,6 +68,7 @@ public class CardPwdWithdrawController extends BaseController implements CardPwd
                 //只有未充值的卡密才能被回收，已充值2和已注销3的卡密不能被回收
                 if (dbValue.getStatus() == 1) {
                     dbValue.setStatus(2);
+                    dbValue.setOwner(getCurrentUserName());
                     dbValue.setEndTime(now);
                     dbList.add(dbValue);
                 }
@@ -102,8 +106,14 @@ public class CardPwdWithdrawController extends BaseController implements CardPwd
             //保存卡密回收记录
             service.saveOrUpdateBatch(map.values());
 
-            //TODO
             // 给用户充值，给用户加上充值额度
+            Iterator entries = map.entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry entry = (Map.Entry) entries.next();
+                String rechargeId = (String) entry.getKey();
+                CardPwdWithdrawEntity cpw = (CardPwdWithdrawEntity) entry.getValue();
+                updateBalance(Long.valueOf(rechargeId), cpw.getAmount());
+            }
 
             //全部完成后更改卡状态为已回收
             cpService.saveOrUpdateBatch(dbList);
@@ -111,5 +121,23 @@ public class CardPwdWithdrawController extends BaseController implements CardPwd
         }
 
         return new TySuccessResponse(null);
+    }
+
+    @Override
+    public IPage<Map<String, Object>> retrieve(TyPageEntity pageEntity) {
+        Page page = getPage(pageEntity);
+        QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
+        wrapper.lambda().eq(CardPasswordEntity::getOwner, getCurrentUserName()).eq(CardPasswordEntity::getStatus,2);
+        wrapper.lambda().orderByDesc(CardPasswordEntity::getEndTime);
+        return cpService.pageMaps(page, wrapper);
+    }
+
+    @Override
+    public IPage<Map<String, Object>> records(TyPageEntity pageEntity) {
+        Page page = getPage(pageEntity);
+        QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
+        wrapper.lambda().eq(CardPasswordEntity::getOwner, getCurrentUserName());
+        wrapper.lambda().orderByDesc(CardPasswordEntity::getEndTime);
+        return cpService.pageMaps(page, wrapper);
     }
 }

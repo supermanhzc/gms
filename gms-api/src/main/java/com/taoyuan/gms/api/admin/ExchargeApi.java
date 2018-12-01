@@ -1,6 +1,10 @@
 package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.framework.common.entity.TyPageEntity;
+import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.gms.model.dto.admin.ExchangeOrderRequest;
+import com.taoyuan.gms.model.dto.admin.ExchargeOrderRequest;
 import com.taoyuan.gms.model.entity.admin.prize.ExchargeCardPwdEntity;
 import com.taoyuan.gms.model.entity.admin.prize.ExchargeOrderEntity;
 import io.swagger.annotations.Api;
@@ -17,77 +21,87 @@ import java.util.Map;
 public interface ExchargeApi {
     /**
      * 查询所有兑奖订单信息
+     *
      * @return
      */
     @RequestMapping(value = "/order/create", method = RequestMethod.POST)
-    public ExchargeOrderEntity create(@RequestBody ExchargeOrderEntity order);
+    public TyResponse create(@RequestBody ExchargeOrderRequest order);
 
     /**
      * 根据id查询兑奖订单信息
+     *
      * @param id
      * @return
      */
     @RequestMapping(value = "/order/retrieve/id={id}", method = RequestMethod.GET)
-    public ExchargeOrderEntity getExchangeOrder(@PathVariable("id") Integer id);
+    public TyResponse getExchangeOrder(@PathVariable("id") Integer id);
 
     /**
      * 复杂条件查询兑奖订单信息
-     * @param map
+     *
+     * @param request
      */
     @RequestMapping(value = "/order/retrieve", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getExchangeOrders(@RequestBody Map<String,Object> map);
+    public TyResponse getExchangeOrders(@RequestBody ExchangeOrderRequest request);
 
     /**
      * 发货
+     *
      * @param order
      * @return
      */
     @RequestMapping(value = "/order/sipping", method = RequestMethod.POST)
-    public ExchargeOrderEntity sipping(@RequestBody ExchargeOrderEntity order);
+    public TyResponse sipping(@RequestBody ExchargeOrderEntity order);
 
     /**
      * 取消
+     *
      * @param order
      * @return
      */
     @RequestMapping(value = "/order/cancel", method = RequestMethod.POST)
-    public ExchargeOrderEntity cancel(@RequestBody ExchargeOrderEntity order);
+    public TyResponse cancel(@RequestBody ExchargeOrderEntity order);
 
     /**
      * 查询所有兑奖订单信息
+     *
      * @return
      */
     @RequestMapping(value = "/cardpwd/create", method = RequestMethod.POST)
-    public ExchargeCardPwdEntity create(@RequestBody ExchargeCardPwdEntity order);
+    public TyResponse create(@RequestBody ExchargeCardPwdEntity order);
 
     /**
      * 根据id查询兑奖订单信息
+     *
      * @param id
      * @return
      */
     @RequestMapping(value = "/cardpwd/retrieve/id={id}", method = RequestMethod.GET)
-    public ExchargeCardPwdEntity getExchangeCardPwd(@PathVariable("id") Long id);
+    public TyResponse getExchangeCardPwd(@PathVariable("id") Long id);
 
     /**
      * 复杂条件查询兑奖订单信息
-     * @param map
+     *
+     * @param page
      */
     @RequestMapping(value = "/cardpwd/retrieve", method = RequestMethod.POST)
-    public IPage<Map<String, Object>> getExchangeCardPwds(@RequestBody Map<String,Object> map);
+    public TyResponse getExchangeCardPwds(@RequestBody TyPageEntity page);
 
     /**
      * 冻结
+     *
      * @param order
      * @return
      */
     @RequestMapping(value = "/cardpwd/freeze", method = RequestMethod.POST)
-    public ExchargeCardPwdEntity freeze(@RequestBody ExchargeCardPwdEntity order);
+    public TyResponse freeze(@RequestBody ExchargeCardPwdEntity order);
 
     /**
      * 解冻
+     *
      * @param order
      * @return
      */
     @RequestMapping(value = "/cardpwd/unfreeze", method = RequestMethod.POST)
-    public ExchargeCardPwdEntity unfreeze(@RequestBody ExchargeCardPwdEntity order);
+    public TyResponse unfreeze(@RequestBody ExchargeCardPwdEntity order);
 }
