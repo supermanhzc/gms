@@ -54,7 +54,7 @@
             gu.nick_name like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
             tyu.phone like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
             tyu.name like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
-            gu.qq like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%') OR
+            gu.qq like concat('%', #{queryAccountRequest.queryKey,jdbcType=VARCHAR},'%')
             )
         </if>
         <if test="queryAccountRequest.types != null and queryAccountRequest.types.size>0">
