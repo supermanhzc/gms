@@ -3,6 +3,7 @@ package com.taoyuan.gms.model.entity.proxy;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public class GoldenRechargeEntity {
     private String memberNickName;
 
     //金额
-    private double amount;
+    private BigDecimal amount;
 
     //时间
     private Date time;

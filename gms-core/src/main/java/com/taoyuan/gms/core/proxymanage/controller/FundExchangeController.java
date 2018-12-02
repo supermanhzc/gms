@@ -7,7 +7,6 @@ import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.FundExchangeApi;
-import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
 import com.taoyuan.gms.core.proxymanage.dao.FundExchangeMapper;
 import com.taoyuan.gms.core.proxymanage.service.IFundExchangeService;
 import com.taoyuan.gms.model.entity.proxy.FundExchangeEntity;
@@ -18,7 +17,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @RestController
-public class FundExchangeController extends BaseGmsController implements FundExchangeApi {
+public class FundExchangeController extends BaseGmsProxyController implements FundExchangeApi {
 
     @Autowired
     private IFundExchangeService service;
@@ -59,10 +58,12 @@ public class FundExchangeController extends BaseGmsController implements FundExc
         fundExchange.setProxyId(proxyId);
         fundExchange.setTime(new Date());
         service.save(fundExchange);
-        //本代理账户减去转出金融
-        updateBalance(proxyId, money);
+
         //对方代理账户加上转出金额
-        updateBalance(fundExchange.getOpposite(), BigDecimal.ZERO.subtract(money));
+        updateBalance(fundExchange.getOpposite(), money);
+
+        //记录日志
+        recordOperation(6,"代理互转",money);
         return new TySuccessResponse(fundExchange);
     }
 }

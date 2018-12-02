@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.RechargeWithdrawApi;
-import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
 import com.taoyuan.gms.core.proxymanage.dao.RechargeWithdrawMapper;
 import com.taoyuan.gms.core.proxymanage.service.IRechargeWithdrawService;
 import com.taoyuan.gms.model.dto.BaseIdRequest;
@@ -20,11 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Slf4j
 @RestController
-public class RechargeWithdrawControllerGms extends BaseGmsController implements RechargeWithdrawApi {
+public class RechargeWithdrawControllerGms extends BaseGmsProxyController implements RechargeWithdrawApi {
 
     @Autowired
     private IRechargeWithdrawService service;
@@ -58,6 +55,9 @@ public class RechargeWithdrawControllerGms extends BaseGmsController implements 
         entity.setBalance(getBalance(getCurrentUserId()));
         entity.setDistribution(getBalance(getCurrentUserId()));
         service.save(entity);
+
+        //记录日志
+        recordOperation(type,null,request.getMoney());
         return new TySuccessResponse(entity);
     }
 

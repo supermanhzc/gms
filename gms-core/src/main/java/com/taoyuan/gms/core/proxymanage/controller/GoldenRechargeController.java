@@ -1,7 +1,6 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
 import com.taoyuan.framework.common.entity.TyPageEntity;
@@ -14,7 +13,6 @@ import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.framework.common.util.TyDateUtils;
 import com.taoyuan.framework.oper.IProxyOperService;
 import com.taoyuan.gms.api.proxy.GoldenRechargeApi;
-import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
 import com.taoyuan.gms.core.proxymanage.dao.GoldenRechargeMapper;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
 import com.taoyuan.gms.job.JobManager;
@@ -29,7 +27,7 @@ import java.util.Date;
 
 @Slf4j
 @RestController
-public class GoldenRechargeController extends BaseGmsController implements GoldenRechargeApi {
+public class GoldenRechargeController extends BaseGmsProxyController implements GoldenRechargeApi {
 
     @Autowired
     private IGoldenRechargeService goldenRechargeService;
@@ -71,12 +69,13 @@ public class GoldenRechargeController extends BaseGmsController implements Golde
         operEntity.setType(1);
         operEntity.setAccount(BigDecimal.valueOf(10000));
         operEntity.setDescription("金币代充");
-        operEntity.setMoneyChanged(BigDecimal.valueOf(0 - entity.getAmount()));
+        operEntity.setMoneyChanged(BigDecimal.ZERO.subtract(entity.getAmount()));
         operEntity.setProxyId(TySession.getCurrentUser().getUserId());
         operEntity.setProxyName(TySession.getCurrentUser().getName());
         operEntity.setTime(date);
         proxyOperService.save(operEntity);
 
+        recordOperation(1,"金币代充",entity.getAmount());
         return new TySuccessResponse(entity);
     }
 

@@ -33,9 +33,9 @@ public abstract class BaseGmsController extends TyBaseController {
      */
     public BigDecimal getBalance(Long id) {
         //TODO 此处逻辑先屏蔽，后面等功能提供后放开
-//        QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
-//        wrapper.lambda().eq(UserEntity::getId, id);
-//        UserEntity account = userService.getOne(wrapper);
+        QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
+        wrapper.lambda().eq(UserEntity::getId, id);
+        UserEntity account = userService.getOne(wrapper);
         return BigDecimal.valueOf(1000000);
     }
 
