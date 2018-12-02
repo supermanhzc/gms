@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
+import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.admin.LevelSettingApi;
 import com.taoyuan.gms.common.util.CollectionsUtil;
 import com.taoyuan.gms.core.adminmanage.dao.LevelSettingMapper;
@@ -29,13 +31,13 @@ public class LevelSettingController extends BaseGmsController implements LevelSe
     private LevelSettingMapper levelSettingMapper;
 
     @Override
-    public IPage retrieve(TyPageEntity pageEntity) {
+    public TyResponse retrieve(TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
-        return levelSettingMapper.selectPage(page, null);
+        return new TySuccessResponse(levelSettingMapper.selectPage(page, null));
     }
 
     @Override
-    public List<LevelSettingEntity> update(List<LevelSettingEntity> levelSettingEntityList) {
+    public TyResponse update(List<LevelSettingEntity> levelSettingEntityList) {
         log.info("input is {}", levelSettingEntityList);
         validate(levelSettingEntityList);
 
@@ -46,7 +48,7 @@ public class LevelSettingController extends BaseGmsController implements LevelSe
             dbEntityList.add(dbValue);
         }
         levelSettingService.saveOrUpdateBatch(dbEntityList);
-        return dbEntityList;
+        return new TySuccessResponse(dbEntityList);
     }
 
     private void validate(List<LevelSettingEntity> levelSettingEntityList) {

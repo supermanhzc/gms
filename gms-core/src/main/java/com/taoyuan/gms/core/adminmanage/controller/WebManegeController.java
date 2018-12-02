@@ -27,12 +27,12 @@ public class WebManegeController implements WebManageApi {
     IGameSettingService gameSettingService;
 
     @Override
-    public WebSettingEntity getWebSetting() {
-        return webSettingService.getOne(null);
+    public TyResponse getWebSetting() {
+        return new TySuccessResponse(webSettingService.getOne(null));
     }
 
     @Override
-    public WebSettingEntity updateWebSetting(WebSettingEntity webSetting) {
+    public TyResponse updateWebSetting(WebSettingEntity webSetting) {
         WebSettingEntity dbValue = (WebSettingEntity) webSettingService.getOne(null);
         if (null == dbValue) {
             dbValue = new WebSettingEntity();
@@ -45,12 +45,12 @@ public class WebManegeController implements WebManageApi {
             webSetting.setCreateTime(new Date());
         }
         webSettingService.saveOrUpdate(webSetting);
-        return dbValue;
+        return new TySuccessResponse(dbValue);
     }
 
     @Override
-    public List<GameSettingEntity> getGameSetting() {
-        return gameSettingService.list(new QueryWrapper<GameSettingEntity>());
+    public TyResponse getGameSetting() {
+        return new TySuccessResponse(gameSettingService.list(new QueryWrapper<GameSettingEntity>()));
     }
 
     @Override

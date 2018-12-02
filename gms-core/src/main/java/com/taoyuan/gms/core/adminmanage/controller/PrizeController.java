@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 public class PrizeController extends BaseGmsController implements PrizeApi {
@@ -21,21 +20,21 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
     private IPrizeService service;
 
     @Override
-    public List<PrizeEntity> getPrizes() {
-        return service.list(null);
+    public TyResponse getPrizes() {
+        return new TySuccessResponse(service.list(null));
     }
 
     @Override
-    public PrizeEntity getPrize(Long id) {
+    public TyResponse getPrize(Long id) {
         if(null==id){
             throw new ValidateException("id不能为空。");
         }
 
-        return service.getById(id);
+        return new TySuccessResponse(service.getById(id));
     }
 
     @Override
-    public PrizeEntity createPrize(PrizeEntity prizeEntity) {
+    public TyResponse createPrize(PrizeEntity prizeEntity) {
         if(StringUtils.isEmpty(prizeEntity.getName())){
             throw new ValidateException("名称不能为空。");
         }
@@ -61,11 +60,11 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
         }
 
         service.save(prizeEntity);
-        return prizeEntity;
+        return new TySuccessResponse(prizeEntity);
     }
 
     @Override
-    public PrizeEntity modifyPrize(PrizeEntity prizeEntity) {
+    public TyResponse modifyPrize(PrizeEntity prizeEntity) {
         if(null==prizeEntity.getId()){
             throw new ValidateException("id不能为空。");
         }
@@ -74,7 +73,7 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
         PrizeEntity dbValue = service.getById(id);
         dbValue.update(prizeEntity);
         service.saveOrUpdate(dbValue);
-        return dbValue;
+        return new TySuccessResponse(dbValue);
     }
 
     @Override
