@@ -10,7 +10,6 @@ import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.CardPwdWithdrawApi;
-import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
 import com.taoyuan.gms.core.proxymanage.service.ICardPwdWithdrawService;
 import com.taoyuan.gms.model.entity.admin.card.CardPasswordEntity;
@@ -22,11 +21,12 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Slf4j
 @RestController
-public class CardPwdWithdrawController extends BaseGmsController implements CardPwdWithdrawApi {
+public class CardPwdWithdrawController extends BaseGmsProxyController implements CardPwdWithdrawApi {
 
     @Autowired
     private ICardPwdWithdrawService service;
@@ -107,15 +107,20 @@ public class CardPwdWithdrawController extends BaseGmsController implements Card
 
             // 给用户充值，给用户加上充值额度
             Iterator entries = map.entrySet().iterator();
+            BigDecimal totalMoney = BigDecimal.ZERO;
             while (entries.hasNext()) {
                 Map.Entry entry = (Map.Entry) entries.next();
                 String rechargeId = (String) entry.getKey();
                 CardPwdWithdrawEntity cpw = (CardPwdWithdrawEntity) entry.getValue();
+                totalMoney.add(cpw.getAmount());
                 updateBalance(Long.valueOf(rechargeId), cpw.getAmount());
             }
 
             //全部完成后更改卡状态为已回收
             cpService.saveOrUpdateBatch(dbList);
+
+            //记录日志
+            recordOperation(5,"回收卡密",totalMoney);
             return new TySuccessResponse(map.values());
         }
 

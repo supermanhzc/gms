@@ -2,7 +2,6 @@ package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.taoyuan.framework.bs.controller.TyBaseController;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
@@ -25,7 +24,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class CardPwdInventoryController extends TyBaseController implements CardPwdInventoryApi {
+public class CardPwdInventoryController extends BaseGmsProxyController implements CardPwdInventoryApi {
 
     @Autowired
     private ICardPasswordService service;
@@ -90,34 +89,8 @@ public class CardPwdInventoryController extends TyBaseController implements Card
         }
         service.saveBatch(entityList);
 
-        //TODO 更新金额
-
+        //记录日志
+        recordOperation(7,"创建卡密",BigDecimal.ZERO);
         return new TySuccessResponse(entityList);
     }
-
-    public BigDecimal getBalance(Long id) {
-        //TODO 此处逻辑先屏蔽，后面等功能提供后放开
-//        QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
-//        wrapper.lambda().eq(UserEntity::getId, id);
-//        UserEntity user = userService.getOne(wrapper);
-        return BigDecimal.valueOf(1000000);
-    }
-
-    //TODO 此处需要调用接口更新用户余额
-
-    /**
-     * 更新用户余额
-     *
-     * @param id
-     * @param money
-     */
-    public void updateBalance(Long id, BigDecimal money) {
-        BigDecimal balance = getBalance(id).subtract(money);
-
-        //TODO 此处接口实现后放开
-//        QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
-//        wrapper.lambda().eq(UserEntity::getId, id);
-//        UserEntity user = userService.getOne(wrapper);
-    }
-
 }
