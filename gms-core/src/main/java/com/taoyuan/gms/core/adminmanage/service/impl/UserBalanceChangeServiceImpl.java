@@ -9,6 +9,7 @@ import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.core.adminmanage.dao.UserBalanceChangeMapper;
 import com.taoyuan.gms.core.adminmanage.service.IUserBalanceChangeService;
 import com.taoyuan.gms.model.dto.admin.UserBalanceChangeDto;
+import com.taoyuan.gms.model.dto.admin.account.UpdateAccountBalanceRequest;
 import com.taoyuan.gms.model.entity.admin.account.UserBalanceChangeEntity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserBalanceChangeServiceImpl extends ServiceImpl<UserBalanceChangeMapper, UserBalanceChangeEntity> implements IUserBalanceChangeService {
     @Override
-    public TyResponse changeBalance(UserBalanceChangeDto userBalanceChangeDto) {
+    public boolean changeBalance(UpdateAccountBalanceRequest updateAccountBalanceRequest) {
         UserBalanceChangeEntity userBalanceChangeEntity = new UserBalanceChangeEntity();
-        BeanUtils.copyProperties(userBalanceChangeDto, userBalanceChangeEntity);
+        BeanUtils.copyProperties(updateAccountBalanceRequest, userBalanceChangeEntity);
 
         TyUserRolePermission currentUser = TySession.getCurrentUser();
         userBalanceChangeEntity.setUpdateUser(currentUser.getUserId());
-        if (this.save(userBalanceChangeEntity)){
-            return new TySuccessResponse(userBalanceChangeEntity);
-        }
-        throw new TyBusinessException("account balance change failed.");
+        return this.save(userBalanceChangeEntity);
     }
 }
