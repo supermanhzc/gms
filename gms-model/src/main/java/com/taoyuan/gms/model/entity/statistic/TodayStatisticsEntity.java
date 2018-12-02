@@ -1,11 +1,9 @@
-package com.taoyuan.gms.model.entity.statistics;
+package com.taoyuan.gms.model.entity.statistic;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import java.util.Date;
 
 @Data
 @ToString

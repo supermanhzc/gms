@@ -1,7 +1,6 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
 import com.taoyuan.framework.common.entity.TyPageEntity;
@@ -14,7 +13,7 @@ import com.taoyuan.gms.api.proxy.CardPwdWithdrawApi;
 import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
 import com.taoyuan.gms.core.proxymanage.service.ICardPwdWithdrawService;
-import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
+import com.taoyuan.gms.model.entity.admin.card.CardPasswordEntity;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import com.taoyuan.gms.model.entity.proxy.CardPwdWithdrawEntity;
 import lombok.extern.slf4j.Slf4j;

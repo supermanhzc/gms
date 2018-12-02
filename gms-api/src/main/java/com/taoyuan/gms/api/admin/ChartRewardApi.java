@@ -1,7 +1,7 @@
 package com.taoyuan.gms.api.admin;
 
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.gms.model.dto.admin.ChartsRequest;
+import com.taoyuan.gms.model.dto.admin.charts.ChartsRequest;
 import com.taoyuan.gms.model.entity.admin.web.ChartRankingEntity;
 import com.taoyuan.gms.model.entity.admin.web.ChartRankingSettingEntity;
 import com.taoyuan.gms.model.entity.admin.web.VChartRankingEntity;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
-import java.util.Map;
 
 @Api(value = "排行奖设置服务")
 @RequestMapping("/rewardmgnt")

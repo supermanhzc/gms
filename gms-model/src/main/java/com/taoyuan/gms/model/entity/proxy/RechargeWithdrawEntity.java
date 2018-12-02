@@ -11,7 +11,11 @@ import java.util.Date;
 public class RechargeWithdrawEntity {
     private Long id;
 
+    //代理ID
     private Long proxyId;
+
+    //代理名称
+    private String proxyName;
 
     //类型，1充值，2提现，必填
     private int type;

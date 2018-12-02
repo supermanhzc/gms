@@ -1,4 +1,4 @@
-package com.taoyuan.gms.model.dto.admin;
+package com.taoyuan.gms.model.dto.admin.charts;
 
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import lombok.Data;

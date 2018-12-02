@@ -1,18 +1,19 @@
 package com.taoyuan.gms.api.admin;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
-import com.taoyuan.gms.model.entity.admin.SaleDetailEntity;
+import com.taoyuan.gms.model.dto.admin.statistic.JuniorCommissionsPageRequest;
+import com.taoyuan.gms.model.dto.admin.statistic.MemberLoginRequest;
+import com.taoyuan.gms.model.dto.admin.charts.ChartsRewardPageRequest;
+import com.taoyuan.gms.model.dto.admin.charts.VChartsRewardPageRequest;
+import com.taoyuan.gms.model.dto.admin.chipin.ChipinWagePageRequest;
+import com.taoyuan.gms.model.dto.admin.lossrebate.LossRebateRequest;
+import com.taoyuan.gms.model.dto.admin.statistic.SaleStatisticsRequest;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Api(value = "记录查询")
 @RequestMapping("/records")
@@ -47,7 +48,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/salestatistic", method = RequestMethod.POST)
-    public TyResponse getSaleStatistics(@RequestBody Map<String, Object> map);
+    public TyResponse getSaleStatistics(@RequestBody SaleStatisticsRequest request);
 
     /**
      * 查询所有销售明细
@@ -55,7 +56,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/saledetail", method = RequestMethod.POST)
-    public TyResponse getSaleDetails(@RequestBody Map<String, Object> map);
+    public TyResponse getSaleDetails(@RequestBody SaleStatisticsRequest request);
 
     /**
      * 查询所有亏损返利
@@ -72,7 +73,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/lossrabate", method = RequestMethod.POST)
-    public TyResponse getLossRebates(@RequestBody Map<String, Object> map);
+    public TyResponse getLossRebates(@RequestBody LossRebateRequest request);
 
 
     /**
@@ -86,11 +87,11 @@ public interface RecordsQueryApi {
     /**
      * 查询排行榜奖励
      *
-     * @param map
+     * @param request
      * @return
      */
     @RequestMapping(value = "/chartsrewards/", method = RequestMethod.POST)
-    public TyResponse getChartsRewards(@RequestBody Map<String, Object> map);
+    public TyResponse getChartsRewards(@RequestBody ChartsRewardPageRequest request);
 
 
     /**
@@ -104,11 +105,11 @@ public interface RecordsQueryApi {
     /**
      * 查询排行榜奖励
      *
-     * @param map
+     * @param request
      * @return
      */
     @RequestMapping(value = "/vchartsrewards/", method = RequestMethod.POST)
-    public TyResponse getVChartsRewards(@RequestBody Map<String, Object> map);
+    public TyResponse getVChartsRewards(@RequestBody VChartsRewardPageRequest request);
 
 
     /**
@@ -117,7 +118,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/chipinwage", method = RequestMethod.POST)
-    public TyResponse getChipinWages(@RequestBody Map<String, Object> map);
+    public TyResponse getChipinWages(@RequestBody ChipinWagePageRequest request);
 
     /**
      * 查询下线提成
@@ -125,7 +126,7 @@ public interface RecordsQueryApi {
      * @return
      */
     @RequestMapping(value = "/juniorcommission", method = RequestMethod.POST)
-    public TyResponse getJuniorCommissions(@RequestBody Map<String, Object> map);
+    public TyResponse getJuniorCommissions(@RequestBody JuniorCommissionsPageRequest request);
 
     /**
      * 查询首冲返利
@@ -157,7 +158,7 @@ public interface RecordsQueryApi {
      * 管理员登录
      */
     @RequestMapping(value = "/adminlogin", method = RequestMethod.POST)
-    public TyResponse getAdminLogins(@RequestBody HashMap<String, Object> map);
+    public TyResponse getAdminLogins(@RequestBody TyPageEntity pageEntity);
 
 //    /**
 //     * 查询会员登录
@@ -174,5 +175,5 @@ public interface RecordsQueryApi {
 //    public IPage<Map<String, Object>> getMemberLogins(@RequestBody PageConditionEntity entity);
 
     @RequestMapping(value = "/memberlogin", method = RequestMethod.POST)
-    public TyResponse getMemberLogins(@RequestBody HashMap<String, Object> map);
+    public TyResponse getMemberLogins(@RequestBody MemberLoginRequest request);
 }

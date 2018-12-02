@@ -1,7 +1,6 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.TyBusinessException;
@@ -16,9 +15,9 @@ import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
 import com.taoyuan.gms.core.adminmanage.service.IExchargeCardPwdService;
 import com.taoyuan.gms.core.adminmanage.service.IExchargeOrderService;
 import com.taoyuan.gms.core.adminmanage.service.IPrizeService;
-import com.taoyuan.gms.model.dto.admin.ExchangeOrderRequest;
-import com.taoyuan.gms.model.dto.admin.ExchargeOrderRequest;
-import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
+import com.taoyuan.gms.model.dto.admin.excharge.ExchargeOrderRequest;
+import com.taoyuan.gms.model.dto.admin.excharge.ExchargeOrderCreateRequest;
+import com.taoyuan.gms.model.entity.admin.card.CardPasswordEntity;
 import com.taoyuan.gms.model.entity.admin.prize.ExchargeCardPwdEntity;
 import com.taoyuan.gms.model.entity.admin.prize.ExchargeOrderEntity;
 import com.taoyuan.gms.model.entity.admin.prize.PrizeEntity;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -55,7 +53,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     private ICardPasswordService cardPasswordService;
 
     @Override
-    public TyResponse create(ExchargeOrderRequest order) {
+    public TyResponse create(ExchargeOrderCreateRequest order) {
         if (null == order) {
             throw new ValidateException("对象不能为空。");
         }
@@ -112,7 +110,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
-    public TyResponse getExchangeOrders(ExchangeOrderRequest request) {
+    public TyResponse getExchangeOrders(ExchargeOrderRequest request) {
         Page page = getPage(request);
 
         QueryWrapper<ExchargeOrderEntity> wrapper = new QueryWrapper<ExchargeOrderEntity>();

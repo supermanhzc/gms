@@ -1,7 +1,6 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.common.constant.StatusCode;
 import com.taoyuan.framework.common.exception.ValidateException;
@@ -12,7 +11,7 @@ import com.taoyuan.framework.common.util.TyRandomUtil;
 import com.taoyuan.gms.api.admin.CardTypeApi;
 import com.taoyuan.gms.core.adminmanage.dao.CardTypeMapper;
 import com.taoyuan.gms.core.adminmanage.service.ICardMgntService;
-import com.taoyuan.gms.model.dto.admin.CardTypeRequest;
+import com.taoyuan.gms.model.dto.admin.card.CardTypeRequest;
 import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController

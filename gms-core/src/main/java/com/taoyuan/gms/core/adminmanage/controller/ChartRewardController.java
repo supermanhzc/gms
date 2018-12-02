@@ -8,13 +8,12 @@ import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.admin.ChartRewardApi;
 import com.taoyuan.gms.core.adminmanage.dao.ChartRankingMapper;
-import com.taoyuan.gms.core.adminmanage.dao.ChartRankingSeetingMapper;
 import com.taoyuan.gms.core.adminmanage.dao.VChartRankingMapper;
 import com.taoyuan.gms.core.adminmanage.service.ICHartRankingSettingService;
 import com.taoyuan.gms.core.adminmanage.service.IChartRankingService;
 import com.taoyuan.gms.core.adminmanage.service.IVChartRankingService;
 import com.taoyuan.gms.core.adminmanage.service.IVChartRankingSettingService;
-import com.taoyuan.gms.model.dto.admin.ChartsRequest;
+import com.taoyuan.gms.model.dto.admin.charts.ChartsRequest;
 import com.taoyuan.gms.model.entity.admin.web.ChartRankingEntity;
 import com.taoyuan.gms.model.entity.admin.web.ChartRankingSettingEntity;
 import com.taoyuan.gms.model.entity.admin.web.VChartRankingEntity;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController

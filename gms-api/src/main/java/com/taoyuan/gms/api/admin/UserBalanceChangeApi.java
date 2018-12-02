@@ -2,14 +2,12 @@ package com.taoyuan.gms.api.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.gms.model.dto.admin.UserBalanceChangeDto;
 import com.taoyuan.gms.model.dto.admin.account.QueryAccountBalanceRequest;
 import com.taoyuan.gms.model.dto.admin.account.UpdateAccountBalanceRequest;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
