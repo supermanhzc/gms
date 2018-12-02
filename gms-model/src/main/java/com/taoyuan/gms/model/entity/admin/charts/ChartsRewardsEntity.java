@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -29,11 +30,11 @@ public class ChartsRewardsEntity implements Serializable {
     private String memberNickName;
 
     //奖励
-    private Double rewards;
+    private BigDecimal rewards;
 
     //日期
     private Date time;
 
-    //状态：未领取、已领取、已逾期
+    //状态：1未领取、2已领取、3已逾期
     private String status;
 }
