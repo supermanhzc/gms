@@ -2,6 +2,8 @@ package com.taoyuan.gms.api.proxy;
 
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.gms.model.dto.BaseIdRequest;
+import com.taoyuan.gms.model.dto.proxy.RechargeWithdrawRequest;
 import com.taoyuan.gms.model.entity.proxy.FundExchangeEntity;
 import com.taoyuan.gms.model.entity.proxy.RechargeWithdrawEntity;
 import io.swagger.annotations.Api;
@@ -28,25 +30,25 @@ public interface RechargeWithdrawApi {
     /**
      * 充值或者提现
      *
-     * @param rechargeWithdrawEntity
+     * @param request
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public TyResponse rechargeWithdraws(@RequestBody RechargeWithdrawEntity rechargeWithdrawEntity);
+    public TyResponse rechargeWithdraws(@RequestBody RechargeWithdrawRequest request);
 
     /**
      * 取消
      *
-     * @param rechargeWithdrawEntity
+     * @param request
      */
     @RequestMapping(value = "/cancel", method = RequestMethod.POST)
-    public TyResponse cancel(@RequestBody RechargeWithdrawEntity rechargeWithdrawEntity);
+    public TyResponse cancel(@RequestBody BaseIdRequest request);
 
     /**
-     * 取消
+     * 处理
      *
-     * @param rechargeWithdrawEntity
+     * @param request
      */
     @RequestMapping(value = "/process", method = RequestMethod.POST)
-    public TyResponse process(@RequestBody RechargeWithdrawEntity rechargeWithdrawEntity);
+    public TyResponse process(@RequestBody BaseIdRequest request);
 }

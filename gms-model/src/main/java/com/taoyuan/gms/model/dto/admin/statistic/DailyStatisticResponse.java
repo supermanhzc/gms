@@ -1,4 +1,4 @@
-package com.taoyuan.gms.model.dto.admin;
+package com.taoyuan.gms.model.dto.admin.statistic;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
  * 日统计
  */
 @Data
-public class DailyStatisticDto {
+public class DailyStatisticResponse {
     private String date;
 
     //注册会员：当天的注册数量

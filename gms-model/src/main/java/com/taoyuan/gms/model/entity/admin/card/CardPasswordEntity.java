@@ -1,4 +1,4 @@
-package com.taoyuan.gms.model.entity.admin;
+package com.taoyuan.gms.model.entity.admin.card;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;

@@ -1,11 +1,9 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
 import com.taoyuan.framework.common.entity.TyUser;
-import com.taoyuan.framework.common.entity.TyUserLoginEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
@@ -14,8 +12,8 @@ import com.taoyuan.framework.common.util.TyRandomUtil;
 import com.taoyuan.gms.api.admin.CardPasswordApi;
 import com.taoyuan.gms.core.adminmanage.dao.CardPasswordMapper;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
-import com.taoyuan.gms.model.dto.admin.CardPasswordRequest;
-import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
+import com.taoyuan.gms.model.dto.admin.card.CardPasswordRequest;
+import com.taoyuan.gms.model.entity.admin.card.CardPasswordEntity;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

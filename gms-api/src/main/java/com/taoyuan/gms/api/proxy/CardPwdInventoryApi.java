@@ -1,7 +1,7 @@
 package com.taoyuan.gms.api.proxy;
 
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.gms.model.dto.admin.CardPwdInventoryResquest;
+import com.taoyuan.gms.model.dto.admin.card.CardPwdInventoryResquest;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

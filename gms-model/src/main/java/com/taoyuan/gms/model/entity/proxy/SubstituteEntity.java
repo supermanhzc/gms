@@ -1,4 +1,4 @@
-package com.taoyuan.gms.model.entity.admin;
+package com.taoyuan.gms.model.entity.proxy;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

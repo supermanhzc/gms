@@ -1,13 +1,10 @@
 package com.taoyuan.gms.api.admin;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.gms.model.dto.admin.CardTypeRequest;
+import com.taoyuan.gms.model.dto.admin.card.CardTypeRequest;
 import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @Api(value = "卡类管理服务")
 @RequestMapping("/cardmgnt")

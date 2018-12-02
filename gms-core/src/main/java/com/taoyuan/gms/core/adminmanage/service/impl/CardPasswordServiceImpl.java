@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.taoyuan.gms.core.adminmanage.dao.CardPasswordMapper;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
-import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
+import com.taoyuan.gms.model.entity.admin.card.CardPasswordEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

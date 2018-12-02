@@ -1,4 +1,4 @@
-package com.taoyuan.gms.model.dto.admin;
+package com.taoyuan.gms.model.dto.admin.card;
 
 import java.util.Date;
 

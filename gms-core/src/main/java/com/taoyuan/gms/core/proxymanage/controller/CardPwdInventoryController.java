@@ -1,7 +1,6 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.bs.controller.TyBaseController;
 import com.taoyuan.framework.common.exception.ValidateException;
@@ -12,8 +11,8 @@ import com.taoyuan.gms.api.proxy.CardPwdInventoryApi;
 import com.taoyuan.gms.common.util.CardUtil;
 import com.taoyuan.gms.core.adminmanage.dao.CardPasswordMapper;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
-import com.taoyuan.gms.model.dto.admin.CardPwdInventoryResquest;
-import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
+import com.taoyuan.gms.model.dto.admin.card.CardPwdInventoryResquest;
+import com.taoyuan.gms.model.entity.admin.card.CardPasswordEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;

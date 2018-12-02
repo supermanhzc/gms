@@ -1,17 +1,15 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.dao.TyUserLoginMapper;
 import com.taoyuan.framework.aaa.service.TyUserLoginService;
-import com.taoyuan.framework.common.entity.TyProxyOperation;
+import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.entity.TyUserLoginEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.framework.common.util.TyBigNumUtil;
-import com.taoyuan.framework.common.util.TyPageUtil;
 import com.taoyuan.framework.mail.TyVerificationCodeMapper;
 import com.taoyuan.framework.mail.TyVerificationCodeService;
 import com.taoyuan.framework.oper.IProxyOperService;
@@ -22,10 +20,21 @@ import com.taoyuan.gms.core.adminmanage.dao.*;
 import com.taoyuan.gms.core.adminmanage.service.*;
 import com.taoyuan.gms.core.proxymanage.dao.GoldenRechargeMapper;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
-import com.taoyuan.gms.model.dto.admin.DailyStatisticDto;
+import com.taoyuan.gms.model.dto.admin.statistic.JuniorCommissionsPageRequest;
+import com.taoyuan.gms.model.dto.admin.statistic.MemberLoginRequest;
+import com.taoyuan.gms.model.dto.admin.charts.ChartsRewardPageRequest;
+import com.taoyuan.gms.model.dto.admin.charts.VChartsRewardPageRequest;
+import com.taoyuan.gms.model.dto.admin.chipin.ChipinWagePageRequest;
+import com.taoyuan.gms.model.dto.admin.lossrebate.LossRebateRequest;
+import com.taoyuan.gms.model.dto.admin.statistic.DailyStatisticResponse;
+import com.taoyuan.gms.model.dto.admin.statistic.SaleStatisticsRequest;
 import com.taoyuan.gms.model.entity.admin.*;
-import com.taoyuan.gms.model.entity.statistics.TodayStatisticsEntity;
+import com.taoyuan.gms.model.entity.admin.charts.ChartsRewardsEntity;
+import com.taoyuan.gms.model.entity.admin.chipin.ChipinWageEntity;
+import com.taoyuan.gms.model.entity.admin.records.SaleDetailEntity;
+import com.taoyuan.gms.model.entity.statistic.TodayStatisticsEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +44,7 @@ import java.util.*;
 
 @Slf4j
 @RestController
-public class RecordQueryController extends BaseController implements RecordsQueryApi {
+public class RecordQueryController extends BaseGmsController implements RecordsQueryApi {
 
     @Autowired
     private TyVerificationCodeService verificationCodeService;
@@ -98,7 +107,7 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Override
     public TyResponse getVerificationCodes(Integer pageIndex, Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
-        return new TySuccessResponse(verificationCodeMapper.selectPage(page,null));
+        return new TySuccessResponse(verificationCodeMapper.selectPage(page, null));
     }
 
     @Override
@@ -114,19 +123,19 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public TyResponse getSaleStatistics(Map<String, Object> map) {
-        Page page = getPage(map);
+    public TyResponse getSaleStatistics(SaleStatisticsRequest request) {
+        Page page = getPage(request);
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
-        if (map.containsKey("begin")) {
-            String begin = String.valueOf(map.get("begin"));
-            if (map.containsKey("end")) {
-                String end = String.valueOf(map.get("end"));
+        String begin = request.getStart();
+        String end = request.getEnd();
+        if (!StringUtils.isEmpty(begin)) {
+            if (!StringUtils.isEmpty(end)) {
                 wrapper.between("time", begin, end);
             } else {
                 throw new ValidateException(10000010, "请选择结束时间。", null);
             }
         } else {
-            if (map.containsKey("end")) {
+            if (!StringUtils.isEmpty(end)) {
                 throw new ValidateException(10000010, "请选择开始时间。", null);
             }
         }
@@ -148,25 +157,25 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public TyResponse getSaleDetails(Map<String, Object> map) {
-        Page page = getPage(map);
+    public TyResponse getSaleDetails(SaleStatisticsRequest request) {
+        Page page = getPage(request);
 
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
-        if (map.containsKey("proxyName")) {
-            String name = map.get("proxyName").toString();
-            wrapper.eq("proxyName", name);
+        String proxyName = request.getProxyName();
+        if (!StringUtils.isEmpty(proxyName)) {
+            wrapper.eq("proxyName", proxyName);
         }
 
-        if (map.containsKey("begin")) {
-            String begin = String.valueOf(map.get("begin"));
-            if (map.containsKey("end")) {
-                String end = String.valueOf(map.get("end"));
+        String begin = request.getStart();
+        String end = request.getEnd();
+        if (!StringUtils.isEmpty(begin)) {
+            if (!StringUtils.isEmpty(end)) {
                 wrapper.between("time", begin, end);
             } else {
                 throw new ValidateException(10000010, "请选择结束时间。", null);
             }
         } else {
-            if (map.containsKey("end")) {
+            if (!StringUtils.isEmpty(end)) {
                 throw new ValidateException(10000010, "请选择开始时间。", null);
             }
         }
@@ -176,22 +185,24 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
     @Override
     public TyResponse getLossRebates(Integer pageIndex, Integer pageSize) {
-        super.validatePageParams(pageIndex, pageSize);
-        return new TySuccessResponse(lossRabateMapper.selectPage(new Page<LossRabateEntity>(pageIndex, pageSize), null));
+        Page page = getPage(pageIndex, pageSize);
+        return new TySuccessResponse(lossRabateMapper.selectPage(page, null));
     }
 
     @Override
-    public TyResponse getLossRebates(@RequestBody Map<String, Object> map) {
-        Page page = TyPageUtil.getPage(map);
+    public TyResponse getLossRebates(@RequestBody LossRebateRequest request) {
+        Page page = getPage(request);
         QueryWrapper<LossRabateEntity> wrapper = new QueryWrapper<LossRabateEntity>();
-        if (map.containsKey("id")) {
-            wrapper.lambda().eq(LossRabateEntity::getMemberId, Long.valueOf(map.get("id").toString()));
-            if (map.containsKey("status")) {
-                wrapper.lambda().eq(LossRabateEntity::getStatus, Integer.valueOf(map.get("status").toString()));
+        Long id = request.getId();
+        int status = request.getStatus();
+        if (null != id) {
+            wrapper.lambda().eq(LossRabateEntity::getMemberId, id);
+            if (0 != status) {
+                wrapper.lambda().eq(LossRabateEntity::getStatus, status);
             }
         } else {
-            if (map.containsKey("status")) {
-                wrapper.lambda().eq(LossRabateEntity::getStatus, Integer.valueOf(map.get("status").toString()));
+            if (0 != status) {
+                wrapper.lambda().eq(LossRabateEntity::getStatus, status);
             }
         }
 
@@ -203,24 +214,24 @@ public class RecordQueryController extends BaseController implements RecordsQuer
         List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 1);
-        return new TySuccessResponse(chartsRewardsMapper.selectPage(new Page<ChartsRewardsEntity>(pageIndex, pageSize), wrapper));
+        return new TySuccessResponse(chartsRewardsMapper.selectPage(new Page<ChartsRewardsEntity>(pageIndex,
+                pageSize), wrapper));
     }
 
     @Override
-    public TyResponse getChartsRewards(Map<String, Object> map) {
-        if (null == map) {
-            throw new ValidateException("查询条件不能为空。");
-        }
-        Page page = getPage(map);
+    public TyResponse getChartsRewards(ChartsRewardPageRequest request) {
+        Page page = getPage(request);
 
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.lambda().eq(ChartsRewardsEntity::getType, 1);
-        if (map.containsKey("id")) {
-            wrapper.lambda().eq(ChartsRewardsEntity::getMemberId, map.get("id"));
+        Long id = request.getId();
+        int status = request.getStatus();
+        if (null != id) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getMemberId, id);
         }
 
-        if (map.containsKey("status")) {
-            wrapper.lambda().eq(ChartsRewardsEntity::getStatus, map.get("status"));
+        if (0 != status) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getStatus, status);
         }
 
         return new TySuccessResponse(chartsRewardsMapper.selectPage(page, wrapper));
@@ -235,20 +246,19 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public TyResponse getVChartsRewards(Map<String, Object> map) {
-        if (null == map) {
-            throw new ValidateException("查询条件不能为空。");
-        }
-        Page page = getPage(map);
+    public TyResponse getVChartsRewards(VChartsRewardPageRequest request) {
+        Page page = getPage(request);
 
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.lambda().eq(ChartsRewardsEntity::getType, 2);
-        if (map.containsKey("id")) {
-            wrapper.lambda().eq(ChartsRewardsEntity::getMemberId, map.get("id"));
+        Long id = request.getId();
+        int status = request.getStatus();
+        if (null != id) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getMemberId, id);
         }
 
-        if (map.containsKey("status")) {
-            wrapper.lambda().eq(ChartsRewardsEntity::getStatus, map.get("status"));
+        if (0 != status) {
+            wrapper.lambda().eq(ChartsRewardsEntity::getStatus, status);
         }
 
         return new TySuccessResponse(chartsRewardsMapper.selectPage(page, wrapper));
@@ -256,31 +266,34 @@ public class RecordQueryController extends BaseController implements RecordsQuer
 
 
     @Override
-    public TyResponse getChipinWages(Map<String, Object> map) {
-        Page page = getPage(map);
+    public TyResponse getChipinWages(ChipinWagePageRequest request) {
+        Page page = getPage(request);
         QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper<ChipinWageEntity>();
-        long id = 0l;
-        if (map.containsKey("id")) {
-            wrapper.lambda().eq(ChipinWageEntity::getMemberId, map.get("id"));
+        Long id = request.getId();
+        int status = request.getStatus();
+        if (null != id) {
+            wrapper.lambda().eq(ChipinWageEntity::getMemberId, id);
         }
 
-        if (map.containsKey("status")) {
-            wrapper.lambda().eq(ChipinWageEntity::getStatus, map.get("status"));
+        if (0 != status) {
+            wrapper.lambda().eq(ChipinWageEntity::getStatus, status);
         }
 
         return new TySuccessResponse(chipinWageMapper.selectPage(page, wrapper));
     }
 
     @Override
-    public TyResponse getJuniorCommissions(Map<String, Object> map) {
-        Page page = getPage(map);
+    public TyResponse getJuniorCommissions(JuniorCommissionsPageRequest request) {
+        Page page = getPage(request);
         QueryWrapper<JuniorCommissionEntity> wrapper = new QueryWrapper();
-        if (map.containsKey("id")) {
-            wrapper.lambda().eq(JuniorCommissionEntity::getMemberId, map.get("id"));
+        Long id = request.getId();
+        if (null != id) {
+            wrapper.lambda().eq(JuniorCommissionEntity::getMemberId, id);
         }
 
-        if (map.containsKey("status")) {
-            wrapper.lambda().eq(JuniorCommissionEntity::getStatus, map.get("status"));
+        int status = request.getStatus();
+        if (0 != status) {
+            wrapper.lambda().eq(JuniorCommissionEntity::getStatus, status);
         }
 
         return new TySuccessResponse(juniorCommissionMapper.selectPage(page, wrapper));
@@ -299,10 +312,10 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     @Override
     public TyResponse getDailyStatistic() {
         //TODO需要从各个表实时查询，只查询当日
-        DailyStatisticDto dto = new DailyStatisticDto();
+        DailyStatisticResponse dto = new DailyStatisticResponse();
 
         QueryWrapper<TodayStatisticsEntity> wrapper = new QueryWrapper<TodayStatisticsEntity>();
-        TodayStatisticsEntity  todayStatisticsEntity = todayStatisticsService.getOne(wrapper);
+        TodayStatisticsEntity todayStatisticsEntity = todayStatisticsService.getOne(wrapper);
         dto.setDate(todayStatisticsEntity.getToday());
         dto.setRegisterMemberNum(todayStatisticsEntity.getUserCount());
         dto.setMembersBalance(TyBigNumUtil.cvrtNum2String(todayStatisticsEntity.getUserBalance()));
@@ -321,9 +334,9 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public TyResponse getAdminLogins(HashMap<String, Object> map) {
-        log.info("getAdminLogins map={}", map);
-        Page page = TyPageUtil.getPage(map);
+    public TyResponse getAdminLogins(TyPageEntity pageEntity) {
+        log.info("getAdminLogins map={}", pageEntity);
+        Page page = getPage(pageEntity);
 
         QueryWrapper<TyUserLoginEntity> wrapper = new QueryWrapper<TyUserLoginEntity>();
         wrapper.eq("type", 3);
@@ -332,15 +345,14 @@ public class RecordQueryController extends BaseController implements RecordsQuer
     }
 
     @Override
-    public TyResponse getMemberLogins(HashMap<String, Object> map) {
+    public TyResponse getMemberLogins(MemberLoginRequest request) {
 
-        log.info("map value is {}", map);
-        Page page = TyPageUtil.getPage(map);
+        log.info("map value is {}", request);
+        Page page = getPage(request);
 
         QueryWrapper<TyUserLoginEntity> wrapper = new QueryWrapper();
-        String keyword = null;
-        if (map.containsKey("keyword")) {
-            keyword = (String) map.get("keyword");
+        String keyword = request.getKeyword();
+        if (!StringUtils.isEmpty(keyword)) {
             if (StringUtil.isNumber(keyword)) {
                 wrapper.lambda().eq(TyUserLoginEntity::getMemberId, Long.valueOf(keyword)).or().eq(TyUserLoginEntity::getMemberNickName, keyword);
             } else {
@@ -348,9 +360,8 @@ public class RecordQueryController extends BaseController implements RecordsQuer
             }
         }
 
-        int status = 0;
-        if (map.containsKey("status")) {
-            status = Integer.valueOf(map.get("status").toString());
+        int status = request.getStatus();
+        if (0!=status) {
             wrapper.lambda().eq(TyUserLoginEntity::getStatus, status);
         }
         wrapper.eq("type", 1);

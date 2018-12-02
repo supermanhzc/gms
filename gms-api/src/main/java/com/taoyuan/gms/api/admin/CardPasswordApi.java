@@ -1,9 +1,7 @@
 package com.taoyuan.gms.api.admin;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.http.TyResponse;
-import com.taoyuan.gms.model.dto.admin.CardPasswordRequest;
-import com.taoyuan.gms.model.entity.admin.CardPasswordEntity;
+import com.taoyuan.gms.model.dto.admin.card.CardPasswordRequest;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
