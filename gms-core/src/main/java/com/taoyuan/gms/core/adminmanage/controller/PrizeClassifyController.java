@@ -22,17 +22,17 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
     private IPrizeClassifyService service;
 
     @Override
-    public List<PrizeClassifyEntity> getPrizeClassifies() {
-        return service.list(null);
+    public TyResponse getPrizeClassifies() {
+        return new TySuccessResponse(service.list(null));
     }
 
     @Override
-    public PrizeClassifyEntity getPrizeClassify(Long id) {
-        return service.getById(id);
+    public TyResponse getPrizeClassify(Long id) {
+        return new TySuccessResponse(service.getById(id));
     }
 
     @Override
-    public PrizeClassifyEntity createPrizeClassfy(PrizeClassifyEntity classify) {
+    public TyResponse createPrizeClassfy(PrizeClassifyEntity classify) {
         if (StringUtils.isEmpty(classify.getName())) {
             throw new ValidateException("类目名称不能为空。");
         }
@@ -40,11 +40,11 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
         PrizeClassifyEntity entity = new PrizeClassifyEntity();
         entity.setName(classify.getName());
         service.save(entity);
-        return entity;
+        return new TySuccessResponse(entity);
     }
 
     @Override
-    public PrizeClassifyEntity modifyPrizeClassfy(Long id, String classifyName) {
+    public TyResponse modifyPrizeClassfy(Long id, String classifyName) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
         }
@@ -56,7 +56,7 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
         PrizeClassifyEntity entity = service.getById(id);
         entity.setName(classifyName);
         service.saveOrUpdate(entity);
-        return entity;
+        return new TySuccessResponse(entity);
     }
 
     @Override

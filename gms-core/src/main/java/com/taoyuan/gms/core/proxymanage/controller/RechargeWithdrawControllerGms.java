@@ -8,6 +8,7 @@ import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.RechargeWithdrawApi;
 import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
+import com.taoyuan.gms.core.proxymanage.dao.RechargeWithdrawMapper;
 import com.taoyuan.gms.core.proxymanage.service.IRechargeWithdrawService;
 import com.taoyuan.gms.model.entity.proxy.RechargeWithdrawEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +26,13 @@ public class RechargeWithdrawControllerGms extends BaseGmsController implements 
     @Autowired
     private IRechargeWithdrawService service;
 
+    @Autowired
+    private RechargeWithdrawMapper mapper;
+
     @Override
-    public List<RechargeWithdrawEntity> getRechargeWithdraws(TyPageEntity entity) {
+    public TyResponse getRechargeWithdraws(TyPageEntity entity) {
         Page page = getPage(entity);
-        return service.pageMaps(page, null).getRecords();
+        return new TySuccessResponse(mapper.selectPage(page, null));
     }
 
     @Override

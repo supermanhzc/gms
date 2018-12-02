@@ -124,20 +124,20 @@ public class CardPwdWithdrawController extends BaseGmsController implements Card
     }
 
     @Override
-    public IPage<Map<String, Object>> retrieve(TyPageEntity pageEntity) {
+    public TyResponse retrieve(TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
         wrapper.lambda().eq(CardPasswordEntity::getOwner, getCurrentUserName()).eq(CardPasswordEntity::getStatus,2);
         wrapper.lambda().orderByDesc(CardPasswordEntity::getEndTime);
-        return cpService.pageMaps(page, wrapper);
+        return new TySuccessResponse(cpService.pageMaps(page, wrapper));
     }
 
     @Override
-    public IPage<Map<String, Object>> records(TyPageEntity pageEntity) {
+    public TyResponse records(TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
         wrapper.lambda().eq(CardPasswordEntity::getOwner, getCurrentUserName());
         wrapper.lambda().orderByDesc(CardPasswordEntity::getEndTime);
-        return cpService.pageMaps(page, wrapper);
+        return new TySuccessResponse(cpService.pageMaps(page, wrapper));
     }
 }

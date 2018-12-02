@@ -8,6 +8,7 @@ import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.FundExchangeApi;
 import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
+import com.taoyuan.gms.core.proxymanage.dao.FundExchangeMapper;
 import com.taoyuan.gms.core.proxymanage.service.IFundExchangeService;
 import com.taoyuan.gms.model.entity.proxy.FundExchangeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +16,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 public class FundExchangeController extends BaseGmsController implements FundExchangeApi {
 
     @Autowired
-    private IFundExchangeService fundExchangeService;
+    private IFundExchangeService service;
+
+    @Autowired
+    private FundExchangeMapper mapper;
 
     @Override
-    public List<FundExchangeEntity> getLatest10() {
-        return fundExchangeService.getLatest10().getRecords();
+    public TyResponse getLatest10() {
+        return new TySuccessResponse(service.getLatest10().getRecords());
     }
 
     @Override
-    public List<FundExchangeEntity> getFundExchanges(TyPageEntity pageEntity) {
+    public TyResponse getFundExchanges(TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
-        return fundExchangeService.pageMaps(page, null).getRecords();
+        return new TySuccessResponse(mapper.selectPage(page, null));
     }
 
     @Override
@@ -56,7 +58,7 @@ public class FundExchangeController extends BaseGmsController implements FundExc
         fundExchange.setType(1);
         fundExchange.setProxyId(proxyId);
         fundExchange.setTime(new Date());
-        fundExchangeService.save(fundExchange);
+        service.save(fundExchange);
         //本代理账户减去转出金融
         updateBalance(proxyId, money);
         //对方代理账户加上转出金额

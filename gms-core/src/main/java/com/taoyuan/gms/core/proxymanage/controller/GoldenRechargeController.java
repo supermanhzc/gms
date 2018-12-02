@@ -113,9 +113,9 @@ public class GoldenRechargeController extends BaseGmsController implements Golde
     }
 
     @Override
-    public IPage retrieve(TyPageEntity pageEntity) {
+    public TyResponse retrieve(TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
-        return goldenRechargeMapper.selectPage(page, new QueryWrapper<GoldenRechargeEntity>());
+        return new TySuccessResponse(goldenRechargeMapper.selectPage(page, new QueryWrapper()));
     }
 
 }
