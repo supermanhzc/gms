@@ -3,6 +3,7 @@ package com.taoyuan.gms.core.proxymanage.controller;
 import com.taoyuan.framework.common.entity.TyProxyOperation;
 import com.taoyuan.framework.oper.IProxyOperService;
 import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
+import com.taoyuan.gms.core.adminmanage.service.IWebSettingService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,22 +35,25 @@ public class BaseGmsProxyController extends BaseGmsController {
         operation.setType(type);
         if (1 == type) {
             //代充要扣除代理额度
-            moneyChanged = BigDecimal.ZERO.subtract(money);
-            account = getBalance(proxyId).subtract(money);
+            BigDecimal discountMoney =
+                    money.multiply(BigDecimal.valueOf(getWebSetting().getProxyRechargeDiscount())).divide(BigDecimal.valueOf(100));
+            //代充后要扣除代理额度
+            moneyChanged = BigDecimal.ZERO.subtract(discountMoney);
+            account = getBalance(proxyId);
             if (StringUtils.isEmpty(desp)) {
                 description = "代充" + money;
             }
         } else if (2 == type) {
             //充值，增加代理额度
             moneyChanged = money;
-            account = getBalance(proxyId).add(money);
+            account = getBalance(proxyId);
             if (StringUtils.isEmpty(desp)) {
                 description = "充值" + money;
             }
         } else if (3 == type) {
             //提现，代理余额扣除提现部分
             moneyChanged = BigDecimal.ZERO.subtract(money);
-            account = getBalance(proxyId).subtract(money);
+            account = getBalance(proxyId);
             if (StringUtils.isEmpty(desp)) {
                 description = "提现" + money;
             }
@@ -61,16 +65,16 @@ public class BaseGmsProxyController extends BaseGmsController {
                 description = "登录";
             }
         } else if (5 == type) {
-            //回收，增加代理余额
-            moneyChanged = BigDecimal.ZERO.subtract(money);
-            account = getBalance(proxyId).subtract(money);
+            //回收，账户变动为0，会员账号增加余额
+            moneyChanged = BigDecimal.ZERO;
+            account = getBalance(proxyId);
             if (StringUtils.isEmpty(desp)) {
                 description = "回收卡密" + money;
             }
         } else if (6 == type) {
             //互转，减少代理余额
             moneyChanged = money;
-            account = getBalance(proxyId).add(money);
+            account = getBalance(proxyId);
             if (StringUtils.isEmpty(desp)) {
                 description = "互转" + money;
             }
@@ -86,6 +90,14 @@ public class BaseGmsProxyController extends BaseGmsController {
 
         //同步更新代理余额
         updateBalance(proxyId, moneyChanged);
+    }
 
+    /**
+     * 获取当前用户余额
+     *
+     * @return
+     */
+    public BigDecimal getCurrentUserBalance() {
+        return getBalance(getCurrentUserId());
     }
 }

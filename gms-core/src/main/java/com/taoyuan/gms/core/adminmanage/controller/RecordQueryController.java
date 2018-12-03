@@ -19,19 +19,18 @@ import com.taoyuan.gms.common.util.StringUtil;
 import com.taoyuan.gms.core.adminmanage.dao.*;
 import com.taoyuan.gms.core.adminmanage.service.*;
 import com.taoyuan.gms.core.proxymanage.dao.GoldenRechargeMapper;
+import com.taoyuan.gms.core.proxymanage.service.IFirstchargeRebateService;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
-import com.taoyuan.gms.model.dto.admin.statistic.JuniorCommissionsPageRequest;
-import com.taoyuan.gms.model.dto.admin.statistic.MemberLoginRequest;
+import com.taoyuan.gms.model.dto.admin.statistic.*;
 import com.taoyuan.gms.model.dto.admin.charts.ChartsRewardPageRequest;
 import com.taoyuan.gms.model.dto.admin.charts.VChartsRewardPageRequest;
 import com.taoyuan.gms.model.dto.admin.chipin.ChipinWagePageRequest;
 import com.taoyuan.gms.model.dto.admin.lossrebate.LossRebateRequest;
-import com.taoyuan.gms.model.dto.admin.statistic.DailyStatisticResponse;
-import com.taoyuan.gms.model.dto.admin.statistic.SaleStatisticsRequest;
 import com.taoyuan.gms.model.entity.admin.*;
 import com.taoyuan.gms.model.entity.admin.charts.ChartsRewardsEntity;
 import com.taoyuan.gms.model.entity.admin.chipin.ChipinWageEntity;
 import com.taoyuan.gms.model.entity.admin.records.SaleDetailEntity;
+import com.taoyuan.gms.model.entity.proxy.FirstchargeRebateEntity;
 import com.taoyuan.gms.model.entity.statistic.TodayStatisticsEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -103,6 +102,8 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     @Autowired
     private ITodayStatisicsService todayStatisticsService;
 
+    @Autowired
+    private IFirstchargeRebateService firstchargeRebateService;
 
     @Override
     public TyResponse getVerificationCodes(Integer pageIndex, Integer pageSize) {
@@ -301,12 +302,25 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
 
     @Override
     public TyResponse getFirstchargeRebates() {
-        return null;
+        QueryWrapper<FirstchargeRebateEntity> wrapper = new QueryWrapper<FirstchargeRebateEntity>();
+        wrapper.lambda().orderByDesc(FirstchargeRebateEntity::getDate);
+        return new TySuccessResponse(firstchargeRebateService.list(wrapper));
     }
 
     @Override
-    public TyResponse getFirstchargeRebates(String id, String type) {
-        return null;
+    public TyResponse getFirstchargeRebates(FirstchargeRebateRequest request) {
+        QueryWrapper<FirstchargeRebateEntity> wrapper = new QueryWrapper<FirstchargeRebateEntity>();
+        wrapper.lambda().orderByDesc(FirstchargeRebateEntity::getDate);
+        Long id = request.getId();
+        if (null != id) {
+            wrapper.lambda().eq(FirstchargeRebateEntity::getMemberId, id);
+        }
+
+        int status = request.getStatus();
+        if (0 != status) {
+            wrapper.lambda().eq(FirstchargeRebateEntity::getStatus, status);
+        }
+        return new TySuccessResponse(firstchargeRebateService.list(wrapper));
     }
 
     @Override
@@ -361,7 +375,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
         }
 
         int status = request.getStatus();
-        if (0!=status) {
+        if (0 != status) {
             wrapper.lambda().eq(TyUserLoginEntity::getStatus, status);
         }
         wrapper.eq("type", 1);

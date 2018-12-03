@@ -6,7 +6,7 @@ import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**
- * 亏损
+ * 亏损统计定时任务
  */
 @Slf4j
 public class LossRabateJob extends QuartzJobBean {
@@ -14,7 +14,7 @@ public class LossRabateJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         //TODO
-        log.debug("LossRabateJob计算每日亏损返利开始");
-        log.debug("LossRabateJob计算每日亏损返利结束");
+        log.info("LossRabateJob计算每日亏损返利开始");
+        log.info("LossRabateJob计算每日亏损返利结束");
     }
 }

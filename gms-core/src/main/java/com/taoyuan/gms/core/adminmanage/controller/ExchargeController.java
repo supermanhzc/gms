@@ -83,7 +83,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
         entity.setExchangeSinglePrice(prizeEntity.getBasicPrice());
         entity.setStartTime(new Date());
         entity.setMemberId(getCurrentUserId());
-        entity.setMemberNickName(getById(getCurrentUserId()).getNickName());
+        entity.setMemberNickName(getCurrentUserName());
         if (0 == prizeEntity.getAutoDispatch()) {
             //非自动发货，默认状态为未发货1
             entity.setStatus(1);

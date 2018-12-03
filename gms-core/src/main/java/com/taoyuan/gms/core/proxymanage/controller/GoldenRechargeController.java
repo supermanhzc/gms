@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
 import com.taoyuan.framework.common.entity.TyPageEntity;
-import com.taoyuan.framework.common.entity.TyProxyOperation;
 import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
@@ -14,9 +13,12 @@ import com.taoyuan.framework.common.util.TyDateUtils;
 import com.taoyuan.framework.oper.IProxyOperService;
 import com.taoyuan.gms.api.proxy.GoldenRechargeApi;
 import com.taoyuan.gms.core.proxymanage.dao.GoldenRechargeMapper;
+import com.taoyuan.gms.core.proxymanage.service.IFirstchargeRebateService;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
+import com.taoyuan.gms.core.sitemanage.account.service.IGoldService;
 import com.taoyuan.gms.job.JobManager;
 import com.taoyuan.gms.job.proxymanage.GoldenRechargeJob;
+import com.taoyuan.gms.model.entity.proxy.FirstchargeRebateEntity;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,42 +42,74 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
 
     @Autowired
     private IProxyOperService proxyOperService;
-    private QueryWrapper wrapper;
+
+    @Autowired
+    private IFirstchargeRebateService firstchargeRebateService;
+
+    @Autowired
+    private IGoldService goldService;
 
     @Override
     public TyResponse createGoldenRecharge(GoldenRechargeEntity entity) {
         Long memberId = entity.getMemberId();
+        if (null == memberId) {
+            throw new ValidateException("会员ID不能为空。");
+        }
+
         TyUser user = userService.getUserById(memberId);
         if (null == user) {
             throw new ValidateException("会员不存在。");
         }
 
+        BigDecimal account = entity.getAmount();
+        if (account.compareTo(BigDecimal.ZERO) == 0) {
+            throw new ValidateException("代充金额不能为0。");
+        }
+
+        //代充扣除额度
+        BigDecimal discountMoney =
+                account.multiply(BigDecimal.valueOf(getWebSetting().getProxyRechargeDiscount())).divide(BigDecimal.valueOf(100));
+        //判断代理余额是否够代充，计算逻辑，用户代充额度*代充折扣 ≤ 代理余额
+        BigDecimal proxyBalance = getBalance(getCurrentUserId());
+        if (proxyBalance.compareTo(discountMoney) < 0) {
+            throw new ValidateException("代理余额不足，请充值。");
+        }
+
         Date date = new Date();
         entity.setTime(date);
         entity.setStatus(1);
-        entity.setProxyId(TySession.getCurrentUser().getUserId());
-        entity.setProxyName(TySession.getCurrentUser().getName());
+        entity.setProxyId(getCurrentUserId());
+        entity.setProxyName(getCurrentUserName());
         log.info("创建时间：{}", date);
         goldenRechargeService.save(entity);
         log.info("GoldenRechargeEntity id：{}", entity.getId());
+
 
         Long id = entity.getId();
         String cron = TyDateUtils.getCronAfterMinutes(5);
         JobManager.addJob("GoldRecharge" + id, GoldenRechargeJob.class, cron, id);
 
-        //保存代理操作记录s
-        TyProxyOperation operEntity = new TyProxyOperation();
-        //代充
-        operEntity.setType(1);
-        operEntity.setAccount(BigDecimal.valueOf(10000));
-        operEntity.setDescription("金币代充");
-        operEntity.setMoneyChanged(BigDecimal.ZERO.subtract(entity.getAmount()));
-        operEntity.setProxyId(TySession.getCurrentUser().getUserId());
-        operEntity.setProxyName(TySession.getCurrentUser().getName());
-        operEntity.setTime(date);
-        proxyOperService.save(operEntity);
+        recordOperation(1, "金币代充", discountMoney);
 
-        recordOperation(1,"金币代充",entity.getAmount());
+        BigDecimal totalGold = account.multiply(BigDecimal.valueOf(getWebSetting().getExchangePropor()));
+        //判断是否是首充，如果是则记录首充奖励信息
+        if (!firstchargeRebateService.exist(memberId)) {
+            FirstchargeRebateEntity firstchargeRebateEntity = new FirstchargeRebateEntity();
+            firstchargeRebateEntity.setDate(date);
+            firstchargeRebateEntity.setMemberId(memberId);
+            firstchargeRebateEntity.setMemberName(user.getName());
+            //首充返利金币
+            BigDecimal firstRebateGole = account.multiply(BigDecimal.valueOf(getWebSetting().getFirstFillRebatePropor())).divide(BigDecimal.valueOf(100));
+            firstchargeRebateEntity.setRebate(firstRebateGole);
+            //增加返利金币给用户
+            totalGold = totalGold.add(firstRebateGole);
+            firstchargeRebateEntity.setYtdFirstcharge(account);
+            firstchargeRebateEntity.setStatus(1);
+            firstchargeRebateService.save(firstchargeRebateEntity);
+        }
+
+        //更改会员金币数量
+        goldService.addGold(memberId, totalGold);
         return new TySuccessResponse(entity);
     }
 

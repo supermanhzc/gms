@@ -46,18 +46,24 @@ public class RechargeWithdrawControllerGms extends BaseGmsProxyController implem
             throw new ValidateException("充值或者提现金额不能为空。");
         }
 
+        //提现时代理额度必须大于提现额度
+        if (2 == type & getCurrentUserBalance().compareTo(request.getMoney()) < 0) {
+            throw new ValidateException("用户余额小于提现额度。");
+        }
+
         RechargeWithdrawEntity entity = new RechargeWithdrawEntity();
-        BeanUtils.copyProperties(request,entity);
+        BeanUtils.copyProperties(request, entity);
         entity.setCreateTime(new Date());
         entity.setProxyId(getCurrentUserId());
         entity.setProxyName(getCurrentUserName());
+        //充值或者提现需要提交给管理员审批，当前只是设置状态为1，管理员处理后处理代理额度
         entity.setStatus(1);
         entity.setBalance(getBalance(getCurrentUserId()));
         entity.setDistribution(getBalance(getCurrentUserId()));
         service.save(entity);
 
         //记录日志
-        recordOperation(type,null,request.getMoney());
+        recordOperation(type, null, request.getMoney());
         return new TySuccessResponse(entity);
     }
 
@@ -99,6 +105,9 @@ public class RechargeWithdrawControllerGms extends BaseGmsProxyController implem
         if (type == 1) {
             updateBalance(id, dbValue.getMoney());
         } else if (type == 2) {
+            if (getCurrentUserBalance().compareTo(dbValue.getMoney()) < 0) {
+                throw new ValidateException("用户余额小于提现额度。");
+            }
             updateBalance(id, BigDecimal.ZERO.subtract(dbValue.getMoney()));
         }
         return new TySuccessResponse(dbValue);
