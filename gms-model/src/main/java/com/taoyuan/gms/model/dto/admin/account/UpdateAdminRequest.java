@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class UpdateAdminRequest extends AccountBaseRequest {
-
+    private Long id;
 }

@@ -1,0 +1,75 @@
+# 注册管理员
+POST http://localhost:8081/gms/users/createAdmin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{   "phone": "18989764893",   "password": "admin" }
+
+###
+
+# 登录
+POST http://localhost:8081/gms/login
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{   "userName": "18989764893",   "password": "admin" }
+
+###
+
+# 分配代理
+POST http://localhost:8081/gms/users/allocateProxy
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+token: 2e0b20dc-ce83-4671-a9e9-376360ea9584
+
+{   "name": "代理会员1",   "distribMoney": "500", "phone": "18594873892", "password": "proxy" }
+
+###
+
+# 注册会员
+POST http://localhost:8081/gms/users/register
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+token: 2e0b20dc-ce83-4671-a9e9-376360ea9584
+
+{   "refereeId": "2",   "verificationCode": "uy74", "smsVerificationCode": "6675", "nickName": "jack", "phone": "18794873892", "password": "proxy" }
+
+###
+
+# 管理员变更
+POST http://localhost:8081/gms/users/updateAdmin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+token: 2e0b20dc-ce83-4671-a9e9-376360ea9584
+
+{  "id":18, "phone": "18898889998", "password": "admin2"  }
+
+###
+
+# 代理变更
+POST http://localhost:8081/gms/users/updateProxy
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+token: 2e0b20dc-ce83-4671-a9e9-376360ea9584
+
+{  "id":20, "name": "代理会员更新1", "phone": "15898888887"  }
+
+###
+
+# 管理员注销
+POST http://localhost:8081/gms/users/delete/
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{  "userName": "zhangsan",   "password": "zhangsan" }
+
+###
+
+
