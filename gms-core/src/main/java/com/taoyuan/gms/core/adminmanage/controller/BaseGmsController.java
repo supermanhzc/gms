@@ -31,6 +31,10 @@ public abstract class BaseGmsController extends TyBaseController {
      */
     public BigDecimal getBalance(Long id) {
         UserEntity account = getUserById(id);
+        if (null == account) {
+            return BigDecimal.ZERO;
+        }
+
         return account.getBalance();
     }
 
@@ -43,8 +47,16 @@ public abstract class BaseGmsController extends TyBaseController {
      */
     public void updateBalance(Long id, BigDecimal money) {
         UserEntity user = getUserById(id);
-        user.setBalance(user.getBalance().add(money));
-        userService.updateById(user);
+        if (null == user) {
+            user = new UserEntity();
+            user.setId(id);
+            user.setNickName("");
+            user.setBalance(BigDecimal.ZERO);
+            userService.save(user);
+        } else {
+            user.setBalance(user.getBalance().add(money));
+            userService.updateById(user);
+        }
     }
 
     /**
