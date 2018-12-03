@@ -10,10 +10,9 @@ import com.taoyuan.gms.api.admin.UserBalanceChangeApi;
 import com.taoyuan.gms.core.adminmanage.service.IUserBalanceChangeService;
 import com.taoyuan.gms.model.dto.admin.account.QueryAccountBalanceRequest;
 import com.taoyuan.gms.model.dto.admin.account.UpdateAccountBalanceRequest;
+import com.taoyuan.gms.model.entity.admin.account.UserBalanceChangeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 public class UserBalanceChangeController extends TyBaseController implements UserBalanceChangeApi{
@@ -21,13 +20,19 @@ public class UserBalanceChangeController extends TyBaseController implements Use
     private IUserBalanceChangeService uerBalanceChangeService;
 
     @Override
-    public IPage<Map<String, Object>> getAllBalanceChangeHistory(QueryAccountBalanceRequest queryAccountBalanceRequest) {
-        QueryWrapper wrapper = new QueryWrapper();
+    public TyResponse getAllBalanceChangeHistory(QueryAccountBalanceRequest queryAccountBalanceRequest) {
+        QueryWrapper<UserBalanceChangeEntity> wrapper = new QueryWrapper();
         if(null != queryAccountBalanceRequest.getId()){
-//            wrapper.lambda().eq(UserBalanceChangeEntity::getId, queryAccountBalanceRequest.getId());
+            wrapper.lambda().eq(UserBalanceChangeEntity::getId, queryAccountBalanceRequest.getId());
         }
-        uerBalanceChangeService.page(this.getPage(queryAccountBalanceRequest), null);
-        return null;
+        if(null != queryAccountBalanceRequest.getType()){
+            wrapper.lambda().eq(UserBalanceChangeEntity::getType, queryAccountBalanceRequest.getType());
+        }
+        IPage result = uerBalanceChangeService.page(this.getPage(queryAccountBalanceRequest), wrapper);
+        if(null != result){
+            return new TySuccessResponse(result);
+        }
+        throw new TyBusinessException("user balance get error.");
     }
 
     @Override

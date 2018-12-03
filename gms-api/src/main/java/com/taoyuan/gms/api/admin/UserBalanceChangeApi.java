@@ -16,7 +16,7 @@ import java.util.Map;
 public interface UserBalanceChangeApi {
 
     @RequestMapping(value = "/get", method = RequestMethod.POST)
-    IPage<Map<String, Object>> getAllBalanceChangeHistory(@RequestBody QueryAccountBalanceRequest queryAccountBalanceRequest);
+    TyResponse getAllBalanceChangeHistory(@RequestBody QueryAccountBalanceRequest queryAccountBalanceRequest);
 
     @RequestMapping(value = "/change", method = RequestMethod.POST)
     TyResponse changeBalance(@RequestBody UpdateAccountBalanceRequest updateAccountBalanceRequest);

@@ -60,7 +60,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(request, userEntity);
         boolean isUserModified = tyUserService.modify(tyUser);
-        return isUserModified && this.updateById(userEntity);
+
+        if (isUserModified){
+            if(UserTypeConsts.ADMIN != tyUserService.getById(tyUser.getId()).getType()){
+                return this.updateById(userEntity);
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
