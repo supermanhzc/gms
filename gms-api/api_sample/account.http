@@ -14,7 +14,7 @@ Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
 
-{   "userName": "18989764893",   "password": "admin" }
+{   "userName": "admin",   "password": "admin" }
 
 ###
 
@@ -56,19 +56,30 @@ POST http://localhost:8081/gms/users/updateProxy
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
-token: 2e0b20dc-ce83-4671-a9e9-376360ea9584
+token: e86d0e26-974e-4971-bcb4-0213ed5fa6ef
 
 {  "id":20, "name": "代理会员更新1", "phone": "15898888887"  }
 
 ###
 
-# 管理员注销
-POST http://localhost:8081/gms/users/delete/
+# 会员变更
+POST http://localhost:8081/gms/users/update
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
+token: e86d0e26-974e-4971-bcb4-0213ed5fa6ef
 
-{  "userName": "zhangsan",   "password": "zhangsan" }
+{  "id":22, "name": "会员名称1", "phone": "15898888887", "qq": "837979234", "password": "guest11" }
+
+###
+
+# 管理员注销
+POST http://localhost:8081/gms/users/delete/22
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+token: e86d0e26-974e-4971-bcb4-0213ed5fa6ef
+
 
 ###
 
