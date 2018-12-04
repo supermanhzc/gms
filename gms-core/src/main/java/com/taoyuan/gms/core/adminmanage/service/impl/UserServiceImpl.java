@@ -62,7 +62,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         boolean isUserModified = tyUserService.modify(tyUser);
 
         if (isUserModified){
-            if(UserTypeConsts.ADMIN != tyUserService.getById(tyUser.getId()).getType()){
+            if(userEntity.canUpdate()&& UserTypeConsts.ADMIN != tyUserService.getById(tyUser.getId()).getType()){
                 return this.updateById(userEntity);
             }
             return true;
