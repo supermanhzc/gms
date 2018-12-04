@@ -2,10 +2,7 @@ package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.taoyuan.framework.aaa.dao.TyUserLoginMapper;
-import com.taoyuan.framework.aaa.service.TyUserLoginService;
 import com.taoyuan.framework.common.entity.TyPageEntity;
-import com.taoyuan.framework.common.entity.TyUserLoginEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
@@ -21,12 +18,14 @@ import com.taoyuan.gms.core.adminmanage.service.*;
 import com.taoyuan.gms.core.proxymanage.dao.GoldenRechargeMapper;
 import com.taoyuan.gms.core.proxymanage.service.IFirstchargeRebateService;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
-import com.taoyuan.gms.model.dto.admin.statistic.*;
 import com.taoyuan.gms.model.dto.admin.charts.ChartsRewardPageRequest;
 import com.taoyuan.gms.model.dto.admin.charts.VChartsRewardPageRequest;
 import com.taoyuan.gms.model.dto.admin.chipin.ChipinWagePageRequest;
 import com.taoyuan.gms.model.dto.admin.lossrebate.LossRebateRequest;
-import com.taoyuan.gms.model.entity.admin.*;
+import com.taoyuan.gms.model.dto.admin.statistic.*;
+import com.taoyuan.gms.model.entity.admin.JuniorCommissionEntity;
+import com.taoyuan.gms.model.entity.admin.LossRabateEntity;
+import com.taoyuan.gms.model.entity.admin.UserLoginEntity;
 import com.taoyuan.gms.model.entity.admin.charts.ChartsRewardsEntity;
 import com.taoyuan.gms.model.entity.admin.chipin.ChipinWageEntity;
 import com.taoyuan.gms.model.entity.admin.records.SaleDetailEntity;
@@ -70,10 +69,10 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     private ProxyOperMapper proxyOperMapper;
 
     @Autowired
-    private TyUserLoginService userLoginService;
+    private IUserLoginService userLoginService;
 
     @Autowired
-    private TyUserLoginMapper userLoginMapper;
+    private UserLoginMapper userLoginMapper;
 
     @Autowired
     private ISaleDetailService saleDetailService;
@@ -352,7 +351,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
         log.info("getAdminLogins map={}", pageEntity);
         Page page = getPage(pageEntity);
 
-        QueryWrapper<TyUserLoginEntity> wrapper = new QueryWrapper<TyUserLoginEntity>();
+        QueryWrapper<UserLoginEntity> wrapper = new QueryWrapper<UserLoginEntity>();
         wrapper.eq("type", 3);
         return new TySuccessResponse(userLoginMapper.selectPage(page, wrapper));
 
@@ -364,19 +363,19 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
         log.info("map value is {}", request);
         Page page = getPage(request);
 
-        QueryWrapper<TyUserLoginEntity> wrapper = new QueryWrapper();
+        QueryWrapper<UserLoginEntity> wrapper = new QueryWrapper();
         String keyword = request.getKeyword();
         if (!StringUtils.isEmpty(keyword)) {
             if (StringUtil.isNumber(keyword)) {
-                wrapper.lambda().eq(TyUserLoginEntity::getMemberId, Long.valueOf(keyword)).or().eq(TyUserLoginEntity::getMemberNickName, keyword);
+                wrapper.lambda().eq(UserLoginEntity::getMemberId, Long.valueOf(keyword)).or().eq(UserLoginEntity::getMemberNickName, keyword);
             } else {
-                wrapper.lambda().eq(TyUserLoginEntity::getMemberNickName, keyword);
+                wrapper.lambda().eq(UserLoginEntity::getMemberNickName, keyword);
             }
         }
 
         int status = request.getStatus();
         if (0 != status) {
-            wrapper.lambda().eq(TyUserLoginEntity::getStatus, status);
+            wrapper.lambda().eq(UserLoginEntity::getStatus, status);
         }
         wrapper.eq("type", 1);
         return new TySuccessResponse(userLoginMapper.selectPage(page, wrapper));
