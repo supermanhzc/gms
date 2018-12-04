@@ -1,9 +1,8 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
-import com.taoyuan.framework.common.entity.TyProxyOperation;
-import com.taoyuan.framework.oper.IProxyOperService;
 import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
-import com.taoyuan.gms.core.adminmanage.service.IWebSettingService;
+import com.taoyuan.gms.core.proxymanage.service.IProxyOperService;
+import com.taoyuan.gms.model.entity.proxy.ProxyOperEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +26,7 @@ public class BaseGmsProxyController extends BaseGmsController {
     public void recordOperation(int type, String desp, BigDecimal money) {
         Long proxyId = getCurrentUserId();
         String proxyName = getCurrentUserName();
-        TyProxyOperation operation = new TyProxyOperation();
+        ProxyOperEntity operation = new ProxyOperEntity();
         BigDecimal moneyChanged = null;
         BigDecimal account = null;
         String description = null;
