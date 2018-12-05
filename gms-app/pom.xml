@@ -20,9 +20,11 @@
             <artifactId>gms-core</artifactId>
             <version>${gms-version}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+            <version>1.4.6.RELEASE</version>
         </dependency>
     </dependencies>
 
@@ -33,7 +35,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.taoyuan.GmsApplication</mainClass>
-                    <outputDirectory>${project.release.directory}</outputDirectory>
+                    <!--<outputDirectory>${project.release.directory}</outputDirectory>-->
                 </configuration>
             </plugin>
         </plugins>
