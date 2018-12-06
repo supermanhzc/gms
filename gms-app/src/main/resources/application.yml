@@ -74,11 +74,11 @@ redis:
 
 taoyuan:
   unAuthUrls:
-    - /users/register
-    - /users/createAdmin
-    - /swagger-ui.html
+    - /gms/users/register
+    - /gms/users/createAdmin
+    - /gms/swagger-ui.html
   permissions:
-    /sitemanage/account/**=perms["account:*"]
+    - /sitemanage/account/**=perms["account:*"]
 
 quartz:
   enabled: true

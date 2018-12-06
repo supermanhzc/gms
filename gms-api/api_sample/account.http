@@ -1,10 +1,10 @@
 # 注册管理员
-POST http://localhost:8081/gms/users/createAdmin
+POST https://localhost:8443/gms/users/createAdmin
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
 
-{   "phone": "18989764893",   "password": "admin" }
+{   "phone": "00000000000",   "password": "admin" }
 
 ###
 
@@ -14,7 +14,7 @@ Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
 
-{   "userName": "admin",   "password": "admin" }
+{   "userName": "admin2",   "password": "admin" }
 
 ###
 
@@ -45,7 +45,7 @@ POST http://localhost:8081/gms/users/updateAdmin
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
-token: 2e0b20dc-ce83-4671-a9e9-376360ea9584
+token: 8de4fd88-3080-4cba-a8c8-f59ec70982cc
 
 {  "id":18, "phone": "18898889998", "password": "admin2"  }
 
@@ -78,7 +78,7 @@ POST http://localhost:8081/gms/users/delete/22
 Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
-token: e86d0e26-974e-4971-bcb4-0213ed5fa6ef
+token: 8de4fd88-3080-4cba-a8c8-f59ec70982cc
 
 
 ###
