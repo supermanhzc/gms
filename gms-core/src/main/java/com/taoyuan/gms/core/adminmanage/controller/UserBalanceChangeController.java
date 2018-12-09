@@ -12,6 +12,7 @@ import com.taoyuan.gms.model.dto.admin.account.QueryAccountBalanceRequest;
 import com.taoyuan.gms.model.dto.admin.account.UpdateAccountBalanceRequest;
 import com.taoyuan.gms.model.entity.admin.account.UserBalanceChangeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,7 +21,7 @@ public class UserBalanceChangeController extends TyBaseController implements Use
     private IUserBalanceChangeService uerBalanceChangeService;
 
     @Override
-    public TyResponse getAllBalanceChangeHistory(QueryAccountBalanceRequest queryAccountBalanceRequest) {
+    public TyResponse getAllBalanceChangeHistory(@RequestBody QueryAccountBalanceRequest queryAccountBalanceRequest) {
         QueryWrapper<UserBalanceChangeEntity> wrapper = new QueryWrapper();
         if(null != queryAccountBalanceRequest.getId()){
             wrapper.lambda().eq(UserBalanceChangeEntity::getId, queryAccountBalanceRequest.getId());
@@ -36,7 +37,7 @@ public class UserBalanceChangeController extends TyBaseController implements Use
     }
 
     @Override
-    public TyResponse changeBalance(UpdateAccountBalanceRequest updateAccountBalanceRequest) {
+    public TyResponse changeBalance(@RequestBody UpdateAccountBalanceRequest updateAccountBalanceRequest) {
         if(uerBalanceChangeService.changeBalance(updateAccountBalanceRequest)){
             return new TySuccessResponse("user balance changed successfully.");
         }

@@ -13,6 +13,8 @@ import com.taoyuan.gms.core.adminmanage.service.IUserService;
 import com.taoyuan.gms.model.dto.admin.account.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -25,7 +27,7 @@ public class UserController extends TyBaseController implements UserApi {
     private IUserService userService;
 
     @Override
-    public TyResponse queryUsers(QueryAccountRequest queryAccountRequest) {
+    public TyResponse queryUsers(@RequestBody QueryAccountRequest queryAccountRequest) {
         IPage result = userService.queryUsers(queryAccountRequest, getPage(queryAccountRequest));
         if(null != result){
             return new TySuccessResponse(result);
@@ -34,7 +36,7 @@ public class UserController extends TyBaseController implements UserApi {
     }
 
     @Override
-    public TyResponse queryProxys(TyPageEntity queryProxyRequest) {
+    public TyResponse queryProxys(@RequestBody TyPageEntity queryProxyRequest) {
         IPage result = userService.queryProxys(getPage(queryProxyRequest));
         if(null != result){
             return new TySuccessResponse(result);
@@ -43,7 +45,7 @@ public class UserController extends TyBaseController implements UserApi {
     }
 
     @Override
-    public TyResponse deleteUser(Long id) {
+    public TyResponse deleteUser(@PathVariable("id") Long id) {
         if(userService.deleteUser(id)){
             return new TySuccessResponse("user delete successfully.");
         }
@@ -51,7 +53,7 @@ public class UserController extends TyBaseController implements UserApi {
     }
 
     @Override
-    public TyResponse register(RegisterAccountRequest registerAccountRequest) {
+    public TyResponse register(@RequestBody RegisterAccountRequest registerAccountRequest) {
         if(userService.createUser(UserTypeConsts.NORMALUSER, registerAccountRequest)){
             return new TySuccessResponse("user register successfully.");
         }
@@ -59,7 +61,7 @@ public class UserController extends TyBaseController implements UserApi {
     }
 
     @Override
-    public TyResponse update(UpdateAccountRequest updateAccountRequest) {
+    public TyResponse update(@RequestBody UpdateAccountRequest updateAccountRequest) {
         if(userService.updateUser(updateAccountRequest)){
             return new TySuccessResponse("user update successfully.");
         }
@@ -67,7 +69,7 @@ public class UserController extends TyBaseController implements UserApi {
     }
 
     @Override
-    public TyResponse allocateProxy(AllocateProxyRequest allocateProxyRequest) {
+    public TyResponse allocateProxy(@RequestBody AllocateProxyRequest allocateProxyRequest) {
         if(userService.createUser(UserTypeConsts.PROXY, allocateProxyRequest)){
             return new TySuccessResponse("proxy allocate successfully.");
         }
@@ -75,7 +77,7 @@ public class UserController extends TyBaseController implements UserApi {
     }
 
     @Override
-    public TyResponse updateProxy(UpdateProxyRequest updateProxyRequest) {
+    public TyResponse updateProxy(@RequestBody UpdateProxyRequest updateProxyRequest) {
         if(userService.updateUser(updateProxyRequest)){
             return new TySuccessResponse("proxy update successfully.");
         }
@@ -83,7 +85,7 @@ public class UserController extends TyBaseController implements UserApi {
     }
 
     @Override
-    public TyResponse createAdmin(CreateAdminRequest createAdminRequest) {
+    public TyResponse createAdmin(@RequestBody CreateAdminRequest createAdminRequest) {
         if(userService.createUser(UserTypeConsts.ADMIN, createAdminRequest)){
             return new TySuccessResponse("admin allocate successfully.");
         }
@@ -91,7 +93,7 @@ public class UserController extends TyBaseController implements UserApi {
     }
 
     @Override
-    public TyResponse updateAdmin(UpdateAdminRequest updateAdminRequest){
+    public TyResponse updateAdmin(@RequestBody UpdateAdminRequest updateAdminRequest){
         if(userService.updateUser(updateAdminRequest)){
             return new TySuccessResponse("admin update successfully.");
         }

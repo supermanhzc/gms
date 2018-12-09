@@ -22,7 +22,7 @@ spring:
     url: jdbc:mysql://www.1016.cc:3306/gms?characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: gmsdev
     password: Gms@)18
-    driverClassName: com.mysql.cj.jdbc.Driver
+    driverClassName: com.mysql.jdbc.Driver
 
   mvc:
     throw-exception-if-no-handler-found: true
@@ -74,11 +74,19 @@ redis:
 
 taoyuan:
   unAuthUrls:
-    - /users/register
-    - /users/createAdmin
-    - /swagger-ui.html
+    - /gms/users/register
+    - /gms/users/createAdmin
+    - /gms/swagger-ui.html
   permissions:
-    /sitemanage/account/**=perms["account:*"]
+    - /sitemanage/account/**=perms["account:*"]
 
 quartz:
   enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:9090/eureka/
+  instance:
+    hostname: www.1016.cc
+    appname: gms-app
