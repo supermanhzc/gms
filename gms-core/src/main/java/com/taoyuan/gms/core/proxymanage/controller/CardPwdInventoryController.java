@@ -14,6 +14,7 @@ import com.taoyuan.gms.model.dto.admin.card.CardPwdInventoryResquest;
 import com.taoyuan.gms.model.entity.admin.card.CardPasswordEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -33,7 +34,7 @@ public class CardPwdInventoryController extends BaseGmsProxyController implement
     private CardPasswordMapper mapper;
 
     @Override
-    public TyResponse retrieve(CardPwdInventoryResquest resquest) {
+    public TyResponse retrieve(@RequestBody CardPwdInventoryResquest resquest) {
         log.info("input:{}", resquest);
         Page page = getPage(resquest);
 
@@ -53,7 +54,7 @@ public class CardPwdInventoryController extends BaseGmsProxyController implement
     }
 
     @Override
-    public TyResponse create(Map<String, Object> map) {
+    public TyResponse create(@RequestBody Map<String, Object> map) {
         if (!map.containsKey("cardType")) {
             throw new ValidateException("卡类型不能为空。");
         }

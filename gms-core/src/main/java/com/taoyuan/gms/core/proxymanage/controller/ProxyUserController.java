@@ -11,6 +11,7 @@ import com.taoyuan.gms.core.proxymanage.service.IProxyOperService;
 import com.taoyuan.gms.model.entity.admin.UserLoginEntity;
 import com.taoyuan.gms.model.entity.proxy.ProxyOperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -28,7 +29,7 @@ public class ProxyUserController extends BaseGmsProxyController implements Proxy
     private IProxyOperService proxyOperService;
 
     @Override
-    public TyResponse login(TyUser userInfo) {
+    public TyResponse login(@RequestBody TyUser userInfo) {
         authController.login(userInfo);
 
         UserLoginEntity userLogin = new UserLoginEntity();

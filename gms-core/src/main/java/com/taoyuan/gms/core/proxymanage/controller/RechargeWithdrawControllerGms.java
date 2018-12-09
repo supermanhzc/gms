@@ -14,6 +14,7 @@ import com.taoyuan.gms.model.entity.proxy.RechargeWithdrawEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -30,13 +31,13 @@ public class RechargeWithdrawControllerGms extends BaseGmsProxyController implem
     private RechargeWithdrawMapper mapper;
 
     @Override
-    public TyResponse getRechargeWithdraws(TyPageEntity entity) {
+    public TyResponse getRechargeWithdraws(@RequestBody TyPageEntity entity) {
         Page page = getPage(entity);
         return new TySuccessResponse(mapper.selectPage(page, null));
     }
 
     @Override
-    public TyResponse rechargeWithdraws(RechargeWithdrawRequest request) {
+    public TyResponse rechargeWithdraws(@RequestBody RechargeWithdrawRequest request) {
         int type = request.getType();
         if (type != 1 && type != 2) {
             throw new ValidateException("充值提现类型非法。");
@@ -68,7 +69,7 @@ public class RechargeWithdrawControllerGms extends BaseGmsProxyController implem
     }
 
     @Override
-    public TyResponse cancel(BaseIdRequest request) {
+    public TyResponse cancel(@RequestBody BaseIdRequest request) {
         Long id = request.getId();
         if (null == id) {
             throw new ValidateException("id不能为空。");
@@ -86,7 +87,7 @@ public class RechargeWithdrawControllerGms extends BaseGmsProxyController implem
     }
 
     @Override
-    public TyResponse process(BaseIdRequest request) {
+    public TyResponse process(@RequestBody BaseIdRequest request) {
         Long id = request.getId();
         if (null == id) {
             throw new ValidateException("id不能为空。");

@@ -20,6 +20,7 @@ import com.taoyuan.gms.model.entity.admin.web.VChartRankingEntity;
 import com.taoyuan.gms.model.entity.admin.web.VChartRankingSettingEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
-    public TyResponse updateRanking(ChartRankingSettingEntity entity) {
+    public TyResponse updateRanking(@RequestBody ChartRankingSettingEntity entity) {
         ChartRankingSettingEntity dbValue = chartRankingSettingService.getOne(null);
         dbValue.setRankingCount(entity.getRankingCount());
         chartRankingSettingService.saveOrUpdate(dbValue);
@@ -66,10 +67,13 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
-    public TyResponse retrieveCharts(ChartsRequest request) {
+    public TyResponse retrieveCharts(@RequestBody ChartsRequest request) {
         int count = 0;
         if (request.getCount() != 0) {
             count = request.getCount();
+        } else {
+            ChartRankingSettingEntity dbValue = chartRankingSettingService.getOne(null);
+            count = dbValue.getRankingCount();
         }
 
         QueryWrapper<ChartRankingEntity> wrapper = new QueryWrapper<ChartRankingEntity>();
@@ -82,7 +86,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
-    public List<ChartRankingEntity> updateCharts(List<ChartRankingEntity> entityList) {
+    public List<ChartRankingEntity> updateCharts(@RequestBody List<ChartRankingEntity> entityList) {
         log.info("input is {}", entityList);
         List<ChartRankingEntity> dbEntityList = new ArrayList<ChartRankingEntity>();
         for (ChartRankingEntity entity : entityList) {
@@ -119,7 +123,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
-    public TyResponse updateVRanking(VChartRankingSettingEntity entity) {
+    public TyResponse updateVRanking(@RequestBody VChartRankingSettingEntity entity) {
         VChartRankingSettingEntity dbValue = vChartRankingSettingService.getOne(null);
         if (null == dbValue) {
             throw new ValidateException("对象不存在。");
@@ -135,7 +139,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
-    public TyResponse retrieveVCharts(ChartsRequest request) {
+    public TyResponse retrieveVCharts(@RequestBody ChartsRequest request) {
         int count = 0;
         if (request.getCount() != 0) {
             count = request.getCount();
@@ -159,7 +163,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
-    public TyResponse updateVCharts(List<VChartRankingEntity> entityList) {
+    public TyResponse updateVCharts(@RequestBody List<VChartRankingEntity> entityList) {
         log.info("input is {}", entityList);
         List<VChartRankingEntity> dbEntityList = new ArrayList<VChartRankingEntity>();
         for (VChartRankingEntity entity : entityList) {

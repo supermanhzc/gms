@@ -16,6 +16,7 @@ import com.taoyuan.gms.model.entity.admin.content.CooperateBusinessEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.bind.ValidationException;
@@ -49,7 +50,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public TyResponse createAnnouncement(AnnouncementEntity announcement) {
+    public TyResponse createAnnouncement(@RequestBody AnnouncementEntity announcement) {
         log.info("input:{}", announcement);
         if (null == announcement.getTitle()) {
             throw new ValidateException("标题不能为空。");
@@ -66,7 +67,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public TyResponse modifyAnnouncement(AnnouncementEntity announcement) {
+    public TyResponse modifyAnnouncement(@RequestBody AnnouncementEntity announcement) {
         Long id = announcement.getId();
         if (null == id) {
             throw new ValidateException("id不能为空。");
@@ -118,7 +119,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public TyResponse createCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
+    public TyResponse createCooperateBusiness(@RequestBody CooperateBusinessEntity cooperateBusiness) {
         if (null == cooperateBusiness.getName()) {
             throw new ValidateException("名称不能为空。");
         }
@@ -139,7 +140,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public TyResponse modifyCooperateBusiness(CooperateBusinessEntity cooperateBusiness) {
+    public TyResponse modifyCooperateBusiness(@RequestBody CooperateBusinessEntity cooperateBusiness) {
         if (null == cooperateBusiness.getId()) {
             throw new ValidateException("id不能为空。");
         }

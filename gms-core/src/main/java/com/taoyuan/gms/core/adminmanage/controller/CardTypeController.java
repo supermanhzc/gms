@@ -16,6 +16,7 @@ import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
@@ -39,7 +40,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     }
 
     @Override
-    public TyResponse retrieve(CardTypeRequest request) {
+    public TyResponse retrieve(@RequestBody CardTypeRequest request) {
         Page page = getPage(request);
 
         QueryWrapper<CardTypeEntity> wrapper = new QueryWrapper<CardTypeEntity>();
@@ -55,7 +56,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     }
 
     @Override
-    public TyResponse create(CardTypeEntity cardTypeEntity) {
+    public TyResponse create(@RequestBody CardTypeEntity cardTypeEntity) {
         validate(cardTypeEntity);
 
         int randomFigure = cardTypeEntity.getRandomFigure();
@@ -69,7 +70,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     }
 
     @Override
-    public TyResponse update(CardTypeEntity cardTypeEntity) {
+    public TyResponse update(@RequestBody CardTypeEntity cardTypeEntity) {
         if (StringUtils.isEmpty(cardTypeEntity.getName())) {
             throw new ValidateException("名称不能为空。");
         }

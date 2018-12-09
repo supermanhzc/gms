@@ -22,6 +22,7 @@ import com.taoyuan.gms.model.entity.proxy.FirstchargeRebateEntity;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -50,7 +51,7 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
     private IGoldService goldService;
 
     @Override
-    public TyResponse createGoldenRecharge(GoldenRechargeEntity entity) {
+    public TyResponse createGoldenRecharge(@RequestBody GoldenRechargeEntity entity) {
         Long memberId = entity.getMemberId();
         if (null == memberId) {
             throw new ValidateException("会员ID不能为空。");
@@ -122,7 +123,7 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
     }
 
     @Override
-    public TyResponse withdraw(GoldenRechargeEntity entity) {
+    public TyResponse withdraw(@RequestBody GoldenRechargeEntity entity) {
         if (null == entity) {
             throw new ValidateException("对象不能为空。");
         }
@@ -146,7 +147,7 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
     }
 
     @Override
-    public TyResponse retrieve(TyPageEntity pageEntity) {
+    public TyResponse retrieve(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         return new TySuccessResponse(goldenRechargeMapper.selectPage(page, new QueryWrapper()));
     }

@@ -9,6 +9,7 @@ import com.taoyuan.gms.core.adminmanage.service.IPrizeService;
 import com.taoyuan.gms.model.entity.admin.prize.PrizeEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -34,7 +35,7 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
     }
 
     @Override
-    public TyResponse createPrize(PrizeEntity prizeEntity) {
+    public TyResponse createPrize(@RequestBody PrizeEntity prizeEntity) {
         if(StringUtils.isEmpty(prizeEntity.getName())){
             throw new ValidateException("名称不能为空。");
         }
@@ -64,7 +65,7 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
     }
 
     @Override
-    public TyResponse modifyPrize(PrizeEntity prizeEntity) {
+    public TyResponse modifyPrize(@RequestBody PrizeEntity prizeEntity) {
         if(null==prizeEntity.getId()){
             throw new ValidateException("id不能为空。");
         }
