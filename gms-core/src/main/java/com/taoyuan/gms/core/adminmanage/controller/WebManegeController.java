@@ -14,6 +14,7 @@ import com.taoyuan.gms.model.entity.admin.web.WebSettingEntity;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -32,7 +33,7 @@ public class WebManegeController implements WebManageApi {
     }
 
     @Override
-    public TyResponse updateWebSetting(WebSettingEntity webSetting) {
+    public TyResponse updateWebSetting(@RequestBody WebSettingEntity webSetting) {
         WebSettingEntity dbValue = (WebSettingEntity) webSettingService.getOne(null);
         if (null == dbValue) {
             dbValue = new WebSettingEntity();
@@ -54,7 +55,7 @@ public class WebManegeController implements WebManageApi {
     }
 
     @Override
-    public TyResponse updateGameSetting(List<GameSettingEntity> list) {
+    public TyResponse updateGameSetting(@RequestBody List<GameSettingEntity> list) {
         if (CollectionUtils.isEmpty(list)) {
             return new TySuccessResponse(list);
         }

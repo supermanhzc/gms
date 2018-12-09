@@ -14,6 +14,7 @@ import com.taoyuan.gms.core.adminmanage.service.ILevelSettingService;
 import com.taoyuan.gms.model.entity.admin.web.LevelSettingEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -31,13 +32,13 @@ public class LevelSettingController extends BaseGmsController implements LevelSe
     private LevelSettingMapper levelSettingMapper;
 
     @Override
-    public TyResponse retrieve(TyPageEntity pageEntity) {
+    public TyResponse retrieve(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         return new TySuccessResponse(levelSettingMapper.selectPage(page, null));
     }
 
     @Override
-    public TyResponse update(List<LevelSettingEntity> levelSettingEntityList) {
+    public TyResponse update(@RequestBody List<LevelSettingEntity> levelSettingEntityList) {
         log.info("input is {}", levelSettingEntityList);
         validate(levelSettingEntityList);
 
@@ -51,7 +52,7 @@ public class LevelSettingController extends BaseGmsController implements LevelSe
         return new TySuccessResponse(dbEntityList);
     }
 
-    private void validate(List<LevelSettingEntity> levelSettingEntityList) {
+    private void validate(@RequestBody List<LevelSettingEntity> levelSettingEntityList) {
         if (CollectionsUtil.isNotEmpty(levelSettingEntityList)) {
             for (LevelSettingEntity entity : levelSettingEntityList) {
                 if (null == entity.getName()) {

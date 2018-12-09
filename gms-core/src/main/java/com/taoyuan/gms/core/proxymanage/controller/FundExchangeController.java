@@ -11,6 +11,7 @@ import com.taoyuan.gms.core.proxymanage.dao.FundExchangeMapper;
 import com.taoyuan.gms.core.proxymanage.service.IFundExchangeService;
 import com.taoyuan.gms.model.entity.proxy.FundExchangeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -31,13 +32,13 @@ public class FundExchangeController extends BaseGmsProxyController implements Fu
     }
 
     @Override
-    public TyResponse getFundExchanges(TyPageEntity pageEntity) {
+    public TyResponse getFundExchanges(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         return new TySuccessResponse(mapper.selectPage(page, null));
     }
 
     @Override
-    public TyResponse exchange(FundExchangeEntity fundExchange) {
+    public TyResponse exchange(@RequestBody FundExchangeEntity fundExchange) {
         if (null == fundExchange) {
             throw new ValidateException("对象不能为空。");
         }

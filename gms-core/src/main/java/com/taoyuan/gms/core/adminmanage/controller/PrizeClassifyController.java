@@ -10,6 +10,7 @@ import com.taoyuan.gms.model.entity.admin.prize.PrizeClassifyEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
     }
 
     @Override
-    public TyResponse createPrizeClassfy(PrizeClassifyEntity classify) {
+    public TyResponse createPrizeClassfy(@RequestBody PrizeClassifyEntity classify) {
         if (StringUtils.isEmpty(classify.getName())) {
             throw new ValidateException("类目名称不能为空。");
         }

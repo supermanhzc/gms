@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.InvocationTargetException;
@@ -53,7 +54,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     private ICardPasswordService cardPasswordService;
 
     @Override
-    public TyResponse create(ExchargeOrderCreateRequest order) {
+    public TyResponse create(@RequestBody ExchargeOrderCreateRequest order) {
         if (null == order) {
             throw new ValidateException("对象不能为空。");
         }
@@ -110,7 +111,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
-    public TyResponse getExchangeOrders(ExchargeOrderRequest request) {
+    public TyResponse getExchangeOrders(@RequestBody ExchargeOrderRequest request) {
         Page page = getPage(request);
 
         QueryWrapper<ExchargeOrderEntity> wrapper = new QueryWrapper<ExchargeOrderEntity>();
@@ -130,7 +131,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
-    public TyResponse sipping(ExchargeOrderEntity order) {
+    public TyResponse sipping(@RequestBody ExchargeOrderEntity order) {
         if (null == order) {
             throw new ValidateException("输入不能为空。");
         }
@@ -152,7 +153,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
-    public TyResponse cancel(ExchargeOrderEntity order) {
+    public TyResponse cancel(@RequestBody ExchargeOrderEntity order) {
         if (null == order) {
             throw new ValidateException("输入不能为空。");
         }
@@ -172,7 +173,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
-    public TyResponse create(ExchargeCardPwdEntity cardPwd) {
+    public TyResponse create(@RequestBody ExchargeCardPwdEntity cardPwd) {
         if (StringUtils.isEmpty(cardPwd.getCardId())) {
             throw new ValidateException("卡密卡号不能为空。");
         }
@@ -201,13 +202,13 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
-    public TyResponse getExchangeCardPwds(TyPageEntity pageEntity) {
+    public TyResponse getExchangeCardPwds(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         return new TySuccessResponse(exchargeCardPwdMapper.selectMapsPage(page, null));
     }
 
     @Override
-    public TyResponse freeze(ExchargeCardPwdEntity cardPwd) {
+    public TyResponse freeze(@RequestBody ExchargeCardPwdEntity cardPwd) {
         if (null == cardPwd) {
             throw new ValidateException("输入不能为空。");
         }
@@ -227,7 +228,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
-    public TyResponse unfreeze(ExchargeCardPwdEntity cardPwd) {
+    public TyResponse unfreeze(@RequestBody ExchargeCardPwdEntity cardPwd) {
         if (null == cardPwd) {
             throw new ValidateException("输入不能为空。");
         }

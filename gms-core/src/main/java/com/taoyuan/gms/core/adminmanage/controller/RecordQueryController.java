@@ -123,7 +123,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getSaleStatistics(SaleStatisticsRequest request) {
+    public TyResponse getSaleStatistics(@RequestBody SaleStatisticsRequest request) {
         Page page = getPage(request);
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
         String begin = request.getStart();
@@ -157,7 +157,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getSaleDetails(SaleStatisticsRequest request) {
+    public TyResponse getSaleDetails(@RequestBody SaleStatisticsRequest request) {
         Page page = getPage(request);
 
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
@@ -219,7 +219,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getChartsRewards(ChartsRewardPageRequest request) {
+    public TyResponse getChartsRewards(@RequestBody ChartsRewardPageRequest request) {
         Page page = getPage(request);
 
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
@@ -246,7 +246,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getVChartsRewards(VChartsRewardPageRequest request) {
+    public TyResponse getVChartsRewards(@RequestBody VChartsRewardPageRequest request) {
         Page page = getPage(request);
 
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
@@ -266,7 +266,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
 
 
     @Override
-    public TyResponse getChipinWages(ChipinWagePageRequest request) {
+    public TyResponse getChipinWages(@RequestBody ChipinWagePageRequest request) {
         Page page = getPage(request);
         QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper<ChipinWageEntity>();
         Long id = request.getId();
@@ -283,7 +283,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getJuniorCommissions(JuniorCommissionsPageRequest request) {
+    public TyResponse getJuniorCommissions(@RequestBody JuniorCommissionsPageRequest request) {
         Page page = getPage(request);
         QueryWrapper<JuniorCommissionEntity> wrapper = new QueryWrapper();
         Long id = request.getId();
@@ -307,7 +307,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getFirstchargeRebates(FirstchargeRebateRequest request) {
+    public TyResponse getFirstchargeRebates(@RequestBody FirstchargeRebateRequest request) {
         QueryWrapper<FirstchargeRebateEntity> wrapper = new QueryWrapper<FirstchargeRebateEntity>();
         wrapper.lambda().orderByDesc(FirstchargeRebateEntity::getDate);
         Long id = request.getId();
@@ -347,7 +347,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getAdminLogins(TyPageEntity pageEntity) {
+    public TyResponse getAdminLogins(@RequestBody TyPageEntity pageEntity) {
         log.info("getAdminLogins map={}", pageEntity);
         Page page = getPage(pageEntity);
 

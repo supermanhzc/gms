@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -41,7 +42,7 @@ public class CardPasswordController extends BaseGmsController implements CardPas
     private TyUserService userService;
 
     @Override
-    public TyResponse retrieve(CardPasswordRequest request) {
+    public TyResponse retrieve(@RequestBody CardPasswordRequest request) {
         Page page = getPage(request);
 
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
@@ -51,11 +52,11 @@ public class CardPasswordController extends BaseGmsController implements CardPas
                     keyword).or().eq(CardPasswordEntity::getRechargeId, keyword);
         }
 
-        if (request.getCardType()!=0) {
+        if (request.getCardType() != 0) {
             wrapper.lambda().eq(CardPasswordEntity::getCardType, request.getCardType());
         }
 
-        if (request.getStatus()!=0) {
+        if (request.getStatus() != 0) {
             wrapper.lambda().eq(CardPasswordEntity::getStatus, request.getStatus());
         }
 
@@ -67,7 +68,7 @@ public class CardPasswordController extends BaseGmsController implements CardPas
     }
 
     @Override
-    public TyResponse create(Map<String, Object> map) {
+    public TyResponse create(@RequestBody Map<String, Object> map) {
         if (!map.containsKey("cardType")) {
             throw new ValidateException("卡类型不能为空。");
         }
@@ -105,7 +106,7 @@ public class CardPasswordController extends BaseGmsController implements CardPas
     }
 
     @Override
-    public TyResponse withdraw(CardPassword cardPassword) {
+    public TyResponse withdraw(@RequestBody CardPassword cardPassword) {
         log.info("input:{}", cardPassword);
         String cardId = cardPassword.getCardId();
         if (StringUtils.isEmpty(cardId)) {
@@ -130,7 +131,7 @@ public class CardPasswordController extends BaseGmsController implements CardPas
     }
 
     @Override
-    public TyResponse withdrawbatch(List<CardPassword> cardPasswordList) {
+    public TyResponse withdrawbatch(@RequestBody List<CardPassword> cardPasswordList) {
         if (CollectionUtils.isEmpty(cardPasswordList)) {
             return new TySuccessResponse(null);
         }
@@ -168,7 +169,7 @@ public class CardPasswordController extends BaseGmsController implements CardPas
     }
 
     @Override
-    public TyResponse cancelbatch(List<CardPassword> cardPasswordList) {
+    public TyResponse cancelbatch(@RequestBody List<CardPassword> cardPasswordList) {
         if (CollectionUtils.isEmpty(cardPasswordList)) {
             return new TySuccessResponse(null);
         }
@@ -211,7 +212,7 @@ public class CardPasswordController extends BaseGmsController implements CardPas
     }
 
     @Override
-    public TyResponse cancel(CardPassword cardPassword) {
+    public TyResponse cancel(@RequestBody CardPassword cardPassword) {
         String cardId = cardPassword.getCardId();
         if (StringUtils.isEmpty(cardId)) {
             throw new ValidateException("卡号不能为空。");
@@ -251,7 +252,7 @@ public class CardPasswordController extends BaseGmsController implements CardPas
     }
 
     @Override
-    public TyResponse getCardPasswordInfo(List<CardPassword> cardPasswordList) {
+    public TyResponse getCardPasswordInfo(@RequestBody List<CardPassword> cardPasswordList) {
         log.info("input is {}", cardPasswordList);
         if (CollectionUtils.isEmpty(cardPasswordList)) {
             return new TySuccessResponse(cardPasswordList);
@@ -320,7 +321,7 @@ public class CardPasswordController extends BaseGmsController implements CardPas
     }
 
     @Override
-    public TyResponse query(CardPasswordRequest request) {
+    public TyResponse query(@RequestBody CardPasswordRequest request) {
         Page page = getPage(request);
 
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
@@ -338,7 +339,7 @@ public class CardPasswordController extends BaseGmsController implements CardPas
             }
         }
 
-        if (request.getCardType()!=0) {
+        if (request.getCardType() != 0) {
             int cardType = (int) request.getCardType();
             wrapper.lambda().eq(CardPasswordEntity::getCardType, cardType);
         }
@@ -367,18 +368,5 @@ public class CardPasswordController extends BaseGmsController implements CardPas
                 throw new ValidateException("不支持的卡类型。");
         }
         return cardHead;
-    }
-
-    private String getRandomValue(int length, String randomValue) {
-        QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
-        List<CardPasswordEntity> dbValue = service.list(wrapper);
-        for (CardPasswordEntity entity : dbValue) {
-            if (entity.getCardId().equals(getCardHead(entity.getCardType()) + randomValue)) {
-                randomValue = TyRandomUtil.getRandomNum(length);
-                return getRandomValue(length, randomValue);
-            }
-        }
-
-        return randomValue;
     }
 }

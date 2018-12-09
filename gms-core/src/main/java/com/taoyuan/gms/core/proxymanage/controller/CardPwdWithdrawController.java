@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -43,7 +44,7 @@ public class CardPwdWithdrawController extends BaseGmsProxyController implements
     }
 
     @Override
-    public TyResponse withdraw(List<CardPassword> cardPasswordList) {
+    public TyResponse withdraw(@RequestBody List<CardPassword> cardPasswordList) {
         if (CollectionUtils.isEmpty(cardPasswordList)) {
             return new TySuccessResponse(null);
         }
@@ -128,7 +129,7 @@ public class CardPwdWithdrawController extends BaseGmsProxyController implements
     }
 
     @Override
-    public TyResponse retrieve(TyPageEntity pageEntity) {
+    public TyResponse retrieve(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
         wrapper.lambda().eq(CardPasswordEntity::getOwner, getCurrentUserName()).eq(CardPasswordEntity::getStatus,2);
@@ -137,7 +138,7 @@ public class CardPwdWithdrawController extends BaseGmsProxyController implements
     }
 
     @Override
-    public TyResponse records(TyPageEntity pageEntity) {
+    public TyResponse records(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
         wrapper.lambda().eq(CardPasswordEntity::getOwner, getCurrentUserName());
