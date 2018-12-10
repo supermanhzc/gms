@@ -34,6 +34,7 @@ import com.taoyuan.gms.model.entity.statistic.TodayStatisticsEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -105,19 +106,19 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     private IFirstchargeRebateService firstchargeRebateService;
 
     @Override
-    public TyResponse getVerificationCodes(Integer pageIndex, Integer pageSize) {
+    public TyResponse getVerificationCodes(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         return new TySuccessResponse(verificationCodeMapper.selectPage(page, null));
     }
 
     @Override
-    public TyResponse getRecharges(Integer pageIndex, Integer pageSize) {
+    public TyResponse getRecharges(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         return new TySuccessResponse(goldenRechargeMapper.selectPage(page, null));
     }
 
     @Override
-    public TyResponse getProxyOperates(Integer pageIndex, Integer pageSize) {
+    public TyResponse getProxyOperates(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         return new TySuccessResponse(proxyOperMapper.selectPage(page, null));
     }
@@ -184,7 +185,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getLossRebates(Integer pageIndex, Integer pageSize) {
+    public TyResponse getLossRebates(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         return new TySuccessResponse(lossRabateMapper.selectPage(page, null));
     }
@@ -210,7 +211,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getChartsRewards(Integer pageIndex, Integer pageSize) {
+    public TyResponse getChartsRewards(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 1);
@@ -238,7 +239,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
-    public TyResponse getVChartsRewards(Integer pageIndex, Integer pageSize) {
+    public TyResponse getVChartsRewards(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
         wrapper.eq("type", 2);

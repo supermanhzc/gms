@@ -16,6 +16,7 @@ import com.taoyuan.gms.model.entity.admin.web.CardTypeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +34,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     private CardTypeMapper cardTypeMapper;
 
     @Override
-    public TyResponse retrieve(Long id) {
+    public TyResponse retrieve(@PathVariable Long id) {
         QueryWrapper<CardTypeEntity> wrapper = new QueryWrapper<CardTypeEntity>();
         wrapper.lambda().eq(CardTypeEntity::getId, id);
         return new TySuccessResponse(service.getOne(wrapper));
@@ -90,7 +91,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     }
 
     @Override
-    public TyResponse delete(String id) {
+    public TyResponse delete(@PathVariable String id) {
         if (StringUtils.isEmpty(id)) {
             throw new ValidateException(StatusCode.FAIL.getCode(), "id不能为空。");
         }
