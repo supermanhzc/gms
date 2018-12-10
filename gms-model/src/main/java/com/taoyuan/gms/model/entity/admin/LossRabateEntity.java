@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -19,11 +21,12 @@ public class LossRabateEntity {
 
     private String memberNickName;
 
-    private Double loss;
+    private BigDecimal loss;
 
-    private Double rabate;
+    private BigDecimal rabate;
 
-    private Date time;
+    private LocalDate time;
 
+    //状态，1表示未领取，2表示领取，3表示已逾期
     private int status;
 }
