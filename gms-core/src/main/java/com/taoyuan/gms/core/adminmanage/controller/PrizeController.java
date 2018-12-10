@@ -9,6 +9,7 @@ import com.taoyuan.gms.core.adminmanage.service.IPrizeService;
 import com.taoyuan.gms.model.entity.admin.prize.PrizeEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +27,7 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
     }
 
     @Override
-    public TyResponse getPrize(Long id) {
+    public TyResponse getPrize(@PathVariable Long id) {
         if(null==id){
             throw new ValidateException("id不能为空。");
         }
@@ -78,7 +79,7 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
     }
 
     @Override
-    public TyResponse deletePrize(Long id) {
+    public TyResponse deletePrize(@PathVariable Long id) {
         service.remove(new QueryWrapper<PrizeEntity>().lambda().eq(PrizeEntity::getId,id));
         return new TySuccessResponse(id);
     }

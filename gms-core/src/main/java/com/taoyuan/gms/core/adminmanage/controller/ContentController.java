@@ -16,6 +16,7 @@ import com.taoyuan.gms.model.entity.admin.content.CooperateBusinessEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,14 +36,14 @@ public class ContentController implements ContentApi {
     private ICooperateBusinessService cooperateBusinessService;
 
     @Override
-    public TyResponse getAnnouncements(Integer pageIndex, Integer pageSize) {
+    public TyResponse getAnnouncements(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         log.info("input is pageIndex:{} pageSize:{}", pageIndex, pageSize);
         return new TySuccessResponse(announcemnetService.pageMaps(new Page<AnnouncementEntity>(pageIndex, pageSize),
                 null));
     }
 
     @Override
-    public TyResponse getAnnouncement(Long id) {
+    public TyResponse getAnnouncement(@PathVariable Long id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
         }
@@ -97,7 +98,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public TyResponse deleteAnnouncement(Long id) {
+    public TyResponse deleteAnnouncement(@PathVariable Long id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
         }
@@ -112,7 +113,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public TyResponse getCooperateBusiness(Long id) {
+    public TyResponse getCooperateBusiness(@PathVariable Long id) {
         Map<String, Object> rslt = cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id",
                 id));
         return new TySuccessResponse(rslt);
@@ -161,7 +162,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
-    public TyResponse deleteCooperateBusiness(Long id) {
+    public TyResponse deleteCooperateBusiness(@PathVariable Long id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
         }

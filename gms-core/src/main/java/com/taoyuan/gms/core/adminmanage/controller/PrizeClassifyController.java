@@ -10,6 +10,7 @@ import com.taoyuan.gms.model.entity.admin.prize.PrizeClassifyEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
     }
 
     @Override
-    public TyResponse getPrizeClassify(Long id) {
+    public TyResponse getPrizeClassify(@PathVariable Long id) {
         return new TySuccessResponse(service.getById(id));
     }
 
@@ -45,7 +46,7 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
     }
 
     @Override
-    public TyResponse modifyPrizeClassfy(Long id, String classifyName) {
+    public TyResponse modifyPrizeClassfy(@PathVariable Long id, @PathVariable String classifyName) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
         }
@@ -61,7 +62,7 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
     }
 
     @Override
-    public TyResponse deletePrizeClassfy(Long id) {
+    public TyResponse deletePrizeClassfy(@PathVariable Long id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
         }

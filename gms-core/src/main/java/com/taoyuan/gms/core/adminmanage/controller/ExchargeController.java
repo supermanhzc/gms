@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -102,7 +103,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
-    public TyResponse getExchangeOrder(Integer id) {
+    public TyResponse getExchangeOrder(@PathVariable Integer id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
         }
@@ -197,7 +198,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
-    public TyResponse getExchangeCardPwd(Long id) {
+    public TyResponse getExchangeCardPwd(@PathVariable Long id) {
         return new TySuccessResponse(exchargeCardPwdService.getById(id));
     }
 
