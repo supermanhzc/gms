@@ -74,11 +74,11 @@ redis:
 
 taoyuan:
   unAuthUrls:
-    - /gms/users/register
-    - /gms/users/createAdmin
-    - /gms/swagger-ui.html
+    - /users/register
+    - /users/createAdmin
+    - /swagger-ui.html
   permissions:
-    - /sitemanage/account/**=perms["account:*"]
+    - actuator/**=perms['actuator']
 
 quartz:
   enabled: true
@@ -86,7 +86,7 @@ quartz:
 eureka:
   client:
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:9090/eureka/
+      defaultZone: http://www.1016.cc:9090/eureka/
   instance:
-    hostname: www.1016.cc
+    hostname: localhost
     appname: gms-app

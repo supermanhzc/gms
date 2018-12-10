@@ -4,7 +4,7 @@ Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
 
-{   "phone": "00000000000",   "password": "admin" }
+{   "userName": "dongwen", "phone": "15895857859",   "password": "admin" }
 
 ###
 
@@ -14,7 +14,7 @@ Accept: */*
 Cache-Control: no-cache
 Content-Type: application/json
 
-{   "userName": "admin2",   "password": "admin" }
+{   "userName": "dongwen",   "password": "admin" }
 
 ###
 
@@ -51,6 +51,17 @@ token: 8de4fd88-3080-4cba-a8c8-f59ec70982cc
 
 ###
 
+# 查询管理员
+POST http://localhost:8081/gms/users/getAdmin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+token: 76f72b4e-042f-4843-be82-0d2660d32900
+
+{  "pageIndex":1, "pageSize": "20"  }
+
+###
+
 # 代理变更
 POST http://localhost:8081/gms/users/updateProxy
 Accept: */*
@@ -83,4 +94,12 @@ token: 8de4fd88-3080-4cba-a8c8-f59ec70982cc
 
 ###
 
+# 性能监控
+POST http://localhost:8081/actuator/env
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+token: 76f72b4e-042f-4843-be82-0d2660d32900
 
+
+###

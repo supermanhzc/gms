@@ -84,4 +84,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public IPage queryProxys(IPage page) {
         return page.setRecords(baseMapper.queryProxy(page));
     }
+
+    @Override
+    public IPage queryAdmins(IPage page) {
+        return page.setRecords(baseMapper.queryAdmin(page));
+    }
 }

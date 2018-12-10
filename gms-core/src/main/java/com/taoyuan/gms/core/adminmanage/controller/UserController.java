@@ -27,6 +27,15 @@ public class UserController extends TyBaseController implements UserApi {
     private IUserService userService;
 
     @Override
+    public TyResponse queryAdmins(@RequestBody TyPageEntity queryAdminRequest) {
+        IPage result = userService.queryAdmins(getPage(queryAdminRequest));
+        if(null != result){
+            return new TySuccessResponse(result);
+        }
+        throw TyExceptionUtil.buildException(ResultCode.USER_GET_ERROR);
+    }
+
+    @Override
     public TyResponse queryUsers(@RequestBody QueryAccountRequest queryAccountRequest) {
         IPage result = userService.queryUsers(queryAccountRequest, getPage(queryAccountRequest));
         if(null != result){

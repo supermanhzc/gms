@@ -29,21 +29,21 @@
 
     <sql id="selectProxy">
         SELECT
-        tyu.id,
-        tyu.name,
-        tyu.phone,
-        gu.balance,
-        gu.distrib_money as distribMoney,
-        tyu.status
+            tyu.id,
+            tyu.name,
+            tyu.phone,
+            gu.balance,
+            gu.distrib_money as distribMoney,
+            tyu.status
         FROM
-        ty_user tyu
+          ty_user tyu
         LEFT JOIN
-        gms_user gu
+          gms_user gu
         ON
-        tyu.id = gu.id
+          tyu.id = gu.id
         WHERE
-        tyu.status != ${@com.taoyuan.framework.common.constant.UserConsts@DELETED.ordinal()} AND
-        tyu.type = ${@com.taoyuan.gms.common.consts.UserTypeConsts@PROXY}
+            tyu.status != ${@com.taoyuan.framework.common.constant.UserConsts@DELETED.ordinal()} AND
+            tyu.type = ${@com.taoyuan.gms.common.consts.UserTypeConsts@PROXY}
     </sql>
 
     <select id="queryRegisterUser" resultType="java.util.Map">
@@ -68,5 +68,17 @@
 
     <select id="queryProxy" resultType="java.util.Map">
         <include refid="selectProxy" />
+    </select>
+
+    <select id="queryAdmin" resultType="java.util.Map">
+        SELECT
+          tyu.id,
+          tyu.username,
+          tyu.name,
+          tyu.phone
+        FROM
+          ty_user tyu
+        WHERE
+          tyu.status != ${@com.taoyuan.framework.common.constant.UserConsts@DELETED.ordinal()}
     </select>
 </mapper>
