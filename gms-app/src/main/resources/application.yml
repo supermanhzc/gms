@@ -78,7 +78,7 @@ taoyuan:
     - /users/createAdmin
     - /swagger-ui.html
   permissions:
-    - actuator/**=perms['actuator']
+    - /actuator/**=perms["actuator"]
 
 quartz:
   enabled: true
@@ -90,3 +90,12 @@ eureka:
   instance:
     hostname: localhost
     appname: gms-app
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
