@@ -1,0 +1,10 @@
+INSERT INTO `admin_saledetail` VALUES (1000000, 1, '代理名称0', '2018-11-13', 2000, 1000, 100000);
+INSERT INTO `admin_saledetail` VALUES (1000001, 1, '代理名称1', '2018-11-13', 2000, 1000, 100000);
+INSERT INTO `admin_saledetail` VALUES (1000002, 1, '代理名称1', '2018-11-13', 2000, 1000, 100000);
+INSERT INTO `admin_saledetail` VALUES (1000003, 1, '代理名称3', '2018-11-13', 2000, 1000, 100000);
+INSERT INTO `admin_saledetail` VALUES (1000004, 1, '代理名称4', '2018-11-13', 2000, 1000, 100000);
+INSERT INTO `admin_saledetail` VALUES (1000005, 1, '代理名称5', '2018-11-13', 2000, 1000, 100000);
+INSERT INTO `admin_saledetail` VALUES (1000006, 1, '代理名称6', '2018-11-13', 2000, 1000, 100000);
+INSERT INTO `admin_saledetail` VALUES (1000007, 1, '代理名称7', '2018-11-13', 2000, 1000, 100000);
+INSERT INTO `admin_saledetail` VALUES (1000008, 1, '代理名称8', '2018-11-13', 2000, 1000, 100000);
+INSERT INTO `admin_saledetail` VALUES (1000009, 1, '代理名称9', '2018-11-13', 2000, 1000, 100000);

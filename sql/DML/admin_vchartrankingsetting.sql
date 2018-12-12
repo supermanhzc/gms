@@ -1,0 +1,1 @@
+INSERT INTO `admin_vchartrankingsetting` VALUES (1066599132392611842, 1, 180011);
