@@ -1,6 +1,7 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.taoyuan.framework.aaa.controller.TyAuthController;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
@@ -29,6 +30,7 @@ public class ProxyUserController extends BaseGmsProxyController implements Proxy
     private IProxyOperService proxyOperService;
 
     @Override
+    @OperControllerLog(module = "代理管理", type = "代理登录")
     public TyResponse login(@RequestBody TyUser userInfo) {
         authController.login(userInfo);
 

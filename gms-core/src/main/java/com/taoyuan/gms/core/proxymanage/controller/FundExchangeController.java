@@ -1,6 +1,7 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
@@ -27,17 +28,20 @@ public class FundExchangeController extends BaseGmsProxyController implements Fu
     private FundExchangeMapper mapper;
 
     @Override
+    @OperControllerLog(module = "资金互转管理", type = "查询最近10笔资金互转记录")
     public TyResponse getLatest10() {
         return new TySuccessResponse(service.getLatest10().getRecords());
     }
 
     @Override
+    @OperControllerLog(module = "资金互转管理", type = "查询资金互转")
     public TyResponse getFundExchanges(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         return new TySuccessResponse(mapper.selectPage(page, null));
     }
 
     @Override
+    @OperControllerLog(module = "资金互转管理", type = "转出")
     public TyResponse exchange(@RequestBody FundExchangeEntity fundExchange) {
         if (null == fundExchange) {
             throw new ValidateException("对象不能为空。");

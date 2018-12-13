@@ -2,6 +2,7 @@ package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
@@ -106,24 +107,28 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     private IFirstchargeRebateService firstchargeRebateService;
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询验证码")
     public TyResponse getVerificationCodes(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         return new TySuccessResponse(verificationCodeMapper.selectPage(page, null));
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询代充记录")
     public TyResponse getRecharges(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         return new TySuccessResponse(goldenRechargeMapper.selectPage(page, null));
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询代理操作")
     public TyResponse getProxyOperates(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         return new TySuccessResponse(proxyOperMapper.selectPage(page, null));
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询销售统计")
     public TyResponse getSaleStatistics(@RequestBody SaleStatisticsRequest request) {
         Page page = getPage(request);
         QueryWrapper<SaleDetailEntity> wrapper = new QueryWrapper<SaleDetailEntity>();
@@ -158,6 +163,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询销售明细")
     public TyResponse getSaleDetails(@RequestBody SaleStatisticsRequest request) {
         Page page = getPage(request);
 
@@ -185,12 +191,14 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询亏损返利")
     public TyResponse getLossRebates(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         return new TySuccessResponse(lossRabateMapper.selectPage(page, null));
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询亏损返利")
     public TyResponse getLossRebates(@RequestBody LossRebateRequest request) {
         Page page = getPage(request);
         QueryWrapper<LossRabateEntity> wrapper = new QueryWrapper<LossRabateEntity>();
@@ -211,6 +219,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询验证码")
     public TyResponse getChartsRewards(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         List<ChartsRewardsEntity> list = new ArrayList<ChartsRewardsEntity>();
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
@@ -220,6 +229,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询排行榜奖励")
     public TyResponse getChartsRewards(@RequestBody ChartsRewardPageRequest request) {
         Page page = getPage(request);
 
@@ -239,6 +249,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询虚拟排行榜奖励")
     public TyResponse getVChartsRewards(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         Page page = getPage(pageIndex, pageSize);
         QueryWrapper<ChartsRewardsEntity> wrapper = new QueryWrapper<ChartsRewardsEntity>();
@@ -247,6 +258,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询虚拟排行榜奖励")
     public TyResponse getVChartsRewards(@RequestBody VChartsRewardPageRequest request) {
         Page page = getPage(request);
 
@@ -265,8 +277,8 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
         return new TySuccessResponse(chartsRewardsMapper.selectPage(page, wrapper));
     }
 
-
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询投注工资")
     public TyResponse getChipinWages(@RequestBody ChipinWagePageRequest request) {
         Page page = getPage(request);
         QueryWrapper<ChipinWageEntity> wrapper = new QueryWrapper<ChipinWageEntity>();
@@ -284,6 +296,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询下线提成")
     public TyResponse getJuniorCommissions(@RequestBody JuniorCommissionsPageRequest request) {
         Page page = getPage(request);
         QueryWrapper<JuniorCommissionEntity> wrapper = new QueryWrapper();
@@ -301,6 +314,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询首充返利")
     public TyResponse getFirstchargeRebates() {
         QueryWrapper<FirstchargeRebateEntity> wrapper = new QueryWrapper<FirstchargeRebateEntity>();
         wrapper.lambda().orderByDesc(FirstchargeRebateEntity::getDate);
@@ -308,6 +322,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询首充返利")
     public TyResponse getFirstchargeRebates(@RequestBody FirstchargeRebateRequest request) {
         QueryWrapper<FirstchargeRebateEntity> wrapper = new QueryWrapper<FirstchargeRebateEntity>();
         wrapper.lambda().orderByDesc(FirstchargeRebateEntity::getDate);
@@ -324,6 +339,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询每日统计")
     public TyResponse getDailyStatistic() {
         //TODO需要从各个表实时查询，只查询当日
         DailyStatisticResponse dto = new DailyStatisticResponse();
@@ -348,6 +364,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询管理员登录")
     public TyResponse getAdminLogins(@RequestBody TyPageEntity pageEntity) {
         log.info("getAdminLogins map={}", pageEntity);
         Page page = getPage(pageEntity);
@@ -359,6 +376,7 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
     }
 
     @Override
+    @OperControllerLog(module = "记录管理", type = "查询会员登录")
     public TyResponse getMemberLogins(MemberLoginRequest request) {
 
         log.info("map value is {}", request);

@@ -2,6 +2,7 @@ package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
@@ -28,11 +29,13 @@ public class WebManegeController implements WebManageApi {
     IGameSettingService gameSettingService;
 
     @Override
+    @OperControllerLog(module = "网站管理", type = "查询网站配置")
     public TyResponse getWebSetting() {
         return new TySuccessResponse(webSettingService.getOne(null));
     }
 
     @Override
+    @OperControllerLog(module = "网站管理", type = "修改网站配置")
     public TyResponse updateWebSetting(@RequestBody WebSettingEntity webSetting) {
         WebSettingEntity dbValue = (WebSettingEntity) webSettingService.getOne(null);
         if (null == dbValue) {
@@ -50,11 +53,13 @@ public class WebManegeController implements WebManageApi {
     }
 
     @Override
+    @OperControllerLog(module = "游戏管理", type = "查询游戏配置")
     public TyResponse getGameSetting() {
         return new TySuccessResponse(gameSettingService.list(new QueryWrapper<GameSettingEntity>()));
     }
 
     @Override
+    @OperControllerLog(module = "游戏管理", type = "修改游戏配置")
     public TyResponse updateGameSetting(@RequestBody List<GameSettingEntity> list) {
         if (CollectionUtils.isEmpty(list)) {
             return new TySuccessResponse(list);

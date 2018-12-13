@@ -3,6 +3,7 @@ package com.taoyuan.gms.core.adminmanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
@@ -32,12 +33,14 @@ public class LevelSettingController extends BaseGmsController implements LevelSe
     private LevelSettingMapper levelSettingMapper;
 
     @Override
+    @OperControllerLog(module = "等级管理", type = "查询等级配置")
     public TyResponse retrieve(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         return new TySuccessResponse(levelSettingMapper.selectPage(page, null));
     }
 
     @Override
+    @OperControllerLog(module = "等级管理", type = "修改等级配置")
     public TyResponse update(@RequestBody List<LevelSettingEntity> levelSettingEntityList) {
         log.info("input is {}", levelSettingEntityList);
         validate(levelSettingEntityList);

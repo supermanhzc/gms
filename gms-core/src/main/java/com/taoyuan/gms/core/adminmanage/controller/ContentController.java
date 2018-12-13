@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
@@ -36,6 +37,7 @@ public class ContentController implements ContentApi {
     private ICooperateBusinessService cooperateBusinessService;
 
     @Override
+    @OperControllerLog(module = "公告管理", type = "分页查询公告")
     public TyResponse getAnnouncements(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
         log.info("input is pageIndex:{} pageSize:{}", pageIndex, pageSize);
         return new TySuccessResponse(announcemnetService.pageMaps(new Page<AnnouncementEntity>(pageIndex, pageSize),
@@ -43,6 +45,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
+    @OperControllerLog(module = "公告管理", type = "根据id查询公告")
     public TyResponse getAnnouncement(@PathVariable Long id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
@@ -51,6 +54,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
+    @OperControllerLog(module = "公告管理", type = "创建公告")
     public TyResponse createAnnouncement(@RequestBody AnnouncementEntity announcement) {
         log.info("input:{}", announcement);
         if (null == announcement.getTitle()) {
@@ -68,6 +72,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
+    @OperControllerLog(module = "公告管理", type = "修改公告")
     public TyResponse modifyAnnouncement(@RequestBody AnnouncementEntity announcement) {
         Long id = announcement.getId();
         if (null == id) {
@@ -98,6 +103,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
+    @OperControllerLog(module = "公告管理", type = "删除公告")
     public TyResponse deleteAnnouncement(@PathVariable Long id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
@@ -108,11 +114,13 @@ public class ContentController implements ContentApi {
     }
 
     @Override
+    @OperControllerLog(module = "合作商家管理", type = "查询合作商家")
     public TyResponse getCooperateBusinesss() {
         return new TySuccessResponse(cooperateBusinessService.pageMaps(new Page<CooperateBusinessEntity>(1, 10), null));
     }
 
     @Override
+    @OperControllerLog(module = "合作商家管理", type = "根据id查询合作商家")
     public TyResponse getCooperateBusiness(@PathVariable Long id) {
         Map<String, Object> rslt = cooperateBusinessService.getMap(new QueryWrapper<CooperateBusinessEntity>().eq("id",
                 id));
@@ -120,6 +128,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
+    @OperControllerLog(module = "合作商家管理", type = "创建合作商家")
     public TyResponse createCooperateBusiness(@RequestBody CooperateBusinessEntity cooperateBusiness) {
         if (null == cooperateBusiness.getName()) {
             throw new ValidateException("名称不能为空。");
@@ -141,6 +150,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
+    @OperControllerLog(module = "合作商家管理", type = "修改合作商家")
     public TyResponse modifyCooperateBusiness(@RequestBody CooperateBusinessEntity cooperateBusiness) {
         if (null == cooperateBusiness.getId()) {
             throw new ValidateException("id不能为空。");
@@ -162,6 +172,7 @@ public class ContentController implements ContentApi {
     }
 
     @Override
+    @OperControllerLog(module = "合作商家管理", type = "删除合作商家")
     public TyResponse deleteCooperateBusiness(@PathVariable Long id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
