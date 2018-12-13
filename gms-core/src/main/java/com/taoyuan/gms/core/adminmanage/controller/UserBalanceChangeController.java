@@ -2,6 +2,7 @@ package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.bs.controller.TyBaseController;
 import com.taoyuan.framework.common.exception.TyBusinessException;
 import com.taoyuan.framework.common.http.TyResponse;
@@ -21,6 +22,7 @@ public class UserBalanceChangeController extends TyBaseController implements Use
     private IUserBalanceChangeService uerBalanceChangeService;
 
     @Override
+    @OperControllerLog(module = "账号明细管理", type = "查询账号明细")
     public TyResponse getAllBalanceChangeHistory(@RequestBody QueryAccountBalanceRequest queryAccountBalanceRequest) {
         QueryWrapper<UserBalanceChangeEntity> wrapper = new QueryWrapper();
         if(null != queryAccountBalanceRequest.getId()){
@@ -37,6 +39,7 @@ public class UserBalanceChangeController extends TyBaseController implements Use
     }
 
     @Override
+    @OperControllerLog(module = "账号明细管理", type = "修改余额")
     public TyResponse changeBalance(@RequestBody UpdateAccountBalanceRequest updateAccountBalanceRequest) {
         if(uerBalanceChangeService.changeBalance(updateAccountBalanceRequest)){
             return new TySuccessResponse("user balance changed successfully.");

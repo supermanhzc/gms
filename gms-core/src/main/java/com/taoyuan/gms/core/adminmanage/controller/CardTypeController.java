@@ -2,6 +2,7 @@ package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.constant.StatusCode;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
@@ -34,6 +35,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     private CardTypeMapper cardTypeMapper;
 
     @Override
+    @OperControllerLog(module = "卡类管理", type = "根据id查询卡类")
     public TyResponse retrieve(@PathVariable Long id) {
         QueryWrapper<CardTypeEntity> wrapper = new QueryWrapper<CardTypeEntity>();
         wrapper.lambda().eq(CardTypeEntity::getId, id);
@@ -41,6 +43,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     }
 
     @Override
+    @OperControllerLog(module = "卡类管理", type = "根据卡类型和卡号查询卡类")
     public TyResponse retrieve(@RequestBody CardTypeRequest request) {
         Page page = getPage(request);
 
@@ -57,6 +60,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     }
 
     @Override
+    @OperControllerLog(module = "卡类管理", type = "创建卡类")
     public TyResponse create(@RequestBody CardTypeEntity cardTypeEntity) {
         validate(cardTypeEntity);
 
@@ -71,6 +75,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     }
 
     @Override
+    @OperControllerLog(module = "卡类管理", type = "修改卡类")
     public TyResponse update(@RequestBody CardTypeEntity cardTypeEntity) {
         if (StringUtils.isEmpty(cardTypeEntity.getName())) {
             throw new ValidateException("名称不能为空。");
@@ -91,6 +96,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     }
 
     @Override
+    @OperControllerLog(module = "卡类管理", type = "删除卡类")
     public TyResponse delete(@PathVariable String id) {
         if (StringUtils.isEmpty(id)) {
             throw new ValidateException(StatusCode.FAIL.getCode(), "id不能为空。");

@@ -3,6 +3,7 @@ package com.taoyuan.gms.core.proxymanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.ValidateException;
@@ -39,11 +40,13 @@ public class CardPwdWithdrawController extends BaseGmsProxyController implements
     private TyUserService userService;
 
     @Override
+    @OperControllerLog(module = "代理卡密回收管理", type = "查询代理卡密最近10笔回收记录")
     public TyResponse getLatest10() {
         return new TySuccessResponse(service.getLatest10());
     }
 
     @Override
+    @OperControllerLog(module = "代理卡密回收管理", type = "撤销代理卡密")
     public TyResponse withdraw(@RequestBody List<CardPassword> cardPasswordList) {
         if (CollectionUtils.isEmpty(cardPasswordList)) {
             return new TySuccessResponse(null);
@@ -129,6 +132,7 @@ public class CardPwdWithdrawController extends BaseGmsProxyController implements
     }
 
     @Override
+    @OperControllerLog(module = "代理卡密回收管理", type = "查询代理卡密")
     public TyResponse retrieve(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
@@ -138,6 +142,7 @@ public class CardPwdWithdrawController extends BaseGmsProxyController implements
     }
 
     @Override
+    @OperControllerLog(module = "代理卡密回收管理", type = "查询代理卡密")
     public TyResponse records(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();

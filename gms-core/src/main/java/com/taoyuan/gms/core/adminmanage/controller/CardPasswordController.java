@@ -3,6 +3,7 @@ package com.taoyuan.gms.core.adminmanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
@@ -45,6 +46,7 @@ public class CardPasswordController extends BaseGmsController
     private TyUserService userService;
     
     @Override
+    @OperControllerLog(module = "卡密管理", type = "条件查询卡密")
     public TyResponse retrieve(@RequestBody CardPasswordRequest request)
     {
         Page page = getPage(request);
@@ -84,6 +86,7 @@ public class CardPasswordController extends BaseGmsController
     }
     
     @Override
+    @OperControllerLog(module = "卡密管理", type = "创建卡密")
     public TyResponse create(@RequestBody Map<String, Object> map)
     {
         if (!map.containsKey("cardType"))
@@ -127,6 +130,7 @@ public class CardPasswordController extends BaseGmsController
     }
     
     @Override
+    @OperControllerLog(module = "卡密管理", type = "撤销卡密")
     public TyResponse withdraw(@RequestBody CardPassword cardPassword)
     {
         log.info("input:{}", cardPassword);
@@ -155,6 +159,7 @@ public class CardPasswordController extends BaseGmsController
     }
     
     @Override
+    @OperControllerLog(module = "卡密管理", type = "批量撤销卡密")
     public TyResponse withdrawbatch(
         @RequestBody List<CardPassword> cardPasswordList)
     {
@@ -202,6 +207,7 @@ public class CardPasswordController extends BaseGmsController
     }
     
     @Override
+    @OperControllerLog(module = "卡密管理", type = "批量取消卡密")
     public TyResponse cancelbatch(
         @RequestBody List<CardPassword> cardPasswordList)
     {
@@ -254,6 +260,7 @@ public class CardPasswordController extends BaseGmsController
     }
     
     @Override
+    @OperControllerLog(module = "卡密管理", type = "取消卡密")
     public TyResponse cancel(@RequestBody CardPassword cardPassword)
     {
         String cardId = cardPassword.getCardId();
@@ -281,6 +288,7 @@ public class CardPasswordController extends BaseGmsController
     }
     
     @Override
+    @OperControllerLog(module = "卡密管理", type = "删除卡密")
     public TyResponse delete(@PathVariable String id)
     {
         if (null == id)
@@ -306,6 +314,7 @@ public class CardPasswordController extends BaseGmsController
     }
     
     @Override
+    @OperControllerLog(module = "卡密管理", type = "查询卡密状态")
     public TyResponse getCardPasswordInfo(
         @RequestBody List<CardPassword> cardPasswordList)
     {
@@ -390,6 +399,7 @@ public class CardPasswordController extends BaseGmsController
     }
     
     @Override
+    @OperControllerLog(module = "卡密管理", type = "查询卡密")
     public TyResponse query(@RequestBody CardPasswordRequest request)
     {
         Page page = getPage(request);

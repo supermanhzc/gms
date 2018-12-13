@@ -1,6 +1,7 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
@@ -24,16 +25,19 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
     private IPrizeClassifyService service;
 
     @Override
+    @OperControllerLog(module = "奖品分类管理", type = "查询所有奖品分类")
     public TyResponse getPrizeClassifies() {
         return new TySuccessResponse(service.list(null));
     }
 
     @Override
+    @OperControllerLog(module = "奖品分类管理", type = "分页查询奖品分类")
     public TyResponse getPrizeClassify(@PathVariable Long id) {
         return new TySuccessResponse(service.getById(id));
     }
 
     @Override
+    @OperControllerLog(module = "奖品分类管理", type = "创建奖品分类")
     public TyResponse createPrizeClassfy(@RequestBody PrizeClassifyEntity classify) {
         if (StringUtils.isEmpty(classify.getName())) {
             throw new ValidateException("类目名称不能为空。");
@@ -46,6 +50,7 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
     }
 
     @Override
+    @OperControllerLog(module = "奖品分类管理", type = "修改奖品分类")
     public TyResponse modifyPrizeClassfy(@PathVariable Long id, @PathVariable String classifyName) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
@@ -62,6 +67,7 @@ public class PrizeClassifyController extends BaseGmsController implements PrizeC
     }
 
     @Override
+    @OperControllerLog(module = "奖品分类管理", type = "删除奖品分类")
     public TyResponse deletePrizeClassfy(@PathVariable Long id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");

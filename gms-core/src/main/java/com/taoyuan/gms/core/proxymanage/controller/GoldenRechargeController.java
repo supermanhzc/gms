@@ -3,6 +3,7 @@ package com.taoyuan.gms.core.proxymanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.taoyuan.framework.aaa.service.TyUserService;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.exception.ValidateException;
@@ -51,6 +52,7 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
     private IGoldService goldService;
 
     @Override
+    @OperControllerLog(module = "代充管理", type = "创建代充")
     public TyResponse createGoldenRecharge(@RequestBody GoldenRechargeEntity entity) {
         Long memberId = entity.getMemberId();
         if (null == memberId) {
@@ -115,6 +117,7 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
     }
 
     @Override
+    @OperControllerLog(module = "代充管理", type = "查询最近5笔代充记录")
     public TyResponse get5GoldenRecharge() {
         Page page = new Page(1, 5);
         QueryWrapper<GoldenRechargeEntity> wrapper = new QueryWrapper<GoldenRechargeEntity>();
@@ -123,6 +126,7 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
     }
 
     @Override
+    @OperControllerLog(module = "代充管理", type = "撤销代充")
     public TyResponse withdraw(@RequestBody GoldenRechargeEntity entity) {
         if (null == entity) {
             throw new ValidateException("对象不能为空。");
@@ -147,6 +151,7 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
     }
 
     @Override
+    @OperControllerLog(module = "代充管理", type = "查询代充记录")
     public TyResponse retrieve(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         return new TySuccessResponse(goldenRechargeMapper.selectPage(page, new QueryWrapper()));

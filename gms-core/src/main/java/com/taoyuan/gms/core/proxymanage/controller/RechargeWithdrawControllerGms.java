@@ -1,6 +1,7 @@
 package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
@@ -31,12 +32,14 @@ public class RechargeWithdrawControllerGms extends BaseGmsProxyController implem
     private RechargeWithdrawMapper mapper;
 
     @Override
+    @OperControllerLog(module = "充值提现管理", type = "查询充值提现")
     public TyResponse getRechargeWithdraws(@RequestBody TyPageEntity entity) {
         Page page = getPage(entity);
         return new TySuccessResponse(mapper.selectPage(page, null));
     }
 
     @Override
+    @OperControllerLog(module = "充值提现管理", type = "充值或者提现")
     public TyResponse rechargeWithdraws(@RequestBody RechargeWithdrawRequest request) {
         int type = request.getType();
         if (type != 1 && type != 2) {
@@ -69,6 +72,7 @@ public class RechargeWithdrawControllerGms extends BaseGmsProxyController implem
     }
 
     @Override
+    @OperControllerLog(module = "充值提现管理", type = "取消")
     public TyResponse cancel(@RequestBody BaseIdRequest request) {
         Long id = request.getId();
         if (null == id) {
@@ -87,6 +91,7 @@ public class RechargeWithdrawControllerGms extends BaseGmsProxyController implem
     }
 
     @Override
+    @OperControllerLog(module = "充值提现管理", type = "处理")
     public TyResponse process(@RequestBody BaseIdRequest request) {
         Long id = request.getId();
         if (null == id) {

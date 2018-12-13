@@ -2,6 +2,7 @@ package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.exception.TyBusinessException;
 import com.taoyuan.framework.common.exception.ValidateException;
@@ -55,6 +56,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     private ICardPasswordService cardPasswordService;
 
     @Override
+    @OperControllerLog(module = "兑奖订单管理", type = "创建兑奖订单")
     public TyResponse create(@RequestBody ExchargeOrderCreateRequest order) {
         if (null == order) {
             throw new ValidateException("对象不能为空。");
@@ -103,6 +105,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
+    @OperControllerLog(module = "兑奖订单管理", type = "查询兑奖订单")
     public TyResponse getExchangeOrder(@PathVariable Integer id) {
         if (null == id) {
             throw new ValidateException("id不能为空。");
@@ -112,6 +115,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
+    @OperControllerLog(module = "兑奖订单管理", type = "查询兑奖订单")
     public TyResponse getExchangeOrders(@RequestBody ExchargeOrderRequest request) {
         Page page = getPage(request);
 
@@ -132,6 +136,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
+    @OperControllerLog(module = "兑奖订单管理", type = "发货兑奖订单")
     public TyResponse sipping(@RequestBody ExchargeOrderEntity order) {
         if (null == order) {
             throw new ValidateException("输入不能为空。");
@@ -154,6 +159,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
+    @OperControllerLog(module = "兑奖订单管理", type = "取消兑奖订单")
     public TyResponse cancel(@RequestBody ExchargeOrderEntity order) {
         if (null == order) {
             throw new ValidateException("输入不能为空。");
@@ -174,6 +180,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
+    @OperControllerLog(module = "兑奖卡密管理", type = "创建兑奖卡密")
     public TyResponse create(@RequestBody ExchargeCardPwdEntity cardPwd) {
         if (StringUtils.isEmpty(cardPwd.getCardId())) {
             throw new ValidateException("卡密卡号不能为空。");
@@ -198,17 +205,20 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
+    @OperControllerLog(module = "兑奖卡密管理", type = "查询兑奖卡密")
     public TyResponse getExchangeCardPwd(@PathVariable Long id) {
         return new TySuccessResponse(exchargeCardPwdService.getById(id));
     }
 
     @Override
+    @OperControllerLog(module = "兑奖卡密管理", type = "分页查询兑奖卡密")
     public TyResponse getExchangeCardPwds(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         return new TySuccessResponse(exchargeCardPwdMapper.selectMapsPage(page, null));
     }
 
     @Override
+    @OperControllerLog(module = "兑奖卡密管理", type = "冻结兑奖卡密")
     public TyResponse freeze(@RequestBody ExchargeCardPwdEntity cardPwd) {
         if (null == cardPwd) {
             throw new ValidateException("输入不能为空。");
@@ -229,6 +239,7 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
     }
 
     @Override
+    @OperControllerLog(module = "兑奖卡密管理", type = "解冻兑奖卡密")
     public TyResponse unfreeze(@RequestBody ExchargeCardPwdEntity cardPwd) {
         if (null == cardPwd) {
             throw new ValidateException("输入不能为空。");

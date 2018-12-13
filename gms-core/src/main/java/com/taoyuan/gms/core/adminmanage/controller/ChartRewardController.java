@@ -3,6 +3,7 @@ package com.taoyuan.gms.core.adminmanage.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
@@ -48,6 +49,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     private IVChartRankingService vChartRankingService;
 
     @Override
+    @OperControllerLog(module = "排行管理", type = "查询排行")
     public TyResponse retrieveRanking() {
         ChartRankingSettingEntity entity = chartRankingSettingService.getOne(null);
         if (null == entity) {
@@ -59,6 +61,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
+    @OperControllerLog(module = "排行管理", type = "更新排行")
     public TyResponse updateRanking(@RequestBody ChartRankingSettingEntity entity) {
         ChartRankingSettingEntity dbValue = chartRankingSettingService.getOne(null);
         dbValue.setRankingCount(entity.getRankingCount());
@@ -67,6 +70,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
+    @OperControllerLog(module = "奖励管理", type = "查询奖励")
     public TyResponse retrieveCharts(@RequestBody ChartsRequest request) {
         int count = 0;
         if (request.getCount() != 0) {
@@ -86,6 +90,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
+    @OperControllerLog(module = "奖励管理", type = "修改奖励")
     public List<ChartRankingEntity> updateCharts(@RequestBody List<ChartRankingEntity> entityList) {
         log.info("input is {}", entityList);
         List<ChartRankingEntity> dbEntityList = new ArrayList<ChartRankingEntity>();
@@ -111,6 +116,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
+    @OperControllerLog(module = "虚拟排行管理", type = "查询虚拟排行")
     public TyResponse retrieveVRanking() {
         VChartRankingSettingEntity entity = vChartRankingSettingService.getOne(null);
         if (null == entity) {
@@ -123,6 +129,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
+    @OperControllerLog(module = "虚拟排行管理", type = "修改虚拟排行")
     public TyResponse updateVRanking(@RequestBody VChartRankingSettingEntity entity) {
         VChartRankingSettingEntity dbValue = vChartRankingSettingService.getOne(null);
         if (null == dbValue) {
@@ -139,6 +146,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
+    @OperControllerLog(module = "虚拟奖励管理", type = "查询虚拟奖励")
     public TyResponse retrieveVCharts(@RequestBody ChartsRequest request) {
         int count = 0;
         if (request.getCount() != 0) {
@@ -163,6 +171,7 @@ public class ChartRewardController extends BaseGmsController implements ChartRew
     }
 
     @Override
+    @OperControllerLog(module = "虚拟奖励管理", type = "批量修改虚拟奖励")
     public TyResponse updateVCharts(@RequestBody List<VChartRankingEntity> entityList) {
         log.info("input is {}", entityList);
         List<VChartRankingEntity> dbEntityList = new ArrayList<VChartRankingEntity>();

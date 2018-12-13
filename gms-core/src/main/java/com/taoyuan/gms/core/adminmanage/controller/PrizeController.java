@@ -1,6 +1,7 @@
 package com.taoyuan.gms.core.adminmanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
@@ -22,11 +23,13 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
     private IPrizeService service;
 
     @Override
+    @OperControllerLog(module = "奖品管理", type = "查询所有奖品")
     public TyResponse getPrizes() {
         return new TySuccessResponse(service.list(null));
     }
 
     @Override
+    @OperControllerLog(module = "奖品管理", type = "查询奖品")
     public TyResponse getPrize(@PathVariable Long id) {
         if(null==id){
             throw new ValidateException("id不能为空。");
@@ -36,6 +39,7 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
     }
 
     @Override
+    @OperControllerLog(module = "奖品管理", type = "创建奖品")
     public TyResponse createPrize(@RequestBody PrizeEntity prizeEntity) {
         if(StringUtils.isEmpty(prizeEntity.getName())){
             throw new ValidateException("名称不能为空。");
@@ -66,6 +70,7 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
     }
 
     @Override
+    @OperControllerLog(module = "奖品管理", type = "修改奖品")
     public TyResponse modifyPrize(@RequestBody PrizeEntity prizeEntity) {
         if(null==prizeEntity.getId()){
             throw new ValidateException("id不能为空。");
@@ -79,6 +84,7 @@ public class PrizeController extends BaseGmsController implements PrizeApi {
     }
 
     @Override
+    @OperControllerLog(module = "奖品管理", type = "删除奖品")
     public TyResponse deletePrize(@PathVariable Long id) {
         service.remove(new QueryWrapper<PrizeEntity>().lambda().eq(PrizeEntity::getId,id));
         return new TySuccessResponse(id);

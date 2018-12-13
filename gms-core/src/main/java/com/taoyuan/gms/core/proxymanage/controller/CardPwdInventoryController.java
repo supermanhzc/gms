@@ -2,6 +2,7 @@ package com.taoyuan.gms.core.proxymanage.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.taoyuan.framework.bs.aspect.OperControllerLog;
 import com.taoyuan.framework.common.exception.ValidateException;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySuccessResponse;
@@ -34,6 +35,7 @@ public class CardPwdInventoryController extends BaseGmsProxyController implement
     private CardPasswordMapper mapper;
 
     @Override
+    @OperControllerLog(module = "代理卡密库存管理", type = "查询代理卡密库存")
     public TyResponse retrieve(@RequestBody CardPwdInventoryResquest resquest) {
         log.info("input:{}", resquest);
         Page page = getPage(resquest);
@@ -54,6 +56,7 @@ public class CardPwdInventoryController extends BaseGmsProxyController implement
     }
 
     @Override
+    @OperControllerLog(module = "代理卡密库存管理", type = "创建代理卡密")
     public TyResponse create(@RequestBody Map<String, Object> map) {
         if (!map.containsKey("cardType")) {
             throw new ValidateException("卡类型不能为空。");
