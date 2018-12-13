@@ -16,6 +16,9 @@ public interface UserApi{
     @RequestMapping(value = "/getProxy", method = RequestMethod.POST)
     TyResponse queryProxys(@RequestBody TyPageEntity queryProxyRequest);
 
+    @RequestMapping(value = "/getAdmin", method = RequestMethod.POST)
+    TyResponse queryAdmins(@RequestBody TyPageEntity queryAdminRequest);
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     TyResponse deleteUser(@PathVariable("id") Long id);
 

@@ -18,4 +18,5 @@ public interface IUserService extends IService<UserEntity> {
 
     IPage queryUsers(QueryAccountRequest queryAccountRequest, IPage page);
     IPage queryProxys(IPage page);
+    IPage queryAdmins(IPage page);
 }

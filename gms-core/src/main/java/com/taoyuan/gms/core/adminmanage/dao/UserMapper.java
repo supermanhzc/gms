@@ -13,4 +13,5 @@ import java.util.Map;
 public interface UserMapper extends BaseMapper<UserEntity> {
     List<Map> queryRegisterUser(IPage mapPage, QueryAccountRequest queryAccountRequest);
     List<Map> queryProxy(IPage mapPage);
+    List<Map> queryAdmin(IPage mapPage);
 }

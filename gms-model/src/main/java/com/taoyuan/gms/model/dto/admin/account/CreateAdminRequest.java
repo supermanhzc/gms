@@ -4,4 +4,5 @@ import lombok.Data;
 
 @Data
 public class CreateAdminRequest extends AccountBaseRequest {
+    private String userName;
 }
