@@ -12,12 +12,12 @@ import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.framework.common.util.TyDateUtils;
 import com.taoyuan.gms.api.proxy.GoldenRechargeApi;
+import com.taoyuan.gms.common.util.JobUtil;
 import com.taoyuan.gms.core.proxymanage.dao.GoldenRechargeMapper;
 import com.taoyuan.gms.core.proxymanage.service.IFirstchargeRebateService;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
 import com.taoyuan.gms.core.proxymanage.service.IProxyOperService;
 import com.taoyuan.gms.core.sitemanage.account.service.IGoldService;
-import com.taoyuan.gms.job.JobManager;
 import com.taoyuan.gms.job.proxymanage.GoldenRechargeJob;
 import com.taoyuan.gms.model.entity.proxy.FirstchargeRebateEntity;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
@@ -90,7 +90,7 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
 
         Long id = entity.getId();
         String cron = TyDateUtils.getCronAfterMinutes(5);
-        JobManager.addJob("GoldRecharge" + id, GoldenRechargeJob.class, cron, id);
+        JobUtil.addJob("GoldRecharge" + id, GoldenRechargeJob.class, cron, id);
 
         recordOperation(1, "金币代充", discountMoney);
 

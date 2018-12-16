@@ -9,8 +9,8 @@
   </parent>
 
   <groupId>com.taoyuan.gms</groupId>
-  <artifactId>gms-core</artifactId>
-  <name>gms-core</name>
+  <artifactId>gms-service</artifactId>
+  <name>gms-service</name>
   <dependencies>
       <dependency>
           <groupId>com.taoyuan.gms</groupId>
@@ -27,16 +27,6 @@
   		<artifactId>gms-api</artifactId>
   		<version>${gms-version}</version>
   	</dependency>
-      <dependency>
-          <groupId>com.taoyuan.gms</groupId>
-          <artifactId>gms-job</artifactId>
-          <version>${gms-version}</version>
-      </dependency>
-      <dependency>
-          <groupId>com.taoyuan.gms</groupId>
-          <artifactId>gms-service</artifactId>
-          <version>${gms-version}</version>
-      </dependency>
       <dependency>
           <groupId>com.taoyuan.framework</groupId>
           <artifactId>framework-aaa</artifactId>

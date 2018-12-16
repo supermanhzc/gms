@@ -1,4 +1,4 @@
-package com.taoyuan.gms.job;
+package com.taoyuan.gms.common.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,7 +10,7 @@ import org.quartz.impl.StdSchedulerFactory;
 /**
  * 任务管理
  */
-public class JobManager {
+public class JobUtil {
 
     private static SchedulerFactory gSchedulerFactory = new StdSchedulerFactory();
 

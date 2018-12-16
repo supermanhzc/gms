@@ -33,7 +33,9 @@
 	<modules>
         <module>gms-model</module>
 		<module>gms-api</module>
+		<module>gms-service</module>
 		<module>gms-core</module>
+		<module>gms-job</module>
 		<module>gms-common</module>
 		<module>gms-app</module>
 	</modules>

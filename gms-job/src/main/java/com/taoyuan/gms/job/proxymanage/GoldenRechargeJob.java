@@ -2,8 +2,8 @@ package com.taoyuan.gms.job.proxymanage;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.taoyuan.gms.common.util.JobUtil;
 import com.taoyuan.gms.core.proxymanage.service.IGoldenRechargeService;
-import com.taoyuan.gms.job.JobManager;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
@@ -56,7 +56,7 @@ public class GoldenRechargeJob extends QuartzJobBean {
         goldenRechargeJob.goldenRechargeService.update(entity, wrapper);
 
         // 删除任务
-        JobManager.removeJob(jobName);
+        JobUtil.removeJob(jobName);
     }
 
     private GoldenRechargeEntity getEntityById(Long id) {
