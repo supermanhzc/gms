@@ -29,6 +29,7 @@ spring:
 
   resources:
     add-mappings: false
+    static-locations: file:${image.path}
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -59,6 +60,15 @@ spring:
       #初始化表结构
       #jdbc:
         #initialize-schema: never
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+      file-size-threshold: 0
+      location: ${image.path}
+      resolve-lazily: false
 
 mybatis-plus:
   mapper-locations: classpath*:sqlmap/*Mapper.xml
@@ -102,3 +112,6 @@ management:
   endpoint:
     health:
       show-details: always
+
+image:
+  path: /upload

@@ -4,7 +4,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-  "username":"hzc",
+  "userName":"hzc",
   "password":"hzcsb"
 }
 
@@ -21,7 +21,7 @@ Content-Type: application/json
 GET http://127.0.0.1:8081/gms/prizemgnt/classify/
 Accept: */*
 Content-Type: application/json
-Token: c989e6a4-eaff-4134-af64-8e8aa7dbfdd9
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
 
 <> 2018-11-27T090636.200.json
 
@@ -29,7 +29,7 @@ Token: c989e6a4-eaff-4134-af64-8e8aa7dbfdd9
 GET http://127.0.0.1:8081/gms/prizemgnt/classify/1067403710776340482
 Accept: */*
 Content-Type: application/json
-Token: c989e6a4-eaff-4134-af64-8e8aa7dbfdd9
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
 
 <> 2018-11-27T090435.200.json
 <> 2018-11-27T085708.200.json
@@ -38,7 +38,7 @@ Token: c989e6a4-eaff-4134-af64-8e8aa7dbfdd9
 POST http://127.0.0.1:8081/gms/prizemgnt/classify/
 Accept: */*
 Content-Type: application/json
-Token: c989e6a4-eaff-4134-af64-8e8aa7dbfdd9
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
 
 {
   "name":"超级奖品"
@@ -49,19 +49,19 @@ Token: c989e6a4-eaff-4134-af64-8e8aa7dbfdd9
 <> 2018-11-27T085517.404.json
 
 ###修改奖品分类信息
-PUT http://127.0.0.1:8081/gms/prizemgnt/classify/id=1067403710776340482&classifyName=test
+PUT http://127.0.0.1:8081/gms/prizemgnt/classify/id=1074295028591480833&classifyName=超级奖品111
 Accept: */*
 Content-Type: application/json
-Token: c989e6a4-eaff-4134-af64-8e8aa7dbfdd9
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
 
 <> 2018-11-27T090547.200.json
 <> 2018-11-27T090455.200.json
 
 ###删除奖品管理信息
-DELETE http://127.0.0.1:8081/gms/prizemgnt/classify/1067403710776340482
+DELETE http://127.0.0.1:8081/gms/prizemgnt/classify/1074295028591480833
 Accept: */*
 Content-Type: application/json
-Token: c989e6a4-eaff-4134-af64-8e8aa7dbfdd9
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
 
 <> 2018-11-27T090610.200.json
 
