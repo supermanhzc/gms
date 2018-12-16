@@ -1,0 +1,172 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-12-16T091011.200.json
+
+###查询,分页参数必填
+POST http://127.0.0.1:8081/gms/cardpwdmgnt/retrieve
+Accept: */*
+Content-Type: application/json
+Token: 5976d763-7d0d-4c7b-9204-f41f499bce51
+
+{   "pageIndex":1,   "pageSize":5}
+
+###查询,分页参数必填，带条件查询
+#    查询关键字
+#    private String keyword;
+#    卡类
+#    private int cardType;
+#    状态
+#    private int status;
+#    拥有者
+#    private String owner;
+POST http://127.0.0.1:8081/gms/cardpwdmgnt/retrieve
+Accept: */*
+Content-Type: application/json
+Token: 5976d763-7d0d-4c7b-9204-f41f499bce51
+
+{
+  "pageIndex":1,
+  "pageSize":5,
+//  "keyword":"10y15304188",
+  "status":2,
+  "cardType":2,
+  "owner":"胡正超"
+}
+
+<> 2018-12-16T091648.200.json
+<> 2018-12-16T091637.200.json
+<> 2018-12-16T091604.200.json
+<> 2018-12-16T091549.200.json
+<> 2018-12-16T091520.200.json
+<> 2018-12-16T091439.200.json
+<> 2018-12-16T091413.200.json
+<> 2018-12-16T091346.200.json
+<> 2018-12-16T091023.200.json
+<> 2018-12-01T043633.200.json
+<> 2018-12-01T043606.200.json
+<> 2018-12-01T043546.200.json
+<> 2018-11-25T095044.200.json
+
+###创建卡密
+###卡类型：cardType,1:10元会员卡，2:20元会员卡，3:30元会员卡，4:红钻会员卡，必填
+###批量生成数量：number,必填
+POST http://127.0.0.1:8081/gms/cardpwdmgnt/create
+Accept: */*
+Content-Type: application/json
+Token: 81632592-cd33-4c83-ab2b-8863b859fde4
+
+{
+  "cardType": 1,
+  "number": 10
+}
+
+<> 2018-11-25T095328.200.json
+
+####撤销，卡号为空报错
+POST http://127.0.0.1:8081/gms/cardpwdmgnt/withdraw
+Accept: */*
+Content-Type: application/json
+Token: 2c9fcc33-11d4-4486-9bb0-32fcc124723a
+
+{
+
+}
+
+<> 2018-11-25T101950.200.json
+
+###撤销成功
+###卡号：cardId必填
+POST http://127.0.0.1:8081/gms/cardpwdmgnt/withdraw
+Accept: */*
+Content-Type: application/json
+Token: 81632592-cd33-4c83-ab2b-8863b859fde4
+
+{
+  "cardId": "10y78485067"
+}
+
+###批量撤销，此接口供代理调用
+###卡号：cardId必填,password必填
+POST http://127.0.0.1:8081/gms/cardpwdmgnt/withdrawbatch
+Accept: */*
+Content-Type: application/json
+Token: ece1d2bc-077f-4d26-a308-c83b947af167
+
+[
+    {
+        "cardId": "10y71154102",
+        "password": "Rd7AhPaO"
+    },
+    {
+        "cardId": "10y43781631",
+        "password": "yplQrwUg"
+    }
+]
+
+<> 2018-11-25T013623.200.json
+
+####根据id删除卡密
+DELETE http://127.0.0.1:8081/gms/cardpwdmgnt/delete/10y09524877
+Accept: */*
+Content-Type: application/json
+Token: d2ee2917-bc00-4722-9a47-d8afe91409f7
+
+{
+"cardid":"10y09524877"
+}
+
+<> 2018-11-25T013729.200.json
+
+####根据传入的卡号密码查询卡密详细信息，卡号cardId必填
+POST http://127.0.0.1:8081/gms/cardpwdmgnt/info
+Accept: */*
+Content-Type: application/json
+Token: 5216d743-3514-41f1-9e07-a07ea51e09e2
+
+[
+    {
+        //卡号密码都正确，已回收
+        "cardId": "10y43781631",
+        "password": "yplQrwUg"
+    },
+    {
+        //卡号密码都正确，未回收
+        "cardId": "10y54719755",
+        "password": "gEFtYN3W"
+    },
+    {
+        //卡号正确密码不正确
+        "cardId": "10y43781691",
+        "password": "yplQrwUg"
+    },
+    {
+        //有卡号无密码
+        "cardId": "10y43781692"
+    }
+]
+
+<> 2018-11-26T025341.200.json
+
+###
+###查询,分页参数必填
+POST http://127.0.0.1:8081/gms/cardpwdmgnt/query
+Accept: */*
+Content-Type: application/json
+Token: 2dd5a341-715e-4b63-9774-8353e0adb399
+
+{
+  "pageIndex":1,
+  "pageSize":15
+}
+
+<> 2018-12-01T014928.404.json
+
+###

@@ -1,0 +1,40 @@
+###参数说明
+//接口名称:短信，不传的话默认为短信
+//private String infName;
+//类型:1注册,2找回密码,3兑奖。必填字段
+//private int type;
+//验证码接收终端，当前默认为手机号码。必填字段
+//private String dest;
+//验证码
+//private String vcode;
+
+###生成验证码
+POST http://localhost:8081/gms/verificationcode/generate
+Accept: */*
+Content-Type: application/json
+#Token: 67ee191e-51a6-424c-9bd3-19b0198200fa
+
+{
+    "dest":"13805168419",
+    "type":1
+}
+
+<> 2018-11-20T092635.404.json
+
+###校验验证码
+POST http://localhost:8081/gms/verificationcode/validate
+Accept: */*
+Content-Type: application/json
+#Token: 67ee191e-51a6-424c-9bd3-19b0198200fa
+
+{
+  //必填
+  "dest":"13805168419",
+  //必填
+  "vcode":"S6wRxn"
+}
+
+<> 2018-11-26T085059.200.json
+
+###
+

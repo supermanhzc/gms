@@ -1,0 +1,109 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "username":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-27T080719.200.json
+<> 2018-11-27T074956.200.json
+<> 2018-11-27T074115.200.json
+
+
+###参数说明
+//名称
+//private String name;
+//关键字
+//private String keyWord;
+//描述
+//private String description;
+//金币和人民币兑换比例
+//private Long exchangePropor;
+//兑换开关
+//private boolean enableExchange;
+//代理充值折扣
+//private int proxyRechargeDiscount;
+//是否能24小时兑换
+//private boolean enable24Recharge;
+//禁止兑换起始时间
+//private String forbidRechargeBeginTime;
+//禁止兑换结束时间
+//private String forbidRechargeEndTime;
+//注册赠送金币
+//private int registOfferGold;
+//流水计算天数
+//private int serialCalDays;
+//充值经验兑换比例
+//private Double rechargeExperiencePropor;
+//免费兑换倍数
+//private int freeExchangeTimes;
+//获得成长值比例
+//private Double gainGrowPropor;
+//超出手续费
+//private Double overrangingFee;
+//下线投注工资比例
+//private Double subordinateCathecticWagesPropor;
+//投注工资比例
+//private Double cathecticWagesPropor;
+//亏损返利比例
+//private Double lossRebatePropor;
+//首充返利比例
+//private Double firstFillRebatePropor;
+//报名费
+//private Double entryFee;
+//可得虚拟币
+//private int virtualCornAvailableCount;
+//虚拟币可得到次数
+//private int virtualCornAvailableTimes;
+
+###查询网站设置
+GET http://127.0.0.1:8081/gms/webmgnt/setting
+Accept: */*
+Content-Type: application/json
+Token: 05134c7a-cdfb-4432-afc2-ca985bac9e5c
+
+<> 2018-11-27T080732.200.json
+<> 2018-11-27T074131.200.json
+
+####修改网站设置，所有字段都非必填
+PUT http://127.0.0.1:8081/gms/webmgnt/setting
+Accept: */*
+Content-Type: application/json
+Token: 05134c7a-cdfb-4432-afc2-ca985bac9e5c
+
+{
+  "serialCalDays": 88,
+  "virtualCornAvailableTimes": 5,
+  "description": "测试2",
+  "keyWord": "测试2999",
+  "registOfferGold": 1002,
+  "entryFee": 100.0,
+  "forbidRechargeBeginTime": "6:00",
+  "virtualCornAvailableCount": 1000,
+  "lossRebatePropor": 60.0,
+  "subordinateCathecticWagesPropor": 66.0,
+  "cathecticWagesPropor": 50.0,
+  "id": 1,
+  "proxyRechargeDiscount": 55,
+  "freeExchangeTimes": 82,
+  "enableExchange": 1,
+  "enable24Recharge": 1,
+  "gainGrowPropor": 99.0,
+  "forbidRechargeEndTime": "7:00",
+  "rechargeExperiencePropor": 302.0,
+  "name": "网站设置测试22888",
+  "firstFillRebatePropor": 10.0,
+  "overrangingFee": 1000.0,
+  "exchangePropor":1000
+}
+
+<> 2018-11-27T080746.200.json
+<> 2018-11-27T075018.200.json
+
+###
+
+
+

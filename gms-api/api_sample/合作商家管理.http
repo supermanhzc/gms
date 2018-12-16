@@ -1,0 +1,75 @@
+###获取token
+POST http://127.0.0.1:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+	"userName":"hzc",
+	"password":"hzcsb"
+}
+
+<> 2018-12-16T085029.200.json
+<> 2018-12-16T081308.200.json
+<> 2018-11-26T041621.200.json
+<> 2018-11-26T040554.200.json
+
+###参数说明###
+//名称，必填，不能为空
+//private String name;
+//QQ，必填，不能为空
+//private String qq;
+
+###创建合作商家
+POST http://127.0.0.1:8081/gms/contentmgnt/cooperatbusiness
+Accept: */*
+Content-Type: application/json
+Token: a02d46e6-2f4b-4fea-b449-1913244ffe4b
+
+{
+	"name":"商家9999",
+	"qq":"88888889"
+}
+
+<> 2018-12-16T084659.200.json
+<> 2018-12-16T081323.200.json
+<> 2018-11-26T040605.200.json
+
+###修改合作商家,id必填
+PUT http://127.0.0.1:8081/gms/contentmgnt/cooperatbusiness
+Accept: */*
+Content-Type: application/json
+Token: f95cddf5-b8aa-4c76-ab85-1ed1a29c2e98
+
+{
+    "id":1066968959493988354,
+	"name":"商家修改名称2",
+	"qq":"88888899"
+}
+
+<> 2018-11-26T040706.200.json
+
+###查询合作商家
+GET http://127.0.0.1:8081/gms/contentmgnt/cooperatbusiness/1074276297848963074
+Accept: */*
+Content-Type: application/json
+Token: a02d46e6-2f4b-4fea-b449-1913244ffe4b
+
+<> 2018-12-16T084716.200.json
+<> 2018-12-16T081345.200.json
+<> 2018-11-26T040729.200.json
+
+###查询所有合作商家
+GET http://127.0.0.1:8081/gms/contentmgnt/cooperatbusiness
+Accept: */*
+Content-Type: application/json
+Token: 8dba55a7-5170-4176-9429-eb2692c55685
+
+<> 2018-12-16T085322.200.json
+<> 2018-12-16T085047.200.json
+<> 2018-12-16T084725.200.json
+<> 2018-12-16T081404.200.json
+<> 2018-11-26T041839.200.json
+
+###
+
+

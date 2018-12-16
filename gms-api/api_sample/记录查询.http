@@ -1,0 +1,231 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-12-16T090246.200.json
+
+###验证码查询
+GET http://localhost:8081/gms/records/verificationcode/page/index=1&size=15
+Content-Type: application/json
+Token: 72654966-bbc5-4071-b202-fde5aad0c2bb
+
+{
+  //必填
+  "pageIndex":1,
+  //必填
+  "pageSize":10
+}
+
+<> 2018-11-26T100250.200.json
+<> 2018-11-26T100240.200.json
+
+###代充信息查询
+GET http://localhost:8081/gms/records/recharge/page/index=1&size=15
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+<> 2018-12-03T103807.200.json
+<> 2018-11-26T101757.200.json
+
+###代理操作查询
+GET http://localhost:8081/gms/records/proxyopearte/page/index=1&size=15
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+<> 2018-12-03T103815.200.json
+<> 2018-11-26T101916.200.json
+<> 2018-11-26T101757.200.json
+
+###代理登录分页查询
+POST http://localhost:8081/gms/records/memberlogin
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+{
+  //必填
+  "pageIndex":1,
+  //必填
+  "pageSize":10
+}
+
+<> 2018-11-12T075520.200.json
+
+###代理登录条件查询
+POST http://localhost:8081/gms/records/memberlogin
+Content-Type: application/json
+Token: cf12dc4b-389f-4ba1-989a-c77c36293122
+
+{
+  //必填
+  "pageIndex":1,
+  //必填
+  "pageSize":10,
+  //id或者昵称,可选
+  "keyword":"hzc",
+  //状态：1成功，0失败，可选
+  "status":1
+}
+
+<> 2018-11-26T101817.200.json
+<> 2018-11-26T095940.200.json
+<> 2018-11-26T095818.200.json
+<> 2018-11-26T095756.200.json
+<> 2018-11-26T093457.200.json
+
+###管理员登录查询
+POST http://localhost:8081/gms/records/adminlogin
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+{
+  //必填
+  "pageIndex":1,
+  //必填
+  "pageSize":10
+}
+<> 2018-12-03T103834.200.json
+<> 2018-11-26T101825.200.json
+<> 2018-11-26T095957.200.json
+<> 2018-11-26T095408.200.json
+<> 2018-11-26T095400.200.json
+<> 2018-11-26T095337.404.json
+<> 2018-11-12T075520.200.json
+
+###亏损返利查询
+GET http://localhost:8081/gms/records/lossrabate/page/index=1&size=10
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+<> 2018-12-03T103846.200.json
+<> 2018-11-27T082539.200.json
+<> 2018-11-26T100038.200.json
+<> 2018-11-26T100026.200.json
+<> 2018-11-12T075520.200.json
+
+###排行榜奖励记录分页查询
+GET http://localhost:8081/gms/records/chartsrewards/page/index=1&size=10
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+<> 2018-12-03T103853.200.json
+<> 2018-11-27T082559.200.json
+<> 2018-11-26T100052.200.json
+<> 2018-11-13T082752.200.json
+<> 2018-11-12T075520.200.json
+
+###排行榜奖励条件查询
+POST http://localhost:8081/gms/records/chartsrewards/
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+{
+  "pageIndex":1,
+  "pageSize":100,
+  "id":300001,
+  "stauts":1
+}
+<> 2018-12-03T103945.200.json
+<> 2018-12-03T103932.404.json
+<> 2018-12-03T103900.404.json
+<> 2018-11-27T082639.404.json
+<> 2018-11-27T082607.404.json
+<> 2018-11-26T100103.404.json
+<> 2018-11-12T075520.200.json
+
+###每日统计查询 Fail
+GET http://localhost:8081/gms/records/dailystatistic
+Content-Type: application/json
+Token: b8a9760c-c9d6-4af0-9b0b-87b72dfb7240
+
+<> 2018-12-16T090752.200.json
+<> 2018-12-16T090407.400.json
+<> 2018-12-16T090259.400.json
+<> 2018-12-03T104133.400.json
+<> 2018-12-03T104043.400.json
+<> 2018-12-03T104002.400.json
+<> 2018-11-27T082814.200.json
+<> 2018-11-12T075520.200.json
+
+###投注工资查询
+POST http://localhost:8081/gms/records/chipinwage
+Accept: */*
+Content-Type: application/json
+Token: b8a9760c-c9d6-4af0-9b0b-87b72dfb7240
+
+{
+  "pageIndex":1,
+  "pageSize":15
+}
+
+<> 2018-12-16T090357.200.json
+<> 2018-12-03T104058.200.json
+<> 2018-11-27T082825.200.json
+
+###下线提成查询
+POST http://localhost:8081/gms/records/juniorcommission
+Accept: */*
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+{
+  "pageIndex":1,
+  "pageSize":15,
+  "id":300001,
+  "status":3
+}
+
+<> 2018-12-03T104104.200.json
+<> 2018-11-27T082834.200.json
+
+
+###销售明细查询
+POST http://localhost:8081/gms/records/saledetail
+Accept: */*
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+{
+  "pageIndex":1,
+  "pageSize":15
+}
+
+<> 2018-12-03T104154.200.json
+<> 2018-12-03T104110.200.json
+<> 2018-11-27T083203.200.json
+<> 2018-11-27T082958.200.json
+<> 2018-11-27T082842.200.json
+
+###销售统计查询
+POST http://localhost:8081/gms/records/salestatistic
+Accept: */*
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+{
+  "pageIndex":1,
+  "pageSize":15,
+  "start":"2018-11-11",
+  "end":"2018-11-19"
+}
+
+<> 2018-12-03T104237.200.json
+<> 2018-12-03T104159.200.json
+<> 2018-12-03T104116.200.json
+<> 2018-11-27T083211.200.json
+
+###虚拟排行榜奖励记录查询
+GET http://localhost:8081/gms/records/vchartsrewards/page/index=1&size=10
+Content-Type: application/json
+Token: 37688902-8fc0-467f-8f56-6ba9a454459d
+
+<> 2018-12-03T104419.200.json
+<> 2018-11-27T083223.200.json
+
+###
+

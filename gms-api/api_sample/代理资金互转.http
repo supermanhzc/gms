@@ -1,0 +1,56 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "username":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-28T080744.200.json
+<> 2018-11-28T080253.200.json
+
+###查询最近的10笔记录
+GET http://127.0.0.1:8081/gms/proxy/fundexchange/getLatest10
+Accept: */*
+Content-Type: application/json
+Token: 35355db7-6dd9-4aa7-91fc-f000e26713fb
+
+<> 2018-11-28T080938.200.json
+<> 2018-11-28T080754.200.json
+
+####查询资金互转信息
+POST http://127.0.0.1:8081/gms/proxy/fundexchange/getFundExchanges
+Accept: */*
+Content-Type: application/json
+Token: 35355db7-6dd9-4aa7-91fc-f000e26713fb
+
+{
+  //分页查询，分页参数必填
+  "pageIndex":1,
+  "pageSize":15
+}
+
+<> 2018-11-28T080931.200.json
+<> 2018-11-26T025341.200.json
+
+###回收
+POST http://127.0.0.1:8081/gms/proxy/fundexchange/exchange
+Accept: */*
+Content-Type: application/json
+Token: 35355db7-6dd9-4aa7-91fc-f000e26713fb
+
+{
+  //类型，必填，1转出，2转入
+  "type":1,
+  //金额，必填
+  "money":1000000000,
+  //对方，必填
+  "opposite":2
+}
+
+<> 2018-11-28T080918.200.json
+<> 2018-11-28T080844.200.json
+
+###

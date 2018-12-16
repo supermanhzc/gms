@@ -1,0 +1,55 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-29T102241.200.json
+<> 2018-11-29T101304.200.json
+<> 2018-11-29T101057.200.json
+<> 2018-11-29T100853.200.json
+<> 2018-11-29T100515.200.json
+<> 2018-11-29T100346.200.json
+<> 2018-11-29T094051.200.json
+<> 2018-11-26T034737.200.json
+
+####参数说明#####
+    //订单号
+    private int orderId;
+    //会员ID，必填
+    private Long memberId;
+    //会员昵称
+    private String memberNickName;
+    //奖品名称，必填
+    private String prizeName;
+    //兑换数量
+    private int exchangeNum;
+    //兑换单价
+    private BigDecimal exchangeSinglePrice;
+    //兑换时间
+    private Date exchangeTime;
+    //状态,1未发货，2已发货，3已取消
+    private int status;
+    //当前处理订单的人
+    private Long processorId;
+    //当前处理订单人名称
+    private String processorName;
+
+###查询，分页参数pageIndex和pageSize默认必传
+POST http://127.0.0.1:8081/gms/peizemgnt/excharge/order/create
+Accept: */*
+Content-Type: application/json
+Token: b4c3877d-4ec1-4a30-9823-adcb38efef70
+
+{
+  "prizeName":"20元充值卡",
+  "exchangeNum":15
+}
+
+<> 2018-11-29T100526.200.json
+
+###

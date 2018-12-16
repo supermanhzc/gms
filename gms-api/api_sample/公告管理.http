@@ -1,0 +1,75 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-26T035802.200.json
+
+######参数说明######
+//标题,必填
+//private String title;
+//排序，必填
+//private String sort;
+//内容，非必填
+//private String content;
+
+####创建公告
+POST http://127.0.0.1:8081/gms/contentmgnt/announcement
+Accept: */*
+Content-Type: application/json
+Token: a192f72e-f9ec-444c-a622-bb995e2e6e84
+
+{
+    //必填
+	"title":"testcontent",
+	//必填
+	"sort":"1222",
+	//可选
+	"content":"e4qw3q45rtq34"
+}
+
+###公告修改
+PUT http://127.0.0.1:8081/gms/contentmgnt/announcement
+Accept: */*
+Content-Type: application/json
+Token: a192f72e-f9ec-444c-a622-bb995e2e6e84
+
+{
+    //id必填
+    "id":25,
+	"title":"modify content test"
+}
+
+<> 2018-11-26T035929.200.json
+<> 2018-11-26T035916.200.json
+
+###公告删除
+DELETE http://127.0.0.1:8081/gms/contentmgnt/announcement/25
+Accept: */*
+Content-Type: application/json
+Token: a192f72e-f9ec-444c-a622-bb995e2e6e84
+
+<> 2018-11-26T040013.200.json
+
+###公告查询，根据id
+GET http://127.0.0.1:8081/gms/contentmgnt/announcement/26
+Accept: */*
+Content-Type: application/json
+Token: a192f72e-f9ec-444c-a622-bb995e2e6e84
+
+<> 2018-11-26T040033.200.json
+
+###公告查询，分页
+GET http://127.0.0.1:8081/gms/contentmgnt/announcement/page/index=1&size=10
+Accept: */*
+Content-Type: application/json
+Token: a192f72e-f9ec-444c-a622-bb995e2e6e84
+
+<> 2018-11-26T040042.200.json
+
+###
