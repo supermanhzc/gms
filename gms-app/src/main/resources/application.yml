@@ -84,12 +84,15 @@ quartz:
   enabled: true
 
 eureka:
-  client:
-    service-url:
-      defaultZone: http://www.1016.cc:9090/eureka/
   instance:
-    hostname: localhost
-    appname: gms-app
+    leaseRenewalIntervalInSeconds: 10
+    prefer-ip-address: true
+  client:
+    registryFetchIntervalSeconds: 5
+    instanceInfoReplicationIntervalSeconds: 5
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://www.1016.cc:9090/eureka/
 
 management:
   endpoints:
