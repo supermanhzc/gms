@@ -23,10 +23,10 @@ Content-Type: application/json
 POST http://127.0.0.1:8081/gms/contentmgnt/cooperatbusiness
 Accept: */*
 Content-Type: application/json
-Token: a02d46e6-2f4b-4fea-b449-1913244ffe4b
+Token: 3e6221ca-65b5-4a99-9e15-1defb506f931
 
 {
-	"name":"商家9999",
+	"name":"商家9999876",
 	"qq":"88888889"
 }
 
@@ -49,10 +49,10 @@ Token: f95cddf5-b8aa-4c76-ab85-1ed1a29c2e98
 <> 2018-11-26T040706.200.json
 
 ###查询合作商家
-GET http://127.0.0.1:8081/gms/contentmgnt/cooperatbusiness/1074276297848963074
+GET http://127.0.0.1:8081/gms/contentmgnt/cooperatbusiness/1075021851805978626
 Accept: */*
 Content-Type: application/json
-Token: a02d46e6-2f4b-4fea-b449-1913244ffe4b
+Token: 3e6221ca-65b5-4a99-9e15-1defb506f931
 
 <> 2018-12-16T084716.200.json
 <> 2018-12-16T081345.200.json
@@ -62,7 +62,7 @@ Token: a02d46e6-2f4b-4fea-b449-1913244ffe4b
 GET http://127.0.0.1:8081/gms/contentmgnt/cooperatbusiness
 Accept: */*
 Content-Type: application/json
-Token: 8dba55a7-5170-4176-9429-eb2692c55685
+Token: 3e6221ca-65b5-4a99-9e15-1defb506f931
 
 <> 2018-12-16T085322.200.json
 <> 2018-12-16T085047.200.json
