@@ -1,0 +1,138 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-12-01T090002.200.json
+<> 2018-12-01T085818.200.json
+<> 2018-12-01T084936.200.json
+<> 2018-12-01T084242.200.json
+<> 2018-12-01T083701.200.json
+<> 2018-12-01T080023.200.json
+<> 2018-12-01T075723.200.json
+<> 2018-12-01T075348.200.json
+<> 2018-12-01T074640.200.json
+<> 2018-12-01T074214.200.json
+<> 2018-12-01T074112.200.json
+<> 2018-12-01T073934.200.json
+<> 2018-12-01T073707.200.json
+<> 2018-12-01T073524.200.json
+<> 2018-12-01T073153.200.json
+<> 2018-12-01T072158.200.json
+<> 2018-12-01T071931.200.json
+<> 2018-12-01T020605.200.json
+<> 2018-11-25T112220.200.json
+
+###查询最近的10笔记录
+GET http://127.0.0.1:8081/gms/proxy/cardpwd/getLatest10
+Accept: */*
+Content-Type: application/json
+Token: c2c2d5c4-d732-4573-967b-81013ba918a8
+
+<> 2018-12-01T073212.200.json
+<> 2018-11-28T021937.200.json
+<> 2018-11-27T043526.200.json
+
+
+####查询代理库存卡密信息
+POST http://127.0.0.1:8081/gms/proxy/cardpwdinventory/retrieve
+Accept: */*
+Content-Type: application/json
+Token: f949a4ad-c83a-4e54-93b8-0f1667d2a0fc
+
+{
+  "pageIndex":1,
+  "pageSize":10
+}
+
+<> 2018-12-01T090013.200.json
+<> 2018-12-01T085828.200.json
+<> 2018-12-01T084945.200.json
+<> 2018-12-01T084046.200.json
+<> 2018-12-01T080033.200.json
+<> 2018-12-01T075737.200.json
+<> 2018-12-01T075357.200.json
+<> 2018-12-01T074648.200.json
+<> 2018-12-01T074222.200.json
+<> 2018-12-01T074121.200.json
+<> 2018-12-01T073943.200.json
+<> 2018-12-01T073715.200.json
+<> 2018-12-01T073534.200.json
+<> 2018-12-01T073223.200.json
+<> 2018-12-01T072214.200.json
+<> 2018-12-01T071956.200.json
+<> 2018-11-26T025341.200.json
+
+###创建卡密,调用已有接口
+###卡类型：cardType,1:10元会员卡，2:20元会员卡，3:30元会员卡，4:红钻会员卡，必填
+###批量生成数量：number,必填
+POST http://127.0.0.1:8081/gms/proxy/cardpwdinventory/create
+Accept: */*
+Content-Type: application/json
+Token: 81632592-cd33-4c83-ab2b-8863b859fde4
+
+{
+  "cardType": 1,
+  "number": 10
+}
+
+###回收,调用已有的卡密回收接口
+POST http://127.0.0.1:8081/gms/proxy/cardpwd/withdraw
+Accept: */*
+Content-Type: application/json
+Token: e5c331fa-7e11-418d-81f8-797bb3e1003b
+
+[
+    {
+        //卡号密码都正确，未回收
+        "cardId": "20y91664751",
+        "password": "AnWuGwMB"
+    },
+    {
+        //卡号密码都正确，未回收
+        "cardId": "20y16881458",
+        "password": "IGOhQMj1"
+    },
+    {
+        //卡号密码都正确，未回收
+        "cardId": "20y13676051",
+        "password": "dzXUQZ86"
+    }
+]
+
+<> 2018-11-27T043628.200.json
+
+###查询代理回收记录
+POST http://127.0.0.1:8081/gms/proxy/cardpwd/retrieve
+Accept: */*
+Content-Type: application/json
+Token: 63cd9302-9899-48cb-a6f4-f8bf71a3bbf4
+
+{
+  "pageIndex":1,
+  "pageSize":10
+}
+
+<> 2018-12-01T020618.200.json
+<> 2018-12-01T125850.200.json
+
+###
+###查询代理卡密记录
+POST http://127.0.0.1:8081/gms/proxy/cardpwd/records
+Accept: */*
+Content-Type: application/json
+Token: 63cd9302-9899-48cb-a6f4-f8bf71a3bbf4
+
+{
+  "pageIndex":1,
+  "pageSize":10
+}
+
+<> 2018-12-01T020625.200.json
+
+###

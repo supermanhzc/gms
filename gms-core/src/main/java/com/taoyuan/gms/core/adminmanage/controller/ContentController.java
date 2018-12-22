@@ -116,7 +116,7 @@ public class ContentController implements ContentApi {
     @Override
     @OperControllerLog(module = "合作商家管理", type = "查询合作商家")
     public TyResponse getCooperateBusinesss() {
-        return new TySuccessResponse(cooperateBusinessService.pageMaps(new Page<CooperateBusinessEntity>(1, 10), null));
+        return new TySuccessResponse(cooperateBusinessService.pageMaps(new Page<>(), null));
     }
 
     @Override

@@ -1,0 +1,33 @@
+POST https://localhost:8081/gms/proxy/goldenrecharge/create
+Accept: */*
+Content-Type: application/json
+Token: 0cf43693-269e-489e-8047-c1e312e5ed10
+
+{
+    "pageIndex":1,
+    "pageSize":15,
+    "proxyId":300001,
+    "proxyName":"代理1",
+    "memberId":300003,
+    "memberNickName":"会员1",
+    "amount":500,
+    "status":1,
+    "withDraw":1
+}
+
+<> 2018-11-15T032534.200.json
+<> 2018-11-15T031637.200.json
+<> 2018-11-15T030105.200.json
+<> 2018-11-15T013343.200.json
+<> 2018-11-15T012328.200.json
+<> 2018-11-15T124622.200.json
+<> 2018-11-15T123826.200.json
+<> 2018-11-15T122813.200.json
+<> 2018-11-15T105024.200.json
+<> 2018-11-15T101922.200.json
+<> 2018-11-15T093331.200.json
+<> 2018-11-15T092641.200.json
+<> 2018-11-15T092249.200.json
+
+###
+

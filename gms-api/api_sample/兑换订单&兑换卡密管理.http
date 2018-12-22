@@ -1,0 +1,181 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-12-16T084114.200.json
+<> 2018-12-16T083943.200.json
+<> 2018-12-16T083925.200.json
+<> 2018-11-29T094051.200.json
+<> 2018-11-26T034737.200.json
+
+####参数说明#####
+    //订单号
+    private int orderId;
+    //会员ID，必填
+    private Long memberId;
+    //会员昵称
+    private String memberNickName;
+    //奖品名称，必填
+    private String prizeName;
+    //兑换数量
+    private int exchangeNum;
+    //兑换单价
+    private BigDecimal exchangeSinglePrice;
+    //兑换时间
+    private Date exchangeTime;
+    //状态,1未发货，2已发货，3已取消
+    private int status;
+    //当前处理订单的人
+    private Long processorId;
+    //当前处理订单人名称
+    private String processorName;
+
+###创建订单兑换，参数必填
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/order/create
+Accept: */*
+Content-Type: application/json
+Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
+
+{
+  "prizeName":"10元充值卡",
+  "exchangeNum":15
+}
+
+###查询兑换订单，单个
+GET http://127.0.0.1:8081/gms/prizemgnt/excharge/order/retrieve/id=10000006
+Accept: */*
+Content-Type: application/json
+Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
+
+{
+  "prizeName":"20元充值卡",
+  "exchangeNum":15
+}
+
+###查询兑换订单，批量
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/order/retrieve
+Accept: */*
+Content-Type: application/json
+Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
+
+{
+  "pageIndex":1,
+  "pageSize":15
+}
+
+###查询兑换订单，批量，带条件
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/order/retrieve
+Accept: */*
+Content-Type: application/json
+Token: a02d46e6-2f4b-4fea-b449-1913244ffe4b
+
+{
+  "pageIndex":1,
+  "pageSize":15,
+  "keyword":"11"
+}
+
+<> 2018-12-16T084340.200.json
+<> 2018-12-16T084301.200.json
+<> 2018-12-16T084204.200.json
+<> 2018-12-16T084146.200.json
+<> 2018-12-16T084126.200.json
+<> 2018-12-16T083734.200.json
+<> 2018-12-16T081923.200.json
+<> 2018-12-16T081906.200.json
+<> 2018-12-16T081833.200.json
+<> 2018-12-16T081828.200.json
+<> 2018-12-16T081819.200.json
+
+###兑换订单发货
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/order/sipping
+Accept: */*
+Content-Type: application/json
+Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
+
+{
+  "orderId":10000006
+}
+
+###兑换订单取消
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/order/cancel
+Accept: */*
+Content-Type: application/json
+Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
+
+{
+  "orderId":10000002
+}
+
+###参数说明：卡密兑换
+    //卡id，必填
+    private String cardId;
+    //卡密码，必填
+    private String cardPassword;
+
+
+###创建卡密兑换，参数必填
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/cardpwd/create
+Accept: */*
+Content-Type: application/json
+Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
+
+{
+  "cardId":"10y33640958",
+  "cardPassword":"jYu5jMLg"
+}
+
+###查询兑换卡密，单个
+GET http://127.0.0.1:8081/gms/prizemgnt/excharge/cardpwd/retrieve/id=10000002
+Accept: */*
+Content-Type: application/json
+Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
+
+{
+  "prizeName":"20元充值卡",
+  "exchangeNum":15
+}
+
+###查询兑换卡密，批量
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/cardpwd/retrieve
+Accept: */*
+Content-Type: application/json
+Token: a02d46e6-2f4b-4fea-b449-1913244ffe4b
+
+{
+  "pageIndex":1,
+  "pageSize":15,
+  "keyword":"王五"
+}
+
+<> 2018-12-16T084535.200.json
+<> 2018-12-16T084454.200.json
+<> 2018-12-16T084438.200.json
+
+###兑换卡密冻结
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/cardpwd/freeze
+Accept: */*
+Content-Type: application/json
+Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
+
+{
+  "orderId":10000002
+}
+
+###兑换卡密解冻
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/cardpwd/unfreeze
+Accept: */*
+Content-Type: application/json
+Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
+
+{
+  "orderId":10000002
+}
+
+###

@@ -1,0 +1,163 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-26T034737.200.json
+
+####参数说明#####
+//id主键 Long id;
+//卡名称 String name;
+//面额 double denomination;
+//卡类型 1:充值卡,2:兑换卡,3:会员卡 int cardType;
+//自定义卡头 String cardHead;
+//随机位数 int randomFigure;
+//根据位数生成的随机数 String randomNumStr;
+//卡头和随机数拼接的卡号 String cardId;
+//充值卡使用间隔 int useInterval;
+//充值卡代理可生成1:代理可以生成 0:代理不可生成 int generateByProxy;
+//充值卡金豆 double goldenBean;
+//充值卡经验 double experience;
+//会员卡每日获得金币 double goldCoinEveryDay;
+//会员卡领取时长 long drawDuration;
+//会员卡图标 String icon;
+
+###查询，分页参数pageIndex和pageSize默认必传
+POST http://127.0.0.1:8081/gms/cardmgnt/retrieve
+Accept: */*
+Content-Type: application/json
+Token: 3f458444-84ec-455c-bc6e-645f32600614
+
+{
+    "pageIndex":1,
+    "pageSize":15,
+    "cardType":1,
+    "cardId":"100y16586641"
+}
+
+###查询，分页参数pageIndex和pageSize默认必传
+POST http://127.0.0.1:8081/gms/cardmgnt/retrieve
+Accept: */*
+Content-Type: application/json
+Token: aec0b3f1-8d5f-46e4-8fc0-ca758206696a
+
+{
+    "pageIndex":1,
+    "pageSize":15
+}
+
+<> 2018-11-26T034750.200.json
+<> 2018-11-26T033507.200.json
+<> 2018-11-26T031353.200.json
+<> 2018-11-25T095044.200.json
+
+###创建充值卡 "cardType": 1,
+POST http://127.0.0.1:8081/gms/cardmgnt/create
+Accept: */*
+Content-Type: application/json
+Token: aec0b3f1-8d5f-46e4-8fc0-ca758206696a
+
+{
+    "name": "101元充值卡",
+    "denomination": 101,
+    //充值卡类型为1
+    "cardType": 1,
+    "cardHead": "100y",
+    "randomFigure": 8,
+    "useInterval":100,
+    "goldenBean":1000,
+    "experience":200,
+    "generateByProxy":1
+}
+
+<> 2018-11-26T033554.200.json
+<> 2018-11-26T033516.200.json
+
+###创建兑换卡 "cardType": 2,
+POST http://127.0.0.1:8081/gms/cardmgnt/create
+Accept: */*
+Content-Type: application/json
+Token: c9bd8c43-1a94-45c2-ade8-a46a19e20f21
+
+{
+    "name": "100元兑换卡",
+    "denomination": 100,
+    //充值卡类型为1
+    "cardType": 2,
+    "cardHead": "100y",
+    "randomFigure": 8
+}
+
+<> 2018-11-26T033608.200.json
+
+###创建会员卡 "cardType": 3,
+POST http://127.0.0.1:8081/gms/cardmgnt/create
+Accept: */*
+Content-Type: application/json
+Token: c9bd8c43-1a94-45c2-ade8-a46a19e20f21
+
+{
+    "name": "100元会员卡",
+    "denomination": 100,
+    //充值卡类型为1
+    "cardType": 3,
+    "cardHead": "100y",
+    "randomFigure": 8,
+    "goldCoinEveryDay":666,
+    "drawDuration":6,
+    "icon":"aaa.icon"
+}
+
+<> 2018-11-26T033622.200.json
+
+####更新部分字段，id必填；
+PUT http://127.0.0.1:8081/gms/cardmgnt/update
+Accept: */*
+Content-Type: application/json
+Token: aec0b3f1-8d5f-46e4-8fc0-ca758206696a
+
+{
+//id必填字段，其他非必填
+  "id": 1075012546935496706,
+  "name": "102元会员卡",
+  "denomination": 102.0,
+  "cardType": 1,
+  "cardHead": "102y",
+  "randomFigure": 9,
+  "randomNumStr": "68175648",
+  "cardId": "100y68175648",
+  "useInterval": 0,
+  "generateByProxy": 0,
+  "goldenBean": 0.0,
+  "experience": 0.0,
+  "goldCoinEveryDay": 666.0,
+  "drawDuration": 6,
+  "icon": "aaa.icon",
+  "createUser": 3,
+  "createTime": "2018-11-26 15:36:22",
+  "updateUser": null,
+  "updateTime": null,
+  "memberId": null
+}
+
+<> 2018-11-26T033714.200.json
+<> 2018-11-25T095328.200.json
+
+####删除卡类，/gms/cardmgnt/delete/{id} id必填；
+DELETE http://127.0.0.1:8081/gms/cardmgnt/delete/102y249194065
+Accept: */*
+Content-Type: application/json
+Token: aec0b3f1-8d5f-46e4-8fc0-ca758206696a
+
+
+<> 2018-11-26T034557.200.json
+<> 2018-11-26T034442.200.json
+<> 2018-11-26T034151.200.json
+<> 2018-11-26T033911.200.json
+
+###

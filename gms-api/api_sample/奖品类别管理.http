@@ -1,0 +1,68 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-27T090358.200.json
+<> 2018-11-27T085920.200.json
+<> 2018-11-27T085633.200.json
+<> 2018-11-27T085350.200.json
+<> 2018-11-27T085101.200.json
+
+###参数说明
+//name:必填字段
+
+###查询所有奖品分类信息
+GET http://127.0.0.1:8081/gms/prizemgnt/classify/
+Accept: */*
+Content-Type: application/json
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
+
+<> 2018-11-27T090636.200.json
+
+###根据id查询所有奖品管理信息
+GET http://127.0.0.1:8081/gms/prizemgnt/classify/1067403710776340482
+Accept: */*
+Content-Type: application/json
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
+
+<> 2018-11-27T090435.200.json
+<> 2018-11-27T085708.200.json
+
+###增加奖品分类信息
+POST http://127.0.0.1:8081/gms/prizemgnt/classify/
+Accept: */*
+Content-Type: application/json
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
+
+{
+  "name":"超级奖品"
+}
+
+<> 2018-11-27T090628.200.json
+<> 2018-11-27T090626.200.json
+<> 2018-11-27T085517.404.json
+
+###修改奖品分类信息
+PUT http://127.0.0.1:8081/gms/prizemgnt/classify/id=1074295028591480833&classifyName=超级奖品111
+Accept: */*
+Content-Type: application/json
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
+
+<> 2018-11-27T090547.200.json
+<> 2018-11-27T090455.200.json
+
+###删除奖品管理信息
+DELETE http://127.0.0.1:8081/gms/prizemgnt/classify/1074295028591480833
+Accept: */*
+Content-Type: application/json
+Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
+
+<> 2018-11-27T090610.200.json
+
+###

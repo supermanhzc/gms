@@ -1,0 +1,14 @@
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "username":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-12T082513.200.json
+<> 2018-11-12T075520.200.json
+
+###
+

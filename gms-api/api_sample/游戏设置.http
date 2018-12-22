@@ -1,0 +1,72 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "username":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-27T081507.200.json
+<> 2018-11-27T075310.200.json
+<> 2018-11-27T074956.200.json
+<> 2018-11-27T074115.200.json
+
+
+###参数说明
+    //游戏名称
+    private String gameName;
+    //投注下限
+    private double chipinLower;
+    //投注上限
+    private double chipinUpper;
+    //停止投注时间
+    private int stopChipinTime;
+    //开奖监控值
+    private double drawMonitorValue;
+    //返奖率
+    private double returnRate;
+    //开始游戏，1开启，0关闭
+    private int openGame;
+    //游戏开奖，1开启，0关闭
+    private int drawGame;
+    //计算流水，1开启，0关闭
+    private int computeTurnover;
+    //流水号码数
+    private int turnoverNumCount;
+###
+
+###查询游戏设置
+GET http://127.0.0.1:8081/gms/webmgnt/gamesetting
+Accept: */*
+Content-Type: application/json
+Token: 05134c7a-cdfb-4432-afc2-ca985bac9e5c
+
+<> 2018-11-27T074131.200.json
+
+####修改网站设置，所有字段都非必填
+PUT http://127.0.0.1:8081/gms/webmgnt/gamesetting
+Accept: */*
+Content-Type: application/json
+Token: 1e67c4f2-5b62-4be9-8114-a67881a4ef60
+
+[
+  {
+    //必填字段
+    "gameName": "游戏1",
+    "chipinLower": 10.0,
+    "chipinUpper": 90.0,
+    "stopChipinTime": 6
+  }
+]
+
+<> 2018-11-27T081525.200.json
+<> 2018-11-27T081350.200.json
+<> 2018-11-27T081133.200.json
+<> 2018-11-27T075018.200.json
+
+###
+
+
+

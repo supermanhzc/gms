@@ -1,0 +1,214 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "username":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-26T042627.200.json
+<> 2018-11-25T031621.200.json
+
+###查询排行数
+POST http://127.0.0.1:8081/gms/rewardmgnt/ranking/retrieve
+Accept: */*
+Content-Type: application/json
+Token: aace3660-2c39-40a8-b3e7-eeb7d8a71e95
+
+<> 2018-11-26T042652.200.json
+<> 2018-11-26T042639.200.json
+<> 2018-11-25T031642.200.json
+
+####修改排行数
+PUT http://127.0.0.1:8081/gms/rewardmgnt/ranking/update
+Accept: */*
+Content-Type: application/json
+Token: aace3660-2c39-40a8-b3e7-eeb7d8a71e95
+
+{
+    //必填
+    "rankingCount": 8
+}
+
+<> 2018-11-26T042649.200.json
+<> 2018-11-25T031632.200.json
+
+
+####查询所有排行奖励
+POST http://127.0.0.1:8081/gms/rewardmgnt/charts/retrieve
+Accept: */*
+Content-Type: application/json
+Token: aace3660-2c39-40a8-b3e7-eeb7d8a71e95
+
+{
+
+}
+
+<> 2018-11-26T042701.200.json
+<> 2018-11-25T032824.200.json
+
+###修改奖励
+PUT http://127.0.0.1:8081/gms/rewardmgnt/charts/update
+Accept: */*
+Content-Type: application/json
+Token: aace3660-2c39-40a8-b3e7-eeb7d8a71e95
+
+[
+  {
+    //必填
+    "ranking":1,
+    //必填
+    "chart":18005
+  },
+  {
+    "ranking":2,
+    "chart":9005
+  },
+  {
+    "ranking":3,
+    "chart":8000
+  },
+  {
+    "ranking":4,
+    "chart":7000
+  },
+  {
+    "ranking":5,
+    "chart":6000
+  },
+  {
+    "ranking":6,
+    "chart":5000
+  },
+  {
+    "ranking":7,
+    "chart":4000
+  },
+  {
+    "ranking":8,
+    "chart":3000
+  },
+  {
+    "ranking":9,
+    "chart":2000
+  },
+  {
+    "ranking":10,
+    "chart":1000
+  }
+]
+
+<> 2018-11-26T042727.200.json
+<> 2018-11-25T013623.200.json
+
+###查询虚拟排行数
+POST http://127.0.0.1:8081/gms/rewardmgnt/vranking/retrieve
+Accept: */*
+Content-Type: application/json
+Token: aace3660-2c39-40a8-b3e7-eeb7d8a71e95
+
+<> 2018-11-26T042920.200.json
+<> 2018-11-25T031642.200.json
+
+####修改排行数
+PUT http://127.0.0.1:8081/gms/rewardmgnt/vranking/update
+Accept: */*
+Content-Type: application/json
+Token: aace3660-2c39-40a8-b3e7-eeb7d8a71e95
+
+{
+    //必填
+    "rankingCount": 10,
+    //必填
+    "baseChart":180010
+}
+
+<> 2018-11-26T042934.200.json
+<> 2018-11-25T031632.200.json
+
+
+####查询奖励,所有
+POST http://127.0.0.1:8081/gms/rewardmgnt/vcharts/retrieve
+Accept: */*
+Content-Type: application/json
+Token: aace3660-2c39-40a8-b3e7-eeb7d8a71e95
+
+{
+
+}
+
+<> 2018-11-26T042959.200.json
+<> 2018-11-25T032824.200.json
+
+####查询奖励前5
+POST http://127.0.0.1:8081/gms/rewardmgnt/vcharts/retrieve
+Accept: */*
+Content-Type: application/json
+Token: aace3660-2c39-40a8-b3e7-eeb7d8a71e95
+
+{
+    //必填
+    "count":5
+}
+
+<> 2018-11-26T043009.200.json
+<> 2018-11-25T032824.200.json
+
+###修改奖励
+PUT http://127.0.0.1:8081/gms/rewardmgnt/vcharts/update
+Accept: */*
+Content-Type: application/json
+Token: aace3660-2c39-40a8-b3e7-eeb7d8a71e95
+
+[
+  {
+    //必填
+    "ranking":1,
+    //必填
+    "chart":31
+  },
+  {
+    "ranking":2,
+    "chart":21
+  },
+  {
+    "ranking":3,
+    "chart":10
+  },
+  {
+    "ranking":4,
+    "chart":9
+  },
+  {
+    "ranking":5,
+    "chart":8
+  },
+  {
+    "ranking":6,
+    "chart":7
+  },
+  {
+    "ranking":7,
+    "chart":6
+  },
+  {
+    "ranking":8,
+    "chart":5
+  },
+  {
+    "ranking":9,
+    "chart":4
+  },
+  {
+    "ranking":10,
+    "chart":3
+  }
+]
+
+<> 2018-11-26T043024.200.json
+<> 2018-11-25T013623.200.json
+
+###
+

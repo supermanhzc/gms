@@ -1,0 +1,109 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-27T095536.200.json
+<> 2018-11-27T095317.200.json
+<> 2018-11-27T094722.200.json
+
+###参数说明
+    //奖品名称,必填
+    private String name;
+    //奖品类目,从创建的类目中选择一个,必填
+    private String classify;
+    //自动发货 1:是，0:否,必填
+    private int autoDispatch;
+    //卡密类型 1:10元充值卡，2:20元充值卡，3:30元充值卡，4:红钻会员卡,必填
+    private int cardType;
+    //基准价格,必填
+    private BigDecimal basicPrice;
+    //库存,必填
+    private int stock;
+    //图片,必填
+    private String icon;
+    //已兑出
+    private int converted;
+    //详情,必填
+    private String details;
+
+###查询所有奖品信息
+GET http://127.0.0.1:8081/gms/prizemgnt/prize/
+Accept: */*
+Content-Type: application/json
+Token: 9813b049-07b9-4d03-bd7e-c277d6992d83
+
+<> 2018-11-27T095610.200.json
+<> 2018-11-27T095328.200.json
+
+###根据id查询所有奖品管理信息
+GET http://127.0.0.1:8081/gms/prizemgnt/prize/1073957434508185600
+Accept: */*
+Content-Type: application/json
+Token: 9813b049-07b9-4d03-bd7e-c277d6992d83
+
+<> 2018-11-27T095616.200.json
+<> 2018-11-27T095337.200.json
+
+###增加奖品信息
+POST http://127.0.0.1:8081/gms/prizemgnt/prize/
+Accept: */*
+Content-Type: application/json
+Token: 9813b049-07b9-4d03-bd7e-c277d6992d83
+
+{
+  "name":"90元充值卡",
+  "classify":"90元充值卡",
+  "autoDispatch":0,
+  "cardType":1,
+  "basicPrice":2000,
+  "stock":100,
+  "icon":"card.icon",
+  "details":"这里是奖品的详细描述信息"
+}
+
+<> 2018-11-27T095622.200.json
+<> 2018-11-27T095343.200.json
+<> 2018-11-27T094944.200.json
+<> 2018-11-27T094922.200.json
+<> 2018-11-27T090628.200.json
+<> 2018-11-27T090626.200.json
+<> 2018-11-27T085517.404.json
+
+###修改奖品信息
+PUT http://127.0.0.1:8081/gms/prizemgnt/prize/
+Accept: */*
+Content-Type: application/json
+Token: 87f16b79-4d77-4217-b9b1-8a5c60efbece
+
+{
+  //id必填
+  "id":1067415177256792066,
+  "name":"30元充值卡",
+  "classify":"30元充值卡",
+  "autoDispatch":0,
+  "cardType":3
+}
+
+<> 2018-11-27T095657.200.json
+<> 2018-11-27T095421.200.json
+<> 2018-11-27T095401.404.json
+<> 2018-11-27T090547.200.json
+<> 2018-11-27T090455.200.json
+
+###删除奖品信息
+DELETE http://127.0.0.1:8081/gms/prizemgnt/prize/1067415085120516098
+Accept: */*
+Content-Type: application/json
+Token: 87f16b79-4d77-4217-b9b1-8a5c60efbece
+
+<> 2018-11-27T095714.200.json
+<> 2018-11-27T095514.200.json
+<> 2018-11-27T090610.200.json
+
+###

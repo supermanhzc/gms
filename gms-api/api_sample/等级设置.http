@@ -1,0 +1,75 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "username":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-11-25T102100.200.json
+<> 2018-11-25T101811.200.json
+<> 2018-11-25T101611.200.json
+<> 2018-11-25T095804.200.json
+
+###查询
+POST http://127.0.0.1:8081/gms/levelmgnt/retrieve
+Accept: */*
+Content-Type: application/json
+Token: b8dbb38d-d6b1-49b3-9363-bd69b8c22326
+
+{   "pageIndex":1,   "pageSize":15}
+
+<> 2018-11-25T101852.200.json
+<> 2018-11-25T101622.200.json
+<> 2018-11-25T095824.200.json
+<> 2018-11-25T095044.200.json
+
+####更新部分字段，name必填，其它可选
+PUT http://127.0.0.1:8081/gms/levelmgnt/update
+Accept: */*
+Content-Type: application/json
+Token: b8dbb38d-d6b1-49b3-9363-bd69b8c22326
+
+[
+  {
+    "cashPrizeDiscount": 1011,
+    "name": "vip0",
+    "drawTimes": 16,
+    "experience": 10001
+  }
+]
+
+
+
+<> 2018-11-25T101747.200.json
+<> 2018-11-25T101641.200.json
+<> 2018-11-25T100000.200.json
+<> 2018-11-25T095840.200.json
+<> 2018-11-25T095328.200.json
+
+####更新全部字段
+PUT http://127.0.0.1:8081/gms/levelmgnt/update
+Accept: */*
+Content-Type: application/json
+Token: 1d1b0c39-9321-481e-82e0-40b00f577c55
+
+[
+  {
+    "name": "vip7",
+    "cashPrizeDiscount": 105,
+    "drawCondition": 102,
+    "relieveGoldenCoin": 53,
+    "rechargeCommission": 8,
+    "drawTimes": 10,
+    "experience": 8000
+  }
+]
+
+<> 2018-11-25T102138.200.json
+<> 2018-11-25T102123.200.json
+<> 2018-11-25T101950.200.json
+
+###
+

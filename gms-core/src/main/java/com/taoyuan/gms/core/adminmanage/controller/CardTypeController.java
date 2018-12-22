@@ -45,6 +45,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
     @Override
     @OperControllerLog(module = "卡类管理", type = "根据卡类型和卡号查询卡类")
     public TyResponse retrieve(@RequestBody CardTypeRequest request) {
+        log.info("input is {}",request);
         Page page = getPage(request);
 
         QueryWrapper<CardTypeEntity> wrapper = new QueryWrapper<CardTypeEntity>();
@@ -52,11 +53,11 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
             wrapper.lambda().eq(CardTypeEntity::getCardType, request.getCardType());
         }
 
-        if (StringUtils.isEmpty(request.getCardId())) {
+        if (!StringUtils.isEmpty(request.getCardId())) {
             wrapper.lambda().eq(CardTypeEntity::getCardId, request.getCardId());
         }
 
-        return new TySuccessResponse(cardTypeMapper.selectMapsPage(page, wrapper));
+        return new TySuccessResponse(service.pageMaps(page, wrapper));
     }
 
     @Override

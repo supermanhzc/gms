@@ -1,0 +1,118 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-12-03T110839.200.json
+<> 2018-12-03T110544.200.json
+<> 2018-12-03T110212.200.json
+<> 2018-12-03T105856.200.json
+<> 2018-12-03T105341.200.json
+<> 2018-12-03T104952.200.json
+<> 2018-12-03T104830.200.json
+
+
+####参数说明#####
+//代理ID
+//private Long proxyId;
+//代理名称
+//private String proxyName;
+//会员ID
+//private Long memberId;
+//昵称
+//private String memberNickName;
+//金额
+//private double amount;
+
+###代充金币
+POST http://127.0.0.1:8081/gms/proxy/goldenrecharge/create
+Accept: */*
+Content-Type: application/json
+Token: f52401cd-f63e-456c-a90e-62c8e18ce4c0
+
+{
+    //金额，必填
+    "amount":1002,
+    //必填
+    "memberId":3,
+    //昵称，非必填
+    "memberNickName":"昵称"
+}
+
+<> 2018-12-03T110851.200.json
+<> 2018-12-03T110557.200.json
+<> 2018-12-03T110223.200.json
+<> 2018-12-03T105909.200.json
+<> 2018-12-03T105351.200.json
+<> 2018-12-03T105004.200.json
+<> 2018-12-03T104842.200.json
+<> 2018-11-27T023625.200.json
+<> 2018-11-27T023617.200.json
+<> 2018-11-27T021205.200.json
+<> 2018-11-27T021155.200.json
+<> 2018-11-27T020925.200.json
+<> 2018-11-27T020547.200.json
+<> 2018-11-25T095044.200.json
+
+###查询最近5条记录
+GET http://127.0.0.1:8081/gms/proxy/goldenrecharge/get5
+Accept: */*
+Content-Type: application/json
+Token: f52401cd-f63e-456c-a90e-62c8e18ce4c0
+
+<> 2018-12-03T110904.200.json
+<> 2018-12-02T120612.200.json
+<> 2018-11-27T020556.200.json
+<> 2018-11-26T033516.200.json
+
+###撤销
+POST http://127.0.0.1:8081/gms/proxy/goldenrecharge/withdraw
+Accept: */*
+Content-Type: application/json
+Token: f52401cd-f63e-456c-a90e-62c8e18ce4c0
+
+{
+    //id必填
+    "id": 1069605638918742017
+}
+
+<> 2018-12-03T110922.200.json
+<> 2018-11-27T020610.200.json
+
+###
+###撤销校验，不能撤销对象报错
+POST http://127.0.0.1:8081/gms/proxy/goldenrecharge/withdraw
+Accept: */*
+Content-Type: application/json
+Token: f52401cd-f63e-456c-a90e-62c8e18ce4c0
+
+{
+    //id必填
+    "id": 1062941694464471041
+}
+
+<> 2018-12-03T111058.200.json
+<> 2018-11-27T020719.200.json
+
+###查询代理代充记录
+POST http://127.0.0.1:8081/gms/proxy/goldenrecharge/records
+Accept: */*
+Content-Type: application/json
+Token: f52401cd-f63e-456c-a90e-62c8e18ce4c0
+
+{
+  "pageIndex":1,
+  "pageSize":10
+}
+
+<> 2018-12-03T111106.200.json
+<> 2018-12-02T120638.200.json
+<> 2018-12-01T021638.200.json
+<> 2018-12-01T021539.404.json
+
+###

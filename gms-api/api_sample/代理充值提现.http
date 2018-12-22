@@ -1,0 +1,62 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+<> 2018-12-02T122347.200.json
+<> 2018-12-02T121139.200.json
+<> 2018-11-28T090408.200.json
+
+
+####查询充值提现信息，分页
+POST http://127.0.0.1:8081/gms/proxy/rechargewithdraw/retrieve
+Accept: */*
+Content-Type: application/json
+Token: 7bf3b898-bc99-491e-a704-c5d5979330ff
+
+{
+  //分页查询，分页参数必填
+  "pageIndex":1,
+  "pageSize":15
+}
+
+###充值或者提现
+POST http://127.0.0.1:8081/gms/proxy/rechargewithdraw/create
+Accept: */*
+Content-Type: application/json
+Token: 7bf3b898-bc99-491e-a704-c5d5979330ff
+
+{
+  //类型，1充值，2提现，必填
+  "type":1,
+  //金额，必填
+  "money":1000
+}
+
+###取消
+POST http://127.0.0.1:8081/gms/proxy/rechargewithdraw/cancel
+Accept: */*
+Content-Type: application/json
+Token: 7bf3b898-bc99-491e-a704-c5d5979330ff
+
+{
+    "id":1074294542563921922
+}
+
+###处理
+POST http://127.0.0.1:8081/gms/proxy/rechargewithdraw/process
+Accept: */*
+Content-Type: application/json
+Token: 7bf3b898-bc99-491e-a704-c5d5979330ff
+
+{
+  "id":1074294542563921922
+}
+
+
+###

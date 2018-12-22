@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/prizemgnt/excharge")
 public interface ExchargeApi {
     /**
-     * 查询所有兑奖订单信息
+     * 创建兑奖订单
      *
      * @return
      */
