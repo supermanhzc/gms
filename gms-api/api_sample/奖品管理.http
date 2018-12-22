@@ -4,7 +4,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-  "username":"hzc",
+  "userName":"hzc",
   "password":"hzcsb"
 }
 
@@ -36,16 +36,16 @@ Content-Type: application/json
 GET http://127.0.0.1:8081/gms/prizemgnt/prize/
 Accept: */*
 Content-Type: application/json
-Token: 87f16b79-4d77-4217-b9b1-8a5c60efbece
+Token: 9813b049-07b9-4d03-bd7e-c277d6992d83
 
 <> 2018-11-27T095610.200.json
 <> 2018-11-27T095328.200.json
 
 ###根据id查询所有奖品管理信息
-GET http://127.0.0.1:8081/gms/prizemgnt/prize/1067415177256792066
+GET http://127.0.0.1:8081/gms/prizemgnt/prize/1073957434508185600
 Accept: */*
 Content-Type: application/json
-Token: 87f16b79-4d77-4217-b9b1-8a5c60efbece
+Token: 9813b049-07b9-4d03-bd7e-c277d6992d83
 
 <> 2018-11-27T095616.200.json
 <> 2018-11-27T095337.200.json
@@ -54,11 +54,11 @@ Token: 87f16b79-4d77-4217-b9b1-8a5c60efbece
 POST http://127.0.0.1:8081/gms/prizemgnt/prize/
 Accept: */*
 Content-Type: application/json
-Token: 87f16b79-4d77-4217-b9b1-8a5c60efbece
+Token: 9813b049-07b9-4d03-bd7e-c277d6992d83
 
 {
-  "name":"20元充值卡",
-  "classify":"20元充值卡",
+  "name":"90元充值卡",
+  "classify":"90元充值卡",
   "autoDispatch":0,
   "cardType":1,
   "basicPrice":2000,

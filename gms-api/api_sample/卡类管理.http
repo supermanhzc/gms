@@ -39,7 +39,20 @@ Token: b4bf9275-0bf0-4ff7-84ee-0100e6cf8611
 POST http://127.0.0.1:8081/gms/cardmgnt/retrieve
 Accept: */*
 Content-Type: application/json
-Token: b4bf9275-0bf0-4ff7-84ee-0100e6cf8611
+Token: 3f458444-84ec-455c-bc6e-645f32600614
+
+{
+    "pageIndex":1,
+    "pageSize":15,
+    "cardType":1,
+    "cardId":"100y16586641"
+}
+
+###查询，分页参数pageIndex和pageSize默认必传
+POST http://127.0.0.1:8081/gms/cardmgnt/retrieve
+Accept: */*
+Content-Type: application/json
+Token: aec0b3f1-8d5f-46e4-8fc0-ca758206696a
 
 {   "pageIndex":1,   "pageSize":15}
 
@@ -52,14 +65,14 @@ Token: b4bf9275-0bf0-4ff7-84ee-0100e6cf8611
 POST http://127.0.0.1:8081/gms/cardmgnt/create
 Accept: */*
 Content-Type: application/json
-Token: b4bf9275-0bf0-4ff7-84ee-0100e6cf8611
+Token: c9bd8c43-1a94-45c2-ade8-a46a19e20f21
 
 {
-    "name": "1005元充值卡",
-    "denomination": 1005,
+    "name": "100元充值卡",
+    "denomination": 100,
     //充值卡类型为1
     "cardType": 1,
-    "cardHead": "1005y",
+    "cardHead": "100y",
     "randomFigure": 8,
     "useInterval":100,
     "goldenBean":1000,
