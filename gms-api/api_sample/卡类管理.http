@@ -4,7 +4,7 @@ Accept: */*
 Content-Type: application/json
 
 {
-  "username":"hzc",
+  "userName":"hzc",
   "password":"hzcsb"
 }
 
@@ -27,11 +27,19 @@ Content-Type: application/json
 //会员卡领取时长 long drawDuration;
 //会员卡图标 String icon;
 
+###查询，根据id查询
+#GET http://127.0.0.1:8081/gms/cardmgnt/retrieve/id=1073904237164892162
+GET https://www.1016.cc:8443/gms/cardmgnt/retrieve/id=1076340145171042306
+Accept: */*
+Content-Type: application/json
+Token: b4bf9275-0bf0-4ff7-84ee-0100e6cf8611
+
+
 ###查询，分页参数pageIndex和pageSize默认必传
 POST http://127.0.0.1:8081/gms/cardmgnt/retrieve
 Accept: */*
 Content-Type: application/json
-Token: fcaafa21-d7c0-471b-8ba1-e1fbd8cdb6d8
+Token: b4bf9275-0bf0-4ff7-84ee-0100e6cf8611
 
 {   "pageIndex":1,   "pageSize":15}
 
@@ -44,14 +52,14 @@ Token: fcaafa21-d7c0-471b-8ba1-e1fbd8cdb6d8
 POST http://127.0.0.1:8081/gms/cardmgnt/create
 Accept: */*
 Content-Type: application/json
-Token: c9bd8c43-1a94-45c2-ade8-a46a19e20f21
+Token: b4bf9275-0bf0-4ff7-84ee-0100e6cf8611
 
 {
-    "name": "100元充值卡",
-    "denomination": 100,
+    "name": "1005元充值卡",
+    "denomination": 1005,
     //充值卡类型为1
     "cardType": 1,
-    "cardHead": "100y",
+    "cardHead": "1005y",
     "randomFigure": 8,
     "useInterval":100,
     "goldenBean":1000,

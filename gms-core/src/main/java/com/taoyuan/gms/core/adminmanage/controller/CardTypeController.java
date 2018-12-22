@@ -52,7 +52,7 @@ public class CardTypeController extends BaseGmsController implements CardTypeApi
             wrapper.lambda().eq(CardTypeEntity::getCardType, request.getCardType());
         }
 
-        if (StringUtils.isEmpty(request.getCardId())) {
+        if (!StringUtils.isEmpty(request.getCardId())) {
             wrapper.lambda().eq(CardTypeEntity::getCardId, request.getCardId());
         }
 
