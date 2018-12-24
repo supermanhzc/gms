@@ -32,7 +32,7 @@ Content-Type: application/json
 GET http://127.0.0.1:8081/gms/proxy/cardpwd/getLatest10
 Accept: */*
 Content-Type: application/json
-Token: c2c2d5c4-d732-4573-967b-81013ba918a8
+Token: 3207c999-dba2-4615-b07a-8860775be914
 
 <> 2018-12-01T073212.200.json
 <> 2018-11-28T021937.200.json
@@ -85,18 +85,18 @@ Token: 81632592-cd33-4c83-ab2b-8863b859fde4
 POST http://127.0.0.1:8081/gms/proxy/cardpwd/withdraw
 Accept: */*
 Content-Type: application/json
-Token: e5c331fa-7e11-418d-81f8-797bb3e1003b
+Token: 3207c999-dba2-4615-b07a-8860775be914
 
 [
     {
         //卡号密码都正确，未回收
-        "cardId": "20y91664751",
-        "password": "AnWuGwMB"
+        "cardId": "10y33640958",
+        "password": "jYu5jMLg"
     },
     {
         //卡号密码都正确，未回收
-        "cardId": "20y16881458",
-        "password": "IGOhQMj1"
+        "cardId": "10y97397088",
+        "password": "QeS7b2DB"
     },
     {
         //卡号密码都正确，未回收
