@@ -17,7 +17,7 @@ Content-Type: application/json
 POST http://127.0.0.1:8081/gms/proxy/rechargewithdraw/retrieve
 Accept: */*
 Content-Type: application/json
-Token: 7bf3b898-bc99-491e-a704-c5d5979330ff
+Token: bc252216-623a-4577-970b-d244723b2d3f
 
 {
   //分页查询，分页参数必填
@@ -29,33 +29,33 @@ Token: 7bf3b898-bc99-491e-a704-c5d5979330ff
 POST http://127.0.0.1:8081/gms/proxy/rechargewithdraw/create
 Accept: */*
 Content-Type: application/json
-Token: 7bf3b898-bc99-491e-a704-c5d5979330ff
+Token: bc252216-623a-4577-970b-d244723b2d3f
 
 {
   //类型，1充值，2提现，必填
   "type":1,
   //金额，必填
-  "money":1000
+  "money":10000
 }
 
 ###取消
 POST http://127.0.0.1:8081/gms/proxy/rechargewithdraw/cancel
 Accept: */*
 Content-Type: application/json
-Token: 7bf3b898-bc99-491e-a704-c5d5979330ff
+Token: bc252216-623a-4577-970b-d244723b2d3f
 
 {
-    "id":1074294542563921922
+    "id":1077569612321234945
 }
 
 ###处理
 POST http://127.0.0.1:8081/gms/proxy/rechargewithdraw/process
 Accept: */*
 Content-Type: application/json
-Token: 7bf3b898-bc99-491e-a704-c5d5979330ff
+Token: bc252216-623a-4577-970b-d244723b2d3f
 
 {
-  "id":1074294542563921922
+  "id":1077569612321234945
 }
 
 

@@ -119,6 +119,21 @@ token: 0ddc3d24-fa6e-4d0f-88d6-0b7ec889f1ea
 }
 
 ###
+# 查询所有会员
+POST http://localhost:8081/gms/users/get
+Accept: */*
+Content-Type: application/json
+token: b4bf9275-0bf0-4ff7-84ee-0100e6cf8611
+
+{
+    "pageIndex":1,
+    "pageSize":20
+#   "queryKey":"17",
+//    "types":
+//    [0]
+}
+
+###
 # 删除会员
 POST http://localhost:8081/gms/users/delete/17
 Accept: */*

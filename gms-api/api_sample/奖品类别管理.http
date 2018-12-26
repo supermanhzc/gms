@@ -21,7 +21,7 @@ Content-Type: application/json
 GET http://127.0.0.1:8081/gms/prizemgnt/classify/
 Accept: */*
 Content-Type: application/json
-Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
+Token: c411f070-4b55-43fd-b9e5-436ad2cf1cd3
 
 <> 2018-11-27T090636.200.json
 
@@ -38,10 +38,10 @@ Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
 POST http://127.0.0.1:8081/gms/prizemgnt/classify/
 Accept: */*
 Content-Type: application/json
-Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
+Token: c411f070-4b55-43fd-b9e5-436ad2cf1cd3
 
 {
-  "name":"超级奖品"
+  "name":"超级奖品11"
 }
 
 <> 2018-11-27T090628.200.json
@@ -49,19 +49,19 @@ Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
 <> 2018-11-27T085517.404.json
 
 ###修改奖品分类信息
-PUT http://127.0.0.1:8081/gms/prizemgnt/classify/id=1074295028591480833&classifyName=超级奖品111
+PUT http://127.0.0.1:8081/gms/prizemgnt/classify/id=1077213658480189441&classifyName=超级奖品222
 Accept: */*
 Content-Type: application/json
-Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
+Token: c411f070-4b55-43fd-b9e5-436ad2cf1cd3
 
 <> 2018-11-27T090547.200.json
 <> 2018-11-27T090455.200.json
 
 ###删除奖品管理信息
-DELETE http://127.0.0.1:8081/gms/prizemgnt/classify/1074295028591480833
+DELETE http://127.0.0.1:8081/gms/prizemgnt/classify/1077213658480189441
 Accept: */*
 Content-Type: application/json
-Token: 00dfff31-6e9a-41c5-95b4-78c90231893a
+Token: c411f070-4b55-43fd-b9e5-436ad2cf1cd3
 
 <> 2018-11-27T090610.200.json
 

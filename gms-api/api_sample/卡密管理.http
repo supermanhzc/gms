@@ -87,10 +87,11 @@ Token: 2c9fcc33-11d4-4486-9bb0-32fcc124723a
 POST http://127.0.0.1:8081/gms/cardpwdmgnt/withdraw
 Accept: */*
 Content-Type: application/json
-Token: 81632592-cd33-4c83-ab2b-8863b859fde4
+Token: b4bf9275-0bf0-4ff7-84ee-0100e6cf8611
 
 {
-  "cardId": "10y78485067"
+  "cardId": "10y34013723",
+  "password":"GTINTYsf"
 }
 
 ###批量撤销，此接口供代理调用
