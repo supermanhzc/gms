@@ -1,0 +1,17 @@
+package com.taoyuan.gms.common.consts;
+
+public interface OperLogKeyConsts {
+    String GMS_DELETE_USERS_KEY = "GMS_DELETE_USER";
+
+    String GMS_CREATE_USER_KEY = "GMS_CREATE_USER";
+    String GMS_UPDATE_USER_KEY = "GMS_UPDATE_USER";
+    String GMS_QUERY_USERS_KEY = "GMS_QUERY_USERS";
+
+    String GMS_CREATE_ADMIN_KEY = "GMS_CREATE_ADMIN";
+    String GMS_UPDATE_ADMIN_KEY = "GMS_UPDATE_ADMIN";
+    String GMS_QUERY_ADMINS_KEY = "GMS_QUERY_ADMINS";
+
+    String GMS_CREATE_PROXY_KEY = "GMS_CREATE_PROXY";
+    String GMS_UPDATE_PROXY_KEY = "GMS_UPDATE_PROXY";
+    String GMS_QUERY_PROXYS_KEY = "GMS_QUERY_PROXYS";
+}

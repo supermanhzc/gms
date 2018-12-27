@@ -15,13 +15,19 @@
           gu.bank,
           gu.experience,
           tyu.status,
-          tyu.type
+          tyu.type,
+          max(tol.start_time) as lastLoginTime
         FROM
           ty_user tyu
         LEFT JOIN
           gms_user gu
         ON
           tyu.id = gu.id
+		LEFT JOIN
+            ty_oper_log tol
+        on tol.log_key = '${@com.taoyuan.framework.common.constant.TyOperLogKeyConsts@TY_LOGIN_KEY}' AND
+             tol.resp_code = '${@com.taoyuan.framework.common.constant.ResultCode@SUCCESS.getCode()}' AND
+             json_extract(tol.request, '$.body[0].userName') = tyu.username
         WHERE
           tyu.status != ${@com.taoyuan.framework.common.constant.UserConsts@DELETED.ordinal()} AND
           tyu.type in (${@com.taoyuan.gms.common.consts.UserTypeConsts@NORMALUSER}, ${@com.taoyuan.gms.common.consts.UserTypeConsts@SYSTEMUSER})
@@ -34,13 +40,19 @@
             tyu.phone,
             gu.balance,
             gu.distrib_money as distribMoney,
-            tyu.status
+            tyu.status,
+            max(tol.start_time) as lastLoginTime
         FROM
           ty_user tyu
         LEFT JOIN
           gms_user gu
         ON
           tyu.id = gu.id
+		LEFT JOIN
+            ty_oper_log tol
+        on tol.log_key = '${@com.taoyuan.framework.common.constant.TyOperLogKeyConsts@TY_LOGIN_KEY}' AND
+             tol.resp_code = '${@com.taoyuan.framework.common.constant.ResultCode@SUCCESS.getCode()}' AND
+             json_extract(tol.request, '$.body[0].userName') = tyu.username
         WHERE
             tyu.status != ${@com.taoyuan.framework.common.constant.UserConsts@DELETED.ordinal()} AND
             tyu.type = ${@com.taoyuan.gms.common.consts.UserTypeConsts@PROXY}
@@ -64,10 +76,12 @@
                 #{type}
             </foreach>
         </if>
+        GROUP by tyu.id
     </select>
 
     <select id="queryProxy" resultType="java.util.Map">
         <include refid="selectProxy" />
+        GROUP by tyu.id
     </select>
 
     <select id="queryAdmin" resultType="java.util.Map">
@@ -75,10 +89,17 @@
           tyu.id,
           tyu.username,
           tyu.name,
-          tyu.phone
+          tyu.phone,
+          max(tol.start_time) as lastLoginTime
         FROM
           ty_user tyu
+		LEFT JOIN
+            ty_oper_log tol
+        on tol.log_key = '${@com.taoyuan.framework.common.constant.TyOperLogKeyConsts@TY_LOGIN_KEY}' AND
+             tol.resp_code = '${@com.taoyuan.framework.common.constant.ResultCode@SUCCESS.getCode()}' AND
+             json_extract(tol.request, '$.body[0].userName') = tyu.username
         WHERE
           tyu.status != ${@com.taoyuan.framework.common.constant.UserConsts@DELETED.ordinal()}
+        GROUP by tyu.id
     </select>
 </mapper>
