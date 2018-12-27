@@ -17,6 +17,11 @@
     <dependencies>
         <dependency>
             <groupId>com.taoyuan.gms</groupId>
+            <artifactId>gms-job</artifactId>
+            <version>${gms-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.taoyuan.gms</groupId>
             <artifactId>gms-core</artifactId>
             <version>${gms-version}</version>
         </dependency>

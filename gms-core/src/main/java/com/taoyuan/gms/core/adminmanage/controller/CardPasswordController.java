@@ -154,7 +154,9 @@ public class CardPasswordController extends BaseGmsController
         service.saveOrUpdate(entity);
         
         // 回收后给用户增加对应金额
-        updateBalance(Long.valueOf(entity.getRechargeId()), entity.getMoney());
+        if(null != entity.getRechargeId()) {
+            updateBalance(Long.valueOf(entity.getRechargeId()), entity.getMoney());
+        }
         return new TySuccessResponse(cardId);
     }
     

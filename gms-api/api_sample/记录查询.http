@@ -97,6 +97,18 @@ Token: 37688902-8fc0-467f-8f56-6ba9a454459d
 <> 2018-11-26T095337.404.json
 <> 2018-11-12T075520.200.json
 
+###会员登录查询
+POST http://localhost:8081/gms/records/memberlogin
+Content-Type: application/json
+Token: c411f070-4b55-43fd-b9e5-436ad2cf1cd3
+
+{
+  //必填
+  "pageIndex":1,
+  //必填
+  "pageSize":10
+}
+
 ###亏损返利查询
 GET http://localhost:8081/gms/records/lossrabate/page/index=1&size=10
 Content-Type: application/json

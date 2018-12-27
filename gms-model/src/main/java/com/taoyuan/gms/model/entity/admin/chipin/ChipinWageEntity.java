@@ -28,6 +28,6 @@ public class ChipinWageEntity {
     //日期
     private Date date;
 
-    //状态
+    //状态，1已领取，2未领取
     private int status;
 }
