@@ -89,4 +89,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public IPage queryAdmins(IPage page) {
         return page.setRecords(baseMapper.queryAdmin(page));
     }
+
+    @Override
+    public List<TyUser> queryAllProxys() {
+        QueryWrapper<TyUser> wrapper = new QueryWrapper<TyUser>();
+        wrapper.lambda().eq(TyUser::getType,2);
+        return tyUserService.list(wrapper);
+    }
 }
