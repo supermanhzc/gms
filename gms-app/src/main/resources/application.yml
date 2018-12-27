@@ -19,7 +19,7 @@ spring:
     name: gms
   
   datasource:
-    url: jdbc:mysql://xsk88.com:3306/gms?characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://xsk88.com:3306/gms?useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: gmsdev
     password: Gmsdev@)18
     driverClassName: com.mysql.jdbc.Driver

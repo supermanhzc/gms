@@ -3,6 +3,7 @@ package com.taoyuan.gms.api.proxy;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.taoyuan.framework.common.entity.TyPageEntity;
 import com.taoyuan.framework.common.http.TyResponse;
+import com.taoyuan.gms.model.dto.BaseKeywordPageRequest;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
 import io.swagger.annotations.Api;
@@ -37,17 +38,17 @@ public interface CardPwdWithdrawApi {
     /**
      * 分页查询代理回收记录
      *
-     * @param pageEntity
+     * @param request
      * @return
      */
     @RequestMapping(value = "/retrieve", method = RequestMethod.POST)
-    public TyResponse retrieve(@RequestBody TyPageEntity pageEntity);
+    public TyResponse retrieve(@RequestBody BaseKeywordPageRequest request);
 
     /**
      * 代理卡密记录查询
-     * @param pageEntity
+     * @param request
      * @return
      */
     @RequestMapping(value = "/records", method = RequestMethod.POST)
-    public TyResponse records(@RequestBody TyPageEntity pageEntity);
+    public TyResponse records(@RequestBody BaseKeywordPageRequest request);
 }
