@@ -3,6 +3,7 @@ package com.taoyuan.gms.core.proxymanage.controller;
 import com.taoyuan.gms.core.adminmanage.controller.BaseGmsController;
 import com.taoyuan.gms.core.proxymanage.service.IProxyOperService;
 import com.taoyuan.gms.model.entity.proxy.ProxyOperEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @RestController
+@Slf4j
 public class BaseGmsProxyController extends BaseGmsController {
 
     @Autowired
@@ -27,9 +29,9 @@ public class BaseGmsProxyController extends BaseGmsController {
         Long proxyId = getCurrentUserId();
         String proxyName = getCurrentUserName();
         ProxyOperEntity operation = new ProxyOperEntity();
-        BigDecimal moneyChanged = null;
-        BigDecimal account = null;
-        String description = null;
+        BigDecimal moneyChanged = BigDecimal.ZERO;
+        BigDecimal account = BigDecimal.ZERO;
+        String description = "";
         //类型：1代充，2充值，3提现，4登录，5回收, 6互转, 7创建卡密
         operation.setType(type);
         if (1 == type) {
@@ -77,6 +79,12 @@ public class BaseGmsProxyController extends BaseGmsController {
             if (StringUtils.isEmpty(desp)) {
                 description = "互转" + money;
             }
+        } else if (7 == type) {
+            moneyChanged = BigDecimal.ZERO.subtract(money);
+            account = getBalance(proxyId);
+            if (StringUtils.isEmpty(desp)) {
+                description = "批量生成卡密" + money;
+            }
         }
         operation.setMoneyChanged(moneyChanged);
         operation.setAccount(account);
@@ -85,6 +93,7 @@ public class BaseGmsProxyController extends BaseGmsController {
         operation.setProxyId(proxyId);
         operation.setProxyName(proxyName);
         operation.setTime(new Date());
+        log.info("operation is {}",operation);
         operService.save(operation);
 
         //同步更新代理余额

@@ -24,6 +24,7 @@ import com.taoyuan.gms.model.dto.admin.charts.VChartsRewardPageRequest;
 import com.taoyuan.gms.model.dto.admin.chipin.ChipinWagePageRequest;
 import com.taoyuan.gms.model.dto.admin.lossrebate.LossRebateRequest;
 import com.taoyuan.gms.model.dto.admin.statistic.*;
+import com.taoyuan.gms.model.dto.proxy.ProxyOperNameTypeRequest;
 import com.taoyuan.gms.model.entity.admin.JuniorCommissionEntity;
 import com.taoyuan.gms.model.entity.admin.LossRabateEntity;
 import com.taoyuan.gms.model.entity.admin.UserLoginEntity;
@@ -31,6 +32,7 @@ import com.taoyuan.gms.model.entity.admin.charts.ChartsRewardsEntity;
 import com.taoyuan.gms.model.entity.admin.chipin.ChipinWageEntity;
 import com.taoyuan.gms.model.entity.admin.records.SaleDetailEntity;
 import com.taoyuan.gms.model.entity.proxy.FirstchargeRebateEntity;
+import com.taoyuan.gms.model.entity.proxy.ProxyOperEntity;
 import com.taoyuan.gms.model.entity.statistic.TodayStatisticsEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -122,9 +124,20 @@ public class RecordQueryController extends BaseGmsController implements RecordsQ
 
     @Override
     @OperControllerLog(module = "记录管理", type = "查询代理操作")
-    public TyResponse getProxyOperates(@PathVariable Integer pageIndex, @PathVariable Integer pageSize) {
-        Page page = getPage(pageIndex, pageSize);
-        return new TySuccessResponse(proxyOperMapper.selectPage(page, null));
+    public TyResponse getProxyOperates(@RequestBody ProxyOperNameTypeRequest request) {
+        Page page = getPage(request);
+
+        QueryWrapper<ProxyOperEntity> wrapper = new QueryWrapper<ProxyOperEntity>();
+        String name = request.getProxyName();
+        if (!StringUtils.isEmpty(name)) {
+            wrapper.lambda().eq(ProxyOperEntity::getProxyName, name);
+        }
+
+        int type = request.getType();
+        if (0 != type) {
+            wrapper.lambda().eq(ProxyOperEntity::getType, type);
+        }
+        return new TySuccessResponse(proxyOperMapper.selectPage(page, wrapper));
     }
 
     @Override

@@ -52,7 +52,7 @@ public class CardPwdInventoryController extends BaseGmsProxyController implement
         }
         wrapper.lambda().eq(CardPasswordEntity::getStatus, 1).or().eq(CardPasswordEntity::getStatus, 2).eq(CardPasswordEntity::getOwner, getCurrentUserName()).orderByDesc(CardPasswordEntity::getCreateTime);
 
-        return  new TySuccessResponse(mapper.selectPage(page,wrapper));
+        return new TySuccessResponse(mapper.selectPage(page, wrapper));
     }
 
     @Override
@@ -73,6 +73,7 @@ public class CardPwdInventoryController extends BaseGmsProxyController implement
             throw new ValidateException("生成卡密总额大于用户余额。");
         }
 
+        BigDecimal moneyChanged = BigDecimal.ZERO;
         List<CardPasswordEntity> entityList = new ArrayList<CardPasswordEntity>();
         for (int i = 0; i < number; i++) {
             //默认生成随机8位id和密码
@@ -90,11 +91,12 @@ public class CardPwdInventoryController extends BaseGmsProxyController implement
             entity.setOwner(getCurrentUserName());
             entity.setStartTime(new Date());
             entityList.add(entity);
+            moneyChanged.add(entity.getMoney());
         }
         service.saveBatch(entityList);
 
         //记录日志
-        recordOperation(7,"创建卡密",BigDecimal.ZERO);
+        recordOperation(7, "创建卡密", moneyChanged);
         return new TySuccessResponse(entityList);
     }
 }

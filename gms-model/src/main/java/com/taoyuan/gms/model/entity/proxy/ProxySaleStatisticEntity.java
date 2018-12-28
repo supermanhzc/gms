@@ -12,6 +12,9 @@ import lombok.Data;
 public class ProxySaleStatisticEntity {
     private Long id;
 
+    //代理id
+    private Long proxyId;
+
     //日期
     private LocalDate date;
 

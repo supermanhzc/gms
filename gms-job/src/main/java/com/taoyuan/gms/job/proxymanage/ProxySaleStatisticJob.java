@@ -18,6 +18,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,10 +61,13 @@ public class ProxySaleStatisticJob extends QuartzJobBean {
         List<ProxySaleStatisticEntity> proxySaleStatisticEntityList = new ArrayList<ProxySaleStatisticEntity>();
         for(TyUser user: proxys){
             Long id = user.getId();
-            Date start = TyDateUtils.getYesterdayStartTime();
-            Date end = TyDateUtils.getYesterdayEndTime();
+//            Date start = TyDateUtils.getYesterdayStartTime();
+            Date start = new Date();
+//            Date end = TyDateUtils.getYesterdayEndTime();
+            Date end = new Date();
             ProxySaleStatisticEntity entity = new ProxySaleStatisticEntity();
-            entity.setDate(TyDateUtils.getYesterdayDate());
+//            entity.setDate(TyDateUtils.getYesterdayDate());
+            entity.setDate(LocalDate.now());
             entity.setCardPwd(cardPasswordService.getStatistic(id,start,end));
             entity.setRecharge(goldenRechargeService.getStatistic(id,start,end));
             entity.setWithdraw(cardPwdWithdrawService.getStatistic(id,start,end));
