@@ -161,11 +161,15 @@ Token: 5216d743-3514-41f1-9e07-a07ea51e09e2
 POST http://127.0.0.1:8081/gms/cardpwdmgnt/query
 Accept: */*
 Content-Type: application/json
-Token: 2dd5a341-715e-4b63-9774-8353e0adb399
+Token: 6679c686-a93c-4ca9-aa60-15c872d22901
 
 {
   "pageIndex":1,
-  "pageSize":15
+  "pageSize":15,
+  "status": 2,
+  "cardType": 1,
+  "createUser": 3,
+  "keyword":"10y33640958"
 }
 
 <> 2018-12-01T014928.404.json

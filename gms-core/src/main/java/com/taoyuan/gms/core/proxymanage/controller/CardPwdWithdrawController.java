@@ -11,8 +11,10 @@ import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.framework.common.http.TySession;
 import com.taoyuan.framework.common.http.TySuccessResponse;
 import com.taoyuan.gms.api.proxy.CardPwdWithdrawApi;
+import com.taoyuan.gms.common.util.StringUtil;
 import com.taoyuan.gms.core.adminmanage.service.ICardPasswordService;
 import com.taoyuan.gms.core.proxymanage.service.ICardPwdWithdrawService;
+import com.taoyuan.gms.model.dto.BaseKeywordPageRequest;
 import com.taoyuan.gms.model.entity.admin.card.CardPasswordEntity;
 import com.taoyuan.gms.model.entity.proxy.CardPassword;
 import com.taoyuan.gms.model.entity.proxy.CardPwdWithdrawEntity;
@@ -124,7 +126,7 @@ public class CardPwdWithdrawController extends BaseGmsProxyController implements
             cpService.saveOrUpdateBatch(dbList);
 
             //记录日志
-            recordOperation(5,"回收卡密",totalMoney);
+            recordOperation(5, "回收卡密", totalMoney);
             return new TySuccessResponse(map.values());
         }
 
@@ -133,21 +135,44 @@ public class CardPwdWithdrawController extends BaseGmsProxyController implements
 
     @Override
     @OperControllerLog(module = "代理卡密回收管理", type = "查询代理卡密")
-    public TyResponse retrieve(@RequestBody TyPageEntity pageEntity) {
-        Page page = getPage(pageEntity);
-        QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
-        wrapper.lambda().eq(CardPasswordEntity::getOwner, getCurrentUserName()).eq(CardPasswordEntity::getStatus,2);
-        wrapper.lambda().orderByDesc(CardPasswordEntity::getEndTime);
-        return new TySuccessResponse(cpService.pageMaps(page, wrapper));
+    public TyResponse retrieve(@RequestBody BaseKeywordPageRequest request) {
+        Page page = getPage(request);
+        QueryWrapper<CardPasswordEntity> queryWrapper = new QueryWrapper<CardPasswordEntity>();
+        queryWrapper.lambda().eq(CardPasswordEntity::getCreateUser, getCurrentUserId()).eq(CardPasswordEntity::getStatus, 2);
+        queryWrapper.lambda().orderByDesc(CardPasswordEntity::getEndTime);
+
+        String keyword = request.getKeyword();
+        if (!StringUtils.isEmpty(keyword)) {
+            if (StringUtil.isNumber(keyword)) {
+                Long id = Long.valueOf(keyword);
+                queryWrapper.and(wrapper -> wrapper.eq("card_id", keyword).or().eq("card_password",
+                        keyword).or().eq("recharge_id", id));
+            } else {
+                queryWrapper.and(wrapper -> wrapper.eq("card_id", keyword));
+            }
+        }
+
+        return new TySuccessResponse(cpService.pageMaps(page, queryWrapper));
     }
 
     @Override
     @OperControllerLog(module = "代理卡密回收管理", type = "查询代理卡密")
-    public TyResponse records(@RequestBody TyPageEntity pageEntity) {
-        Page page = getPage(pageEntity);
-        QueryWrapper<CardPasswordEntity> wrapper = new QueryWrapper<CardPasswordEntity>();
-        wrapper.lambda().eq(CardPasswordEntity::getOwner, getCurrentUserName());
-        wrapper.lambda().orderByDesc(CardPasswordEntity::getEndTime);
-        return new TySuccessResponse(cpService.pageMaps(page, wrapper));
+    public TyResponse records(@RequestBody BaseKeywordPageRequest request) {
+        Page page = getPage(request);
+        QueryWrapper<CardPasswordEntity> cardPwdWrapper = new QueryWrapper<CardPasswordEntity>();
+        cardPwdWrapper.lambda().eq(CardPasswordEntity::getOwner, getCurrentUserName());
+        cardPwdWrapper.lambda().orderByDesc(CardPasswordEntity::getEndTime);
+
+        String keyword = request.getKeyword();
+        if (!StringUtils.isEmpty(keyword)) {
+            if (StringUtil.isNumber(keyword)) {
+                Long id = Long.valueOf(keyword);
+                cardPwdWrapper.and(wrapper -> wrapper.eq("card_id", id).or().eq("card_password",
+                        keyword).or().eq("recharge_id", id));
+            } else {
+                cardPwdWrapper.and(wrapper -> wrapper.eq("card_id", keyword));
+            }
+        }
+        return new TySuccessResponse(cpService.pageMaps(page, cardPwdWrapper));
     }
 }

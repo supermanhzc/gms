@@ -111,11 +111,12 @@ Token: 3207c999-dba2-4615-b07a-8860775be914
 POST http://127.0.0.1:8081/gms/proxy/cardpwd/retrieve
 Accept: */*
 Content-Type: application/json
-Token: 63cd9302-9899-48cb-a6f4-f8bf71a3bbf4
+Token: e6e500ee-dbb8-4453-8f65-4f0eac48b289
 
 {
   "pageIndex":1,
-  "pageSize":10
+  "pageSize":10,
+  "keyword": "10y15304188"
 }
 
 <> 2018-12-01T020618.200.json
@@ -126,11 +127,12 @@ Token: 63cd9302-9899-48cb-a6f4-f8bf71a3bbf4
 POST http://127.0.0.1:8081/gms/proxy/cardpwd/records
 Accept: */*
 Content-Type: application/json
-Token: 63cd9302-9899-48cb-a6f4-f8bf71a3bbf4
+Token: e6e500ee-dbb8-4453-8f65-4f0eac48b289
 
 {
   "pageIndex":1,
-  "pageSize":10
+  "pageSize":10,
+  "keyword":"3"
 }
 
 <> 2018-12-01T020625.200.json
