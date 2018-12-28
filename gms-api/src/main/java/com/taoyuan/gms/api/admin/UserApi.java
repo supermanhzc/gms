@@ -42,4 +42,10 @@ public interface UserApi{
 
     @RequestMapping(value = "/batchsys", method = RequestMethod.POST)
     void batchCreateUser(@RequestParam("count") Integer sysUserCount);
+
+    @RequestMapping(value = "/getUserLoginHistory", method = RequestMethod.POST)
+    TyResponse getUserLoginHistory(@RequestBody TyPageEntity queryAdminRequest);
+
+    @RequestMapping(value = "/getProxyLoginHistory", method = RequestMethod.POST)
+    TyResponse getProxyLoginHistory(@RequestBody TyPageEntity queryAdminRequest);
 }

@@ -96,4 +96,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         wrapper.lambda().eq(TyUser::getType,2);
         return tyUserService.list(wrapper);
     }
+  
+    @Override
+    public IPage getUserLoginHistory(IPage page) {
+        return null;
+    }
+
+    @Override
+    public IPage getProxyLoginHistory(IPage page) {
+        return null;
+    }
 }
