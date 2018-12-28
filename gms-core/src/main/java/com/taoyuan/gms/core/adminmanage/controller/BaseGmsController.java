@@ -54,8 +54,13 @@ public abstract class BaseGmsController extends TyBaseController {
             user.setBalance(BigDecimal.ZERO);
             userService.save(user);
         } else {
-            user.setBalance(user.getBalance().add(money));
-            userService.updateById(user);
+            if (null == user.getBalance()) {
+                user.setBalance(money);
+            } else {
+                user.setBalance(user.getBalance().add(money));
+            }
+            log.info("user inf is {}",user);
+            userService.saveOrUpdate(user);
         }
     }
 

@@ -2,6 +2,7 @@ package com.taoyuan.gms.core.adminmanage.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.taoyuan.framework.common.entity.TyUser;
 import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.dto.admin.account.*;
 import com.taoyuan.gms.model.entity.admin.account.UserEntity;
@@ -19,6 +20,10 @@ public interface IUserService extends IService<UserEntity> {
     IPage queryUsers(QueryAccountRequest queryAccountRequest, IPage page);
     IPage queryProxys(IPage page);
     IPage queryAdmins(IPage page);
+
+    List<TyUser> queryAllProxys();
+
     IPage getUserLoginHistory(IPage page);
     IPage getProxyLoginHistory(IPage page);
+
 }

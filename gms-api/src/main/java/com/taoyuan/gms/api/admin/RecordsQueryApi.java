@@ -10,6 +10,7 @@ import com.taoyuan.gms.model.dto.admin.charts.VChartsRewardPageRequest;
 import com.taoyuan.gms.model.dto.admin.chipin.ChipinWagePageRequest;
 import com.taoyuan.gms.model.dto.admin.lossrebate.LossRebateRequest;
 import com.taoyuan.gms.model.dto.admin.statistic.SaleStatisticsRequest;
+import com.taoyuan.gms.model.dto.proxy.ProxyOperNameTypeRequest;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -138,9 +139,8 @@ public interface RecordsQueryApi {
      *
      * @return
      */
-    @RequestMapping(value = "/proxyopearte/page/index={pageIndex}&size={pageSize}", method = RequestMethod.GET)
-    public TyResponse getProxyOperates(@PathVariable("pageIndex") Integer pageIndex,
-                                       @PathVariable("pageSize") Integer pageSize);
+    @RequestMapping(value = "/proxyoper/query", method = RequestMethod.POST)
+    public TyResponse getProxyOperates(@RequestBody ProxyOperNameTypeRequest request);
 
     /**
      * 查询所有销售统计

@@ -39,15 +39,17 @@ Token: 3207c999-dba2-4615-b07a-8860775be914
 <> 2018-11-27T043526.200.json
 
 
-####查询代理库存卡密信息
+####查询代理库存卡密信息,分页参数必传，keyword：卡号密码，cardType：卡类型
 POST http://127.0.0.1:8081/gms/proxy/cardpwdinventory/retrieve
 Accept: */*
 Content-Type: application/json
-Token: f949a4ad-c83a-4e54-93b8-0f1667d2a0fc
+Token: e317f14e-7e9e-48c1-b462-396db0fcbd9b
 
 {
   "pageIndex":1,
-  "pageSize":10
+  "pageSize":10,
+  "keyword":"10y33640958",
+  "cardType":1
 }
 
 <> 2018-12-01T090013.200.json
@@ -74,10 +76,10 @@ Token: f949a4ad-c83a-4e54-93b8-0f1667d2a0fc
 POST http://127.0.0.1:8081/gms/proxy/cardpwdinventory/create
 Accept: */*
 Content-Type: application/json
-Token: 81632592-cd33-4c83-ab2b-8863b859fde4
+Token: e317f14e-7e9e-48c1-b462-396db0fcbd9b
 
 {
-  "cardType": 1,
+  "cardType": 2,
   "number": 10
 }
 
@@ -111,11 +113,12 @@ Token: 3207c999-dba2-4615-b07a-8860775be914
 POST http://127.0.0.1:8081/gms/proxy/cardpwd/retrieve
 Accept: */*
 Content-Type: application/json
-Token: 63cd9302-9899-48cb-a6f4-f8bf71a3bbf4
+Token: e6e500ee-dbb8-4453-8f65-4f0eac48b289
 
 {
   "pageIndex":1,
-  "pageSize":10
+  "pageSize":10,
+  "keyword": "10y15304188"
 }
 
 <> 2018-12-01T020618.200.json
@@ -126,11 +129,12 @@ Token: 63cd9302-9899-48cb-a6f4-f8bf71a3bbf4
 POST http://127.0.0.1:8081/gms/proxy/cardpwd/records
 Accept: */*
 Content-Type: application/json
-Token: 63cd9302-9899-48cb-a6f4-f8bf71a3bbf4
+Token: e6e500ee-dbb8-4453-8f65-4f0eac48b289
 
 {
   "pageIndex":1,
-  "pageSize":10
+  "pageSize":10,
+  "keyword":"3"
 }
 
 <> 2018-12-01T020625.200.json

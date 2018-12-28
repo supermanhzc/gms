@@ -91,6 +91,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
+    public List<TyUser> queryAllProxys() {
+        QueryWrapper<TyUser> wrapper = new QueryWrapper<TyUser>();
+        wrapper.lambda().eq(TyUser::getType,2);
+        return tyUserService.list(wrapper);
+    }
+  
+    @Override
     public IPage getUserLoginHistory(IPage page) {
         return null;
     }

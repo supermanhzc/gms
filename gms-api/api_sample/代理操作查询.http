@@ -1,0 +1,25 @@
+###获取token
+POST http://localhost:8081/gms/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "userName":"hzc",
+  "password":"hzcsb"
+}
+
+###查询代理操作日志，keyword：1代充，2充值，3提现，4登录，5回收, 6互转, 创建卡密
+POST http://127.0.0.1:8081/gms/proxy/oper/retrieve
+Accept: */*
+Content-Type: application/json
+Token: e6e500ee-dbb8-4453-8f65-4f0eac48b289
+
+{
+  "pageIndex":1,
+  "pageSize":10,
+  "keyword": 1
+}
+
+<> 2018-12-01T020625.200.json
+
+###
