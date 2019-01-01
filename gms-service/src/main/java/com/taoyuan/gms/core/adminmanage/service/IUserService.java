@@ -21,9 +21,14 @@ public interface IUserService extends IService<UserEntity> {
     IPage queryProxys(IPage page);
     IPage queryAdmins(IPage page);
 
+    Map getUser(Long id);
+    Map getProxy(Long id);
+    Map getAdmin(Long id);
+
     List<TyUser> queryAllProxys();
 
     IPage getUserLoginHistory(IPage page);
     IPage getProxyLoginHistory(IPage page);
+    IPage getAdminLoginHistory(IPage page);
 
 }

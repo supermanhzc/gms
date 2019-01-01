@@ -19,6 +19,15 @@ public interface UserApi{
     @RequestMapping(value = "/getAdmin", method = RequestMethod.POST)
     TyResponse queryAdmins(@RequestBody TyPageEntity queryAdminRequest);
 
+    @RequestMapping(value = "/getAdminById/{id}", method = RequestMethod.POST)
+    TyResponse getAdmin(@PathVariable("id") Long id);
+
+    @RequestMapping(value = "/getProxyById/{id}", method = RequestMethod.POST)
+    TyResponse getProxy(@PathVariable("id") Long id);
+
+    @RequestMapping(value = "/getUserById/{id}", method = RequestMethod.POST)
+    TyResponse getUser(@PathVariable("id") Long id);
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     TyResponse deleteUser(@PathVariable("id") Long id);
 
@@ -44,8 +53,11 @@ public interface UserApi{
     void batchCreateUser(@RequestParam("count") Integer sysUserCount);
 
     @RequestMapping(value = "/getUserLoginHistory", method = RequestMethod.POST)
-    TyResponse getUserLoginHistory(@RequestBody TyPageEntity queryAdminRequest);
+    TyResponse getUserLoginHistory(@RequestBody TyPageEntity queryRequest);
 
     @RequestMapping(value = "/getProxyLoginHistory", method = RequestMethod.POST)
-    TyResponse getProxyLoginHistory(@RequestBody TyPageEntity queryAdminRequest);
+    TyResponse getProxyLoginHistory(@RequestBody TyPageEntity queryRequest);
+
+    @RequestMapping(value = "/getAdminLoginHistory", method = RequestMethod.POST)
+    TyResponse getAdminLoginHistory(@RequestBody TyPageEntity queryRequest);
 }
