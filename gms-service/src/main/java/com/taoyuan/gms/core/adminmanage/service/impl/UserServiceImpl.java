@@ -91,6 +91,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
+    public Map getUser(Long id) {
+        return baseMapper.getUser(id);
+    }
+
+    @Override
+    public Map getProxy(Long id) {
+        return baseMapper.getProxy(id);
+    }
+
+    @Override
+    public Map getAdmin(Long id) {
+        return baseMapper.getAdmin(id);
+    }
+
+    @Override
     public List<TyUser> queryAllProxys() {
         QueryWrapper<TyUser> wrapper = new QueryWrapper<TyUser>();
         wrapper.lambda().eq(TyUser::getType,2);
@@ -99,11 +114,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
   
     @Override
     public IPage getUserLoginHistory(IPage page) {
-        return null;
+        return page.setRecords(baseMapper.getLoginHistory(page, UserTypeConsts.NORMALUSER));
     }
 
     @Override
     public IPage getProxyLoginHistory(IPage page) {
-        return null;
+        return page.setRecords(baseMapper.getLoginHistory(page, UserTypeConsts.PROXY));
+    }
+
+    @Override
+    public IPage getAdminLoginHistory(IPage page) {
+        return page.setRecords(baseMapper.getLoginHistory(page, UserTypeConsts.ADMIN));
     }
 }
