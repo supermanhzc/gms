@@ -91,10 +91,10 @@ public class CardPwdInventoryController extends BaseGmsProxyController implement
             entity.setOwner(getCurrentUserName());
             entity.setStartTime(new Date());
             entityList.add(entity);
-            moneyChanged.add(entity.getMoney());
+            moneyChanged = moneyChanged.add(entity.getMoney());
         }
         service.saveBatch(entityList);
-
+        log.info("moneychanged is {}",moneyChanged);
         //记录日志
         recordOperation(7, "创建卡密", moneyChanged);
         return new TySuccessResponse(entityList);

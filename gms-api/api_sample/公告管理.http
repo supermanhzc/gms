@@ -22,7 +22,7 @@ Content-Type: application/json
 POST http://127.0.0.1:8081/gms/contentmgnt/announcement
 Accept: */*
 Content-Type: application/json
-Token: a192f72e-f9ec-444c-a622-bb995e2e6e84
+Token: be3884e0-2aff-48ff-bd7c-d2bf2e33950d
 
 {
     //必填

@@ -61,7 +61,7 @@ Token: 5976d763-7d0d-4c7b-9204-f41f499bce51
 POST http://127.0.0.1:8081/gms/cardpwdmgnt/create
 Accept: */*
 Content-Type: application/json
-Token: 81632592-cd33-4c83-ab2b-8863b859fde4
+Token: be3884e0-2aff-48ff-bd7c-d2bf2e33950d
 
 {
   "cardType": 1,
