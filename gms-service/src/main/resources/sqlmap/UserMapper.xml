@@ -136,15 +136,33 @@
         GROUP by tyu.id
     </select>
 
+    <select id="getUserByUserName" resultType="java.util.Map">
+        <include refid="selectUser" />
+        AND tyu.username = #{username}
+        GROUP by tyu.id
+    </select>
+
     <select id="getProxy" resultType="java.util.Map">
         <include refid="selectProxy" />
         AND tyu.id = #{id}
         GROUP by tyu.id
     </select>
 
+    <select id="getProxyByUserName" resultType="java.util.Map">
+        <include refid="selectProxy" />
+        AND tyu.username = #{username}
+        GROUP by tyu.id
+    </select>
+
     <select id="getAdmin" resultType="java.util.Map">
         <include refid="selectAdmin" />
         AND tyu.id = #{id}
+        GROUP by tyu.id
+    </select>
+
+    <select id="getAdminByUserName" resultType="java.util.Map">
+        <include refid="selectAdmin" />
+        AND tyu.username = #{username}
         GROUP by tyu.id
     </select>
 
