@@ -26,10 +26,11 @@ spring:
 
   mvc:
     throw-exception-if-no-handler-found: true
+    static-path-pattern: /**
 
   resources:
     add-mappings: false
-    static-locations: file:${image.path}
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/, file:${image.path}
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -114,4 +115,4 @@ management:
       show-details: always
 
 image:
-  path: /upload
+  path: /upload/
