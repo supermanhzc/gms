@@ -29,7 +29,6 @@ spring:
 
   resources:
     add-mappings: false
-    static-locations: file:${image.path}
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -87,6 +86,7 @@ taoyuan:
     - /users/register
     - /users/createAdmin
     - /swagger-ui.html
+    - /img/**
   permissions:
     - /actuator/**=perms["actuator"]
 
@@ -114,4 +114,7 @@ management:
       show-details: always
 
 image:
-  path: /upload
+  path: /upload/
+
+#logging:
+#  level: debug
