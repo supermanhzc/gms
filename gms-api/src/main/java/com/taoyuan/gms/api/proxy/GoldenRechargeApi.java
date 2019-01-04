@@ -6,6 +6,7 @@ import com.taoyuan.framework.common.http.TyResponse;
 import com.taoyuan.gms.model.entity.admin.content.AnnouncementEntity;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
 import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,9 +46,13 @@ public interface GoldenRechargeApi {
 
     /**
      * 查询代充记录用，带分页
+     *
      * @param pageEntity
      * @return
      */
     @RequestMapping(value = "/records", method = RequestMethod.POST)
     public TyResponse retrieve(@RequestBody TyPageEntity pageEntity);
+
+    @RequestMapping(value = "/getRechargeGoldSum/{id}", method = RequestMethod.POST)
+    public TyResponse getRechargeGoldSumByUserId(@PathVariable("id") Long id);
 }

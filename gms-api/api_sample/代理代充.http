@@ -116,3 +116,12 @@ Token: f52401cd-f63e-456c-a90e-62c8e18ce4c0
 <> 2018-12-01T021539.404.json
 
 ###
+
+###查询代理代充总额
+POST http://127.0.0.1:8081/gms/proxy/goldenrecharge/getRechargeGoldSum/3
+Accept: */*
+Content-Type: application/json
+Token: 8cd7e89b-1854-4c01-afdc-9589f69fc5b4
+
+###
+

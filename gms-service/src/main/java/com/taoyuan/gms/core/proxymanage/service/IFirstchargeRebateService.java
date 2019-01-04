@@ -3,6 +3,8 @@ package com.taoyuan.gms.core.proxymanage.service;
 import com.taoyuan.framework.bs.service.TyBaseService;
 import com.taoyuan.gms.model.entity.proxy.FirstchargeRebateEntity;
 
+import java.util.Date;
+
 public interface IFirstchargeRebateService extends TyBaseService<FirstchargeRebateEntity> {
 
     /**
@@ -10,5 +12,5 @@ public interface IFirstchargeRebateService extends TyBaseService<FirstchargeReba
      * @param id
      * @return
      */
-    boolean exist(Long id);
+    boolean exist(Long id, Date date);
 }

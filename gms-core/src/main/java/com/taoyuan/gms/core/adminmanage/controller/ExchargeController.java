@@ -260,4 +260,10 @@ public class ExchargeController extends BaseGmsController implements ExchargeApi
         exchargeCardPwdService.saveOrUpdate(dbValue);
         return new TySuccessResponse(dbValue);
     }
+
+    @Override
+    @OperControllerLog(module = "兑奖订单管理", type = "查询兑奖总额")
+    public TyResponse getExchargeSumByUserId(@PathVariable Long id) {
+        return new TySuccessResponse(exchargeOrderService.getExchargeSumByUserId(id));
+    }
 }

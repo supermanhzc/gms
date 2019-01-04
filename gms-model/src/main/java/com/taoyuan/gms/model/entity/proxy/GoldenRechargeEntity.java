@@ -25,6 +25,9 @@ public class GoldenRechargeEntity {
     //金额
     private BigDecimal amount;
 
+    //金币
+    private BigDecimal gold;
+
     //时间
     private Date time;
 

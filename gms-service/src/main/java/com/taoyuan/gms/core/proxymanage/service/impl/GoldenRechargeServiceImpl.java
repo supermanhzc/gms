@@ -51,4 +51,9 @@ public class GoldenRechargeServiceImpl
         
         return statistic;
     }
+
+    @Override
+    public BigDecimal getRechargeGoldSumByUserId(Long id) {
+        return baseMapper.getRechargeGoldSumByUserId(id);
+    }
 }

@@ -23,7 +23,9 @@ import com.taoyuan.gms.model.entity.proxy.FirstchargeRebateEntity;
 import com.taoyuan.gms.model.entity.proxy.GoldenRechargeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -83,10 +85,6 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
         entity.setStatus(1);
         entity.setProxyId(getCurrentUserId());
         entity.setProxyName(getCurrentUserName());
-        log.info("创建时间：{}", date);
-        goldenRechargeService.save(entity);
-        log.info("GoldenRechargeEntity id：{}", entity.getId());
-
 
         Long id = entity.getId();
         String cron = TyDateUtils.getCronAfterMinutes(5);
@@ -95,8 +93,11 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
         recordOperation(1, "金币代充", discountMoney);
 
         BigDecimal totalGold = account.multiply(BigDecimal.valueOf(getWebSetting().getExchangePropor()));
+        entity.setGold(totalGold);
+        goldenRechargeService.save(entity);
+
         //判断是否是首充，如果是则记录首充奖励信息
-        if (!firstchargeRebateService.exist(memberId)) {
+        if (!firstchargeRebateService.exist(memberId,date)) {
             FirstchargeRebateEntity firstchargeRebateEntity = new FirstchargeRebateEntity();
             firstchargeRebateEntity.setDate(date);
             firstchargeRebateEntity.setMemberId(memberId);
@@ -155,6 +156,12 @@ public class GoldenRechargeController extends BaseGmsProxyController implements 
     public TyResponse retrieve(@RequestBody TyPageEntity pageEntity) {
         Page page = getPage(pageEntity);
         return new TySuccessResponse(goldenRechargeMapper.selectPage(page, new QueryWrapper()));
+    }
+
+    @Override
+    @OperControllerLog(module = "代充管理", type = "查询代充总额")
+    public TyResponse getRechargeGoldSumByUserId(@PathVariable Long id) {
+        return new TySuccessResponse(goldenRechargeService.getRechargeGoldSumByUserId(id));
     }
 
 }
