@@ -179,3 +179,11 @@ Token: 43bf2f0f-b351-4f64-b37d-8ae7d9cc20bd
 }
 
 ###
+###兑换总额查询
+POST http://127.0.0.1:8081/gms/prizemgnt/excharge/getExchargeSum/10
+Accept: */*
+Content-Type: application/json
+Token: 8cd7e89b-1854-4c01-afdc-9589f69fc5b4
+
+###
+

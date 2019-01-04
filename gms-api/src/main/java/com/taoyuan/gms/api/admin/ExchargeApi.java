@@ -100,4 +100,7 @@ public interface ExchargeApi {
      */
     @RequestMapping(value = "/cardpwd/unfreeze", method = RequestMethod.POST)
     public TyResponse unfreeze(@RequestBody ExchargeCardPwdEntity order);
+
+    @RequestMapping(value = "/getExchargeSum/{id}", method = RequestMethod.POST)
+    public TyResponse getExchargeSumByUserId(@PathVariable("id") Long id);
 }

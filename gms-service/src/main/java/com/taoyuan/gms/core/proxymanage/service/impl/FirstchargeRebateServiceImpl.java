@@ -7,10 +7,14 @@ import com.taoyuan.gms.core.proxymanage.service.IFirstchargeRebateService;
 import com.taoyuan.gms.model.entity.proxy.FirstchargeRebateEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class FirstchargeRebateServiceImpl extends TyBaseServiceImpl<FirstchargeRebateMapper, FirstchargeRebateEntity> implements IFirstchargeRebateService {
     @Override
-    public boolean exist(Long id) {
-        return null != getOne(new QueryWrapper<FirstchargeRebateEntity>().lambda().eq(FirstchargeRebateEntity::getMemberId, id));
+    public boolean exist(Long id, Date date) {
+        QueryWrapper<FirstchargeRebateEntity> wrapper = new QueryWrapper<FirstchargeRebateEntity>();
+        wrapper.lambda().eq(FirstchargeRebateEntity::getMemberId, id).eq(FirstchargeRebateEntity::getDate, date);
+        return null != getOne(wrapper);
     }
 }
